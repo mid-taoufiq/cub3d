@@ -6,11 +6,11 @@
 /*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 11:37:59 by tibarike          #+#    #+#             */
-/*   Updated: 2025/08/18 10:33:31 by tibarike         ###   ########.fr       */
+/*   Updated: 2025/08/19 15:31:56 by tibarike         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "./cub3d.h"
 
 static char	*free_buffer(char **buffer)
 {

@@ -6,11 +6,11 @@
 /*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 11:38:01 by tibarike          #+#    #+#             */
-/*   Updated: 2025/08/18 14:02:13 by tibarike         ###   ########.fr       */
+/*   Updated: 2025/08/19 15:31:47 by tibarike         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "./cub3d.h"
 
 size_t	ft_strlen(char *str)
 {

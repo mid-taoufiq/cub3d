@@ -6,7 +6,7 @@
 /*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 11:40:58 by tibarike          #+#    #+#             */
-/*   Updated: 2025/08/18 18:30:00 by tibarike         ###   ########.fr       */
+/*   Updated: 2025/08/19 14:04:28 by tibarike         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ char	*add_path(char *line)
 	char	*path;
 	int		i;
 
-	arr = ft_split(line, ' ');
+	arr = ft_split(line);
 	if (!arr)
 		return (NULL);
 	i = arg_counter(arr);
@@ -104,7 +104,9 @@ int	main(int argc, char **argv)
 	line = get_next_line(fd);
 	while (line)
 	{
-		if (!add_dimensions(&wall_dim, line))
+		if (!add_dimensions(&wall_dim, line)
+			|| !add_colors(&wall_dim.floor, line)
+			|| !add_colors(&wall_dim.ceiling, line))
 			return (1);
 		line = get_next_line(fd);
 	}
