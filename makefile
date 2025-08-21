@@ -1,17 +1,18 @@
 NAME = cub3d
 
-SRC = add_colors.c\
-	add_wall.c\
-	ft_split.c\
-	ft_split2.c\
-	main.c\
-	utils.c\
+SRC = main.c\
+	./parsing/add_colors.c\
+	./parsing/add_wall.c\
+	./parsing/ft_split.c\
+	./parsing/ft_split2.c\
+	./parsing/utils.c\
+	./parsing/utils2.c\
 	./parsing/get_next_line.c\
 	./parsing/get_next_line_utils.c\
 
 OBJ = $(SRC:.c=.o)
 
-all: {$NAME}
+all: ${NAME}
 
 ${NAME}: ${OBJ}
 	cc -Wall -Werror -Wextra ${OBJ} -o $@

@@ -6,11 +6,11 @@
 /*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 11:37:59 by tibarike          #+#    #+#             */
-/*   Updated: 2025/08/19 15:31:56 by tibarike         ###   ########.fr       */
+/*   Updated: 2025/08/20 16:16:21 by tibarike         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./cub3d.h"
+#include "../cub3d.h"
 
 static char	*free_buffer(char **buffer)
 {
@@ -82,7 +82,6 @@ char	*get_next_line(int fd)
 	static char	*buffer;
 	char		*temporary;
 	ssize_t		read_bytes;
-	char		*line;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);

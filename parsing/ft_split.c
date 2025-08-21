@@ -6,11 +6,11 @@
 /*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 16:51:11 by tibarike          #+#    #+#             */
-/*   Updated: 2025/08/19 11:07:27 by tibarike         ###   ########.fr       */
+/*   Updated: 2025/08/20 16:15:51 by tibarike         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "../cub3d.h"
 
 static int	is_whitespace(char c)
 {

@@ -6,11 +6,35 @@
 /*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 11:32:50 by tibarike          #+#    #+#             */
-/*   Updated: 2025/08/19 12:18:04 by tibarike         ###   ########.fr       */
+/*   Updated: 2025/08/21 09:06:02 by tibarike         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "../cub3d.h"
+
+void	free_struct(t_wall *wall_dim)
+{
+	if (wall_dim->no)
+		free(wall_dim->no);
+	if (wall_dim->we)
+		free(wall_dim->we);
+	if (wall_dim->ea)
+		free(wall_dim->ea);
+	if (wall_dim->so)
+		free(wall_dim->so);
+}
+
+int	check_empty_line(char *line)
+{
+	int	i;
+
+	i = 0;
+	while (line[i] == ' ')
+		i++;
+	if (line[i] == '\n')
+		return (1);
+	return (0);
+}
 
 void	free_splits(char **split)
 {
