@@ -6,7 +6,7 @@
 /*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 16:51:11 by tibarike          #+#    #+#             */
-/*   Updated: 2025/08/20 16:15:53 by tibarike         ###   ########.fr       */
+/*   Updated: 2025/08/22 15:58:11 by tibarike         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static	int	count_words(const char *s, char c)
 	return (words);
 }
 
-static	char	*duplicate(const char *s, char c)
+static	char	*duplicate(const char *s, char c, t_garbage *garbage)
 {
 	int		i;
 	char	*p;
@@ -41,7 +41,7 @@ static	char	*duplicate(const char *s, char c)
 	i = 0;
 	while (s[len] != c && s[len])
 		len++;
-	p = malloc(len + 1);
+	p = ft_malloc(len + 1, &garbage);
 	if (!p)
 		return (NULL);
 	while (i < len)
@@ -63,7 +63,7 @@ static	void	free_mem(char **s)
 	free(s);
 }
 
-char	**ft_split2(char const *s, char c)
+char	**ft_split2(char *s, char c, t_garbage *garbage)
 {
 	int		i;
 	int		j;
@@ -73,7 +73,7 @@ char	**ft_split2(char const *s, char c)
 	j = 0;
 	if (!s)
 		return (NULL);
-	res = malloc(sizeof(char *) * (count_words(s, c) + 1));
+	res = ft_malloc(sizeof(char *) * (count_words(s, c) + 1), &garbage);
 	if (!res)
 		return (NULL);
 	while (s[i])
@@ -82,7 +82,7 @@ char	**ft_split2(char const *s, char c)
 			i++;
 		if (s[i] && s[i] != c)
 		{
-			res[j++] = duplicate(s + i, c);
+			res[j++] = duplicate(s + i, c, garbage);
 			if (res[j - 1] == NULL)
 				return (free_mem(res), NULL);
 		}

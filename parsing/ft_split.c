@@ -6,7 +6,7 @@
 /*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 16:51:11 by tibarike          #+#    #+#             */
-/*   Updated: 2025/08/20 16:15:51 by tibarike         ###   ########.fr       */
+/*   Updated: 2025/08/22 10:46:34 by tibarike         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ static	void	free_mem(char **s)
 	free(s);
 }
 
-char	**ft_split(char const *s)
+char	**ft_split(char *s, t_garbage *garbage)
 {
 	int		i;
 	int		j;
@@ -80,7 +80,7 @@ char	**ft_split(char const *s)
 	j = 0;
 	if (!s)
 		return (NULL);
-	res = malloc(sizeof(char *) * (count_words(s) + 1));
+	res = ft_malloc(sizeof(char *) * (count_words(s) + 1), &garbage);
 	if (!res)
 		return (NULL);
 	while (s[i])

@@ -6,19 +6,19 @@
 /*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 12:00:54 by tibarike          #+#    #+#             */
-/*   Updated: 2025/08/21 13:05:16 by tibarike         ###   ########.fr       */
+/*   Updated: 2025/08/22 17:11:08 by tibarike         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
-static char	*add_path(char *line)
+static char	*add_path(char *line, t_garbage *garbage)
 {
 	char	**arr;
 	char	*path;
 	int		i;
 
-	arr = ft_split(line);
+	arr = ft_split(line, garbage);
 	if (!arr)
 		return (NULL);
 	i = arg_counter(arr);
@@ -35,60 +35,56 @@ static char	*add_path(char *line)
 	return (path);
 }
 
-int	add_dimensions2(t_wall *wall_dim, char *line)
+int	add_dimensions2(t_wall *wall_dim, char *line, t_garbage *garbage)
 {
 	if (ft_strsearch(line, "EA "))
 	{
-		if (!wall_dim->ea)
-			wall_dim->ea = add_path(line);
+		if (!wall_dim->ea_filled)
+			wall_dim->ea = add_path(line, garbage);
 		else
-			return (free_struct(wall_dim),
-				write(2, "option repeated\n", 16), 0);
+			return (write(2, "option repeated\n", 16), 0);
 		if (!wall_dim->ea)
-			return (free_struct(wall_dim), 0);
+			return (0);
 		wall_dim->ea_filled = 1;
-		return (2);
+		return (free(line), 2);
 	}
 	if (ft_strsearch(line, "SO "))
 	{
-		if (!wall_dim->so)
-			wall_dim->so = add_path(line);
+		if (!wall_dim->so_filled)
+			wall_dim->so = add_path(line, garbage);
 		else
-			return (free_struct(wall_dim),
-				write(2, "option repeated\n", 16), 0);
+			return (write(2, "option repeated\n", 16), 0);
 		if (!wall_dim->so)
-			return (free_struct(wall_dim), 0);
+			return (0);
 		wall_dim->so_filled = 1;
-		return (2);
+		return (free(line), 2);
 	}
 	return (1);
 }
 
-int	add_dimensions(t_wall *wall_dim, char *line)
+int	add_dimensions(t_wall *wall_dim, char *line, t_garbage *garbage)
 {
 	if (ft_strsearch(line, "NO "))
 	{
-		if (!wall_dim->no)
-			wall_dim->no = add_path(line);
+		if (!wall_dim->no_filled)
+			wall_dim->no = add_path(line, garbage);
 		else
-			return (free_struct(wall_dim),
-				write(2, "option repeated\n", 16), 0);
+			return (write(2, "option repeated\n", 16), 0);
 		if (!wall_dim->no)
-			return (free_struct(wall_dim), 0);
+			return (0);
 		wall_dim->no_filled = 1;
-		return (2);
+		return (free(line), 2);
 	}
 	if (ft_strsearch(line, "WE "))
 	{
-		if (!wall_dim->we)
-			wall_dim->we = add_path(line);
+		if (!wall_dim->we_filled)
+			wall_dim->we = add_path(line, garbage);
 		else
-			return (free_struct(wall_dim),
-				write(2, "option repeated\n", 16), 0);
+			return (write(2, "option repeated\n", 16), 0);
 		if (!wall_dim->we)
-			return (free_struct(wall_dim), 0);
+			return (0);
 		wall_dim->we_filled = 1;
-		return (2);
+		return (free(line), 2);
 	}
-	return (add_dimensions2(wall_dim, line));
+	return (add_dimensions2(wall_dim, line, garbage));
 }

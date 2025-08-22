@@ -6,7 +6,7 @@
 /*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 11:32:50 by tibarike          #+#    #+#             */
-/*   Updated: 2025/08/21 09:06:02 by tibarike         ###   ########.fr       */
+/*   Updated: 2025/08/22 11:40:51 by tibarike         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	check_empty_line(char *line)
 	while (line[i] == ' ')
 		i++;
 	if (line[i] == '\n')
-		return (1);
+		return (free(line), 1);
 	return (0);
 }
 
@@ -60,7 +60,7 @@ static int	get_signal(const char *nb, int *index)
 	return (signal);
 }
 
-int	ft_atoi(const char *nb)
+int	ft_atoi(char *nb)
 {
 	int		i;
 	long	result;
@@ -85,5 +85,5 @@ int	ft_atoi(const char *nb)
 				return (0);
 		}
 	}
-	return (result * signal);
+	return ((int)result * signal);
 }

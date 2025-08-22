@@ -1,6 +1,7 @@
 NAME = cub3d
 
 SRC = main.c\
+	garbage.c\
 	./parsing/add_colors.c\
 	./parsing/add_wall.c\
 	./parsing/ft_split.c\
@@ -15,10 +16,10 @@ OBJ = $(SRC:.c=.o)
 all: ${NAME}
 
 ${NAME}: ${OBJ}
-	cc -Wall -Werror -Wextra ${OBJ} -o $@
+	cc -Wall -Werror -Wextra -fsanitize=address -g ${OBJ} -o $@
 
 %.o: %.c cub3d.h
-	cc -Wall -Werror -Wextra -c $< -o $@
+	cc -Wall -Werror -Wextra -fsanitize=address -g -c $< -o $@
 
 clean:
 	rm -rf ${OBJ}
