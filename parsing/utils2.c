@@ -6,7 +6,7 @@
 /*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/20 16:10:25 by tibarike          #+#    #+#             */
-/*   Updated: 2025/08/22 16:43:41 by tibarike         ###   ########.fr       */
+/*   Updated: 2025/08/24 15:04:53 by tibarike         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	ft_strsearch(char *str, char *search)
 		while (str[i + j] == search[j] && str[i + j])
 			j++;
 		if (search[j] == '\0')
-			return (1);
+			return (i + j);
 		i++;
 	}
 	return (0);
@@ -37,7 +37,9 @@ int	arg_counter(char **arr)
 	int	i;
 
 	i = 0;
-	while (arr[i] != NULL)
+	if (arr == NULL)
+		return (0);
+	while (arr[i])
 		i++;
 	return (i);
 }

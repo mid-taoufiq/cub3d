@@ -6,7 +6,7 @@
 /*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 10:20:33 by tibarike          #+#    #+#             */
-/*   Updated: 2025/08/22 17:35:06 by tibarike         ###   ########.fr       */
+/*   Updated: 2025/08/24 11:50:13 by tibarike         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void	*ft_malloc(int size, t_garbage **garbage)
 
 	ptr = malloc(size);
 	if (!ptr)
-		return (NULL);
+		return (perror("malloc"), NULL);
 	ft_lstadd_back(garbage, ft_new_gb(ptr));
 	return (ptr);
 }

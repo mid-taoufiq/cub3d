@@ -6,7 +6,7 @@
 /*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 11:38:01 by tibarike          #+#    #+#             */
-/*   Updated: 2025/08/20 16:15:56 by tibarike         ###   ########.fr       */
+/*   Updated: 2025/08/24 15:28:58 by tibarike         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,17 +38,17 @@ int	find_newline(char *str)
 	return (-1);
 }
 
-char	*ft_strjoin(char *s1, char *s2)
+char	*ft_strjoin(char *s1, char *s2, t_garbage **garbage)
 {
 	int		j;
 	int		i;
 	char	*str;
 
 	if (!s1)
-		return (ft_strdup(s2));
+		return (ft_strdup(s2, garbage));
 	if (!s2)
-		return (ft_strdup(s1));
-	str = malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
+		return (ft_strdup(s1, garbage));
+	str = ft_malloc(ft_strlen(s1) + ft_strlen(s2) + 1, garbage);
 	if (!str)
 		return (NULL);
 	i = 0;
@@ -59,11 +59,10 @@ char	*ft_strjoin(char *s1, char *s2)
 	while (s2[i])
 		str[j++] = s2[i++];
 	str[j] = '\0';
-	free(s1);
 	return (str);
 }
 
-char	*ft_substr(char *s, unsigned int start, size_t len)
+char	*ft_substr(char *s, int start, size_t len, t_garbage **garbage)
 {
 	char	*p;
 	size_t	i;
@@ -71,11 +70,8 @@ char	*ft_substr(char *s, unsigned int start, size_t len)
 	i = 0;
 	if (!s)
 		return (NULL);
-	if (start >= ft_strlen(s))
-		return (ft_strdup(""));
-	if (len > ft_strlen(s + start))
-		len = ft_strlen(s + start);
-	p = malloc(len + 1);
+	len = ft_strlen(s + start);
+	p = ft_malloc(len + 1, garbage);
 	if (!p)
 		return (NULL);
 	while (i < len)
@@ -88,7 +84,7 @@ char	*ft_substr(char *s, unsigned int start, size_t len)
 	return (p);
 }
 
-char	*ft_strdup(char *str)
+char	*ft_strdup(char *str, t_garbage **garbage)
 {
 	int		i;
 	char	*p;
@@ -96,7 +92,7 @@ char	*ft_strdup(char *str)
 	i = 0;
 	while (str[i])
 		i++;
-	p = malloc(i + 1);
+	p = ft_malloc(i + 1, garbage);
 	if (!p)
 		return (NULL);
 	i = 0;

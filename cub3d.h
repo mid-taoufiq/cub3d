@@ -6,7 +6,7 @@
 /*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 11:35:29 by tibarike          #+#    #+#             */
-/*   Updated: 2025/08/22 17:31:27 by tibarike         ###   ########.fr       */
+/*   Updated: 2025/08/24 15:42:22 by tibarike         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <stdbool.h>
+# include <limits.h>
 # include <stdio.h>
 # include <fcntl.h>
 
@@ -47,23 +48,21 @@ typedef struct s_wall
 }	t_wall;
 
 void	*ft_malloc(int size, t_garbage **garbage);
-char	*ft_strjoin(char *s1, char *s2);
+char	*ft_strjoin(char *s1, char *s2, t_garbage **garbage);
 size_t	ft_strlen(char *str);
-char	*ft_strdup(char *str);
-char	*ft_substr(char *s, unsigned int start, size_t len);
+char	*ft_strdup(char *str, t_garbage **garbage);
+char	*ft_substr(char *s, int start, size_t len, t_garbage **garbage);
 int		find_newline(char *str);
-char	*get_next_line(int fd);
-void	free_splits(char **split);
+char	*get_next_line(int fd, t_garbage **garbage);
 int		ft_atoi(char *nb);
 int		arg_counter(char **arr);
-char	**ft_split(char *s, t_garbage *garbage);
-char	**ft_split2(char *s, char c, t_garbage *garbage);
-int		add_colors(t_wall *wall_dim, char *line, t_garbage *garbage);
+char	**ft_split(char *s, t_garbage **garbage);
+char	**ft_split2(char *s, char c, t_garbage **garbage);
+int		add_colors(t_wall *wall_dim, char *line, t_garbage **garbage);
 int		check_empty_line(char *line);
-void	free_struct(t_wall *wall_dim);
 int		ft_strsearch(char *str, char *search);
 int		arg_counter(char **arr);
-int		add_dimensions(t_wall *wall_dim, char *line, t_garbage *garbage);
+int		add_dimensions(t_wall *wall_dim, char *line, t_garbage **garbage);
 void	ft_lstclear(t_garbage **lst);
 
 #endif

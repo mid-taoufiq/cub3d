@@ -6,7 +6,7 @@
 /*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 16:51:11 by tibarike          #+#    #+#             */
-/*   Updated: 2025/08/22 10:46:34 by tibarike         ###   ########.fr       */
+/*   Updated: 2025/08/24 15:28:19 by tibarike         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static	int	count_words(const char *s)
 	return (words);
 }
 
-static	char	*duplicate(const char *s)
+static	char	*duplicate(const char *s,t_garbage **garbage)
 {
 	int		i;
 	char	*p;
@@ -48,7 +48,7 @@ static	char	*duplicate(const char *s)
 	i = 0;
 	while (s[len] && !is_whitespace(s[len]))
 		len++;
-	p = malloc(len + 1);
+	p = ft_malloc(len + 1, garbage);
 	if (!p)
 		return (NULL);
 	while (i < len)
@@ -60,17 +60,7 @@ static	char	*duplicate(const char *s)
 	return (p);
 }
 
-static	void	free_mem(char **s)
-{
-	int	i;
-
-	i = 0;
-	while (s[i])
-		free(s[i++]);
-	free(s);
-}
-
-char	**ft_split(char *s, t_garbage *garbage)
+char	**ft_split(char *s, t_garbage **garbage)
 {
 	int		i;
 	int		j;
@@ -80,7 +70,7 @@ char	**ft_split(char *s, t_garbage *garbage)
 	j = 0;
 	if (!s)
 		return (NULL);
-	res = ft_malloc(sizeof(char *) * (count_words(s) + 1), &garbage);
+	res = ft_malloc(sizeof(char *) * (count_words(s) + 1), garbage);
 	if (!res)
 		return (NULL);
 	while (s[i])
@@ -89,9 +79,9 @@ char	**ft_split(char *s, t_garbage *garbage)
 			i++;
 		if (s[i] && !is_whitespace(s[i]))
 		{
-			res[j++] = duplicate(s + i);
+			res[j++] = duplicate(s + i, garbage);
 			if (res[j - 1] == NULL)
-				return (free_mem(res), NULL);
+				return (NULL);
 		}
 		while (s[i] && !is_whitespace(s[i]))
 			i++;
