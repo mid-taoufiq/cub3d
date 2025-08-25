@@ -6,7 +6,7 @@
 /*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 12:00:54 by tibarike          #+#    #+#             */
-/*   Updated: 2025/08/24 15:27:18 by tibarike         ###   ########.fr       */
+/*   Updated: 2025/08/25 17:31:51 by tibarike         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static char	*add_path(char *line, t_garbage **garbage)
 		return (NULL);
 	i = arg_counter(arr);
 	if (i != 2)
-		return (write(2, "wrong file arguments\n", 21), NULL);
+		return (write(2, "texture file argument not correct\n", 35), NULL);
 	path = ft_strdup(arr[1], garbage);
 	i = 0;
 	return (path);

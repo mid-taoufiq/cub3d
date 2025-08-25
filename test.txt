@@ -8,3 +8,5 @@ printf("[%d]\n", wall_dim.ceiling[2]);
 printf("[%d] ", wall_dim.floor[0]);
 printf("[%d] ", wall_dim.floor[1]);
 printf("[%d]\n", wall_dim.floor[2]);
+for(int i = 0; map[i]; i++)
+	printf("%s\n", map[i]);

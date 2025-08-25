@@ -3,13 +3,14 @@ NAME = cub3d
 SRC = main.c\
 	garbage.c\
 	./parsing/add_colors.c\
+	./parsing/parse_map.c\
 	./parsing/add_wall.c\
 	./parsing/ft_split.c\
 	./parsing/ft_split2.c\
 	./parsing/utils.c\
 	./parsing/utils2.c\
-	./parsing/get_next_line.c\
-	./parsing/get_next_line_utils.c\
+	./parsing/gnl/get_next_line.c\
+	./parsing/gnl/get_next_line_utils.c\
 
 OBJ = $(SRC:.c=.o)
 

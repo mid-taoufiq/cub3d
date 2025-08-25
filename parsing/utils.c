@@ -6,11 +6,21 @@
 /*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 11:32:50 by tibarike          #+#    #+#             */
-/*   Updated: 2025/08/24 15:41:04 by tibarike         ###   ########.fr       */
+/*   Updated: 2025/08/25 17:35:19 by tibarike         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
+
+int	ft_strlen(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+		i++;
+	return (i);
+}
 
 int	check_empty_line(char *line)
 {
@@ -19,7 +29,7 @@ int	check_empty_line(char *line)
 	i = 0;
 	while (line[i] == ' ')
 		i++;
-	if (line[i] == '\n')
+	if (line[i] == '\0')
 		return (1);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 11:35:29 by tibarike          #+#    #+#             */
-/*   Updated: 2025/08/24 15:42:22 by tibarike         ###   ########.fr       */
+/*   Updated: 2025/08/25 13:31:42 by tibarike         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,11 +49,11 @@ typedef struct s_wall
 
 void	*ft_malloc(int size, t_garbage **garbage);
 char	*ft_strjoin(char *s1, char *s2, t_garbage **garbage);
-size_t	ft_strlen(char *str);
+int		ft_strlen(char *str);
 char	*ft_strdup(char *str, t_garbage **garbage);
 char	*ft_substr(char *s, int start, size_t len, t_garbage **garbage);
 int		find_newline(char *str);
-char	*get_next_line(int fd, t_garbage **garbage);
+char	*get_next_line(int fd);
 int		ft_atoi(char *nb);
 int		arg_counter(char **arr);
 char	**ft_split(char *s, t_garbage **garbage);

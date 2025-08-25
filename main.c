@@ -6,7 +6,7 @@
 /*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 11:40:58 by tibarike          #+#    #+#             */
-/*   Updated: 2025/08/24 15:43:23 by tibarike         ###   ########.fr       */
+/*   Updated: 2025/08/25 13:10:26 by tibarike         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void	struct_init(t_wall *wall_dim)
 	wall_dim->we = NULL;
 	wall_dim->ea = NULL;
 	wall_dim->so = NULL;
+	wall_dim->map = NULL;
 	wall_dim->no_filled = 0;
 	wall_dim->we_filled = 0;
 	wall_dim->ea_filled = 0;
@@ -36,7 +37,7 @@ int	parsing(char *line, int fd, t_wall *wall_dim, t_garbage **garbage)
 
 	while (1)
 	{
-		line = get_next_line(fd, garbage);
+		line = get_next_line(fd);
 		if (!line)
 			return (1);
 		if (check_empty_line(line))
@@ -68,5 +69,18 @@ int	main(int argc, char **argv)
 	fd = open(argv[1], O_RDONLY);
 	if (!parsing(NULL, fd, &wall_dim, &garbage))
 		return (close(fd), ft_lstclear(&garbage), 1);
+	printf("[%d] ", wall_dim.ceiling[0]);
+	printf("[%d] ", wall_dim.ceiling[1]);
+	printf("[%d]\n", wall_dim.ceiling[2]);
+	printf("[%d] ", wall_dim.floor[0]);
+	printf("[%d] ", wall_dim.floor[1]);
+	printf("[%d]\n", wall_dim.floor[2]);
+	printf("%s\n", wall_dim.no);
+	printf("%s\n", wall_dim.we);
+	printf("%s\n", wall_dim.ea);
+	printf("%s\n", wall_dim.so);
+	printf("%s\n", wall_dim.map[0]);
+	printf("%s\n", wall_dim.map[1]);
+	printf("%s\n", wall_dim.map[2]);
 	return (0);
 }
