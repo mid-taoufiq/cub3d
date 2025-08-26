@@ -6,7 +6,7 @@
 /*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/20 16:10:25 by tibarike          #+#    #+#             */
-/*   Updated: 2025/08/26 12:00:04 by tibarike         ###   ########.fr       */
+/*   Updated: 2025/08/26 17:12:01 by tibarike         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	check_options(t_wall *wall, int option)
 		if (!wall->no_filled || !wall->we_filled || !wall->ea_filled
 			|| !wall->so_filled || !wall->f_filled || !wall->c_filled
 			|| !wall->map_filled)
-			return (0);
+			return (write (2, "unrecognized argument\n", 23), 0);
 	}
 	return (1);
 }

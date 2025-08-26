@@ -6,7 +6,7 @@
 /*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 11:40:58 by tibarike          #+#    #+#             */
-/*   Updated: 2025/08/26 15:10:22 by tibarike         ###   ########.fr       */
+/*   Updated: 2025/08/26 17:48:45 by tibarike         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,20 @@ void	struct_init(t_wall *wall_dim)
 	wall_dim->floor[2] = 0;
 }
 
+int	parsing2(char *line, int fd, t_wall *wall_dim, t_garbage **garbage)
+{
+	int	return_value;
+
+	if (!add_to_map(line, wall_dim, garbage, fd))
+		return (free(line), 0);
+	return_value = check_options(wall_dim, 1);
+	if (return_value == 0)
+		return (free(line), 0);
+	else
+		return (free(line), 1);
+	return (1);
+}
+
 int	parsing(char *line, int fd, t_wall *wall_dim, t_garbage **garbage)
 {
 	int	return_value;
@@ -76,10 +90,10 @@ int	parsing(char *line, int fd, t_wall *wall_dim, t_garbage **garbage)
 			return (free(line), 0);
 		else if (return_value == 2)
 			continue ;
-		if (!add_to_map(line, wall_dim, garbage, fd))
-			return (free(line), 0);
-		if (check_options(wall_dim, 1))
-			return (free(line), 1);
+		if (!parsing2(line, fd, wall_dim, garbage))
+			return (0);
+		else
+			return (1);
 	}
 	return (1);
 }
@@ -101,6 +115,5 @@ int	main(int argc, char **argv)
 		return (close(fd), ft_lstclear(&garbage), 1);
 	if (!check_remaining(&wall_dim, fd, line))
 		return (close(fd), ft_lstclear(&garbage), 1);
-	
 	return (0);
 }
