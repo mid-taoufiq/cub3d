@@ -6,7 +6,7 @@
 /*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 12:01:06 by tibarike          #+#    #+#             */
-/*   Updated: 2025/08/25 17:31:43 by tibarike         ###   ########.fr       */
+/*   Updated: 2025/08/26 14:47:43 by tibarike         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static int	add_colors2(char *surface_split, int *surface, t_garbage **garbage)
 	{
 		surface[i] = ft_atoi(color_split[i]);
 		if (surface[i] < 0 || surface[i] > 255)
-			return (write(2, "colors not correct\n", 26), 0);
+			return (write(2, "colors not correct\n", 20), 0);
 		i++;
 	}
 	return (1);
@@ -58,7 +58,7 @@ static int	ceiling_part(t_wall *wall_dim, char *line, t_garbage **garbage)
 	int		i;
 	int		len;
 
-	i = ft_strsearch(line, "C ");
+	i = ft_strsearch2(line, "C ");
 	len = 0;
 	while (line[len])
 		len++;
@@ -82,7 +82,7 @@ int	add_colors(t_wall *wall_dim, char *line, t_garbage **garbage)
 	int		i;
 	int		len;
 
-	i = ft_strsearch(line, "F ");
+	i = ft_strsearch2(line, "F ");
 	len = 0;
 	while (line[len])
 		len++;

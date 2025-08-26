@@ -6,30 +6,28 @@
 /*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/20 16:10:25 by tibarike          #+#    #+#             */
-/*   Updated: 2025/08/25 17:32:03 by tibarike         ###   ########.fr       */
+/*   Updated: 2025/08/26 12:00:04 by tibarike         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
-int	ft_strsearch(char *str, char *search)
+int	check_options(t_wall *wall, int option)
 {
-	size_t	i;
-	size_t	j;
-
-	i = 0;
-	if (!str)
-		return (0);
-	while (str[i])
+	if (!option)
 	{
-		j = 0;
-		while (str[i + j] == search[j] && str[i + j])
-			j++;
-		if (search[j] == '\0')
-			return (i + j);
-		i++;
+		if (!wall->no_filled || !wall->we_filled || !wall->ea_filled
+			|| !wall->so_filled || !wall->f_filled || !wall->c_filled)
+			return (0);
 	}
-	return (0);
+	else
+	{
+		if (!wall->no_filled || !wall->we_filled || !wall->ea_filled
+			|| !wall->so_filled || !wall->f_filled || !wall->c_filled
+			|| !wall->map_filled)
+			return (0);
+	}
+	return (1);
 }
 
 int	arg_counter(char **arr)

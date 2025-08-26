@@ -6,7 +6,7 @@
 /*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 12:00:54 by tibarike          #+#    #+#             */
-/*   Updated: 2025/08/25 17:31:51 by tibarike         ###   ########.fr       */
+/*   Updated: 2025/08/26 15:02:48 by tibarike         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	add_dimensions2(t_wall *wall_dim, char *line, t_garbage **garbage)
 		if (!wall_dim->ea)
 			return (0);
 		wall_dim->ea_filled = 1;
-		return (2);
+		return (free(line), 2);
 	}
 	if (ft_strsearch(line, "SO ") != 0)
 	{
@@ -51,7 +51,7 @@ int	add_dimensions2(t_wall *wall_dim, char *line, t_garbage **garbage)
 		if (!wall_dim->so)
 			return (0);
 		wall_dim->so_filled = 1;
-		return (2);
+		return (free(line), 2);
 	}
 	return (1);
 }
@@ -67,7 +67,7 @@ int	add_dimensions(t_wall *wall_dim, char *line, t_garbage **garbage)
 		if (!wall_dim->no)
 			return (0);
 		wall_dim->no_filled = 1;
-		return (2);
+		return (free(line), 2);
 	}
 	if (ft_strsearch(line, "WE ") != 0)
 	{
@@ -78,7 +78,7 @@ int	add_dimensions(t_wall *wall_dim, char *line, t_garbage **garbage)
 		if (!wall_dim->we)
 			return (0);
 		wall_dim->we_filled = 1;
-		return (2);
+		return (free(line), 2);
 	}
 	return (add_dimensions2(wall_dim, line, garbage));
 }

@@ -6,11 +6,35 @@
 /*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 11:40:58 by tibarike          #+#    #+#             */
-/*   Updated: 2025/08/25 13:10:26 by tibarike         ###   ########.fr       */
+/*   Updated: 2025/08/26 15:10:22 by tibarike         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
+int	check_remaining(t_wall *wall_dim, int fd, char *line)
+{
+	if (check_options(wall_dim, 1))
+	{
+		line = get_next_line(fd);
+		while (line)
+		{
+			if (check_empty_line(line))
+			{
+				free(line);
+				line = get_next_line(fd);
+				continue ;
+			}
+			else
+				return (write(2, "extra arguments in file\n", 25), 0);
+			free(line);
+			line = get_next_line(fd);
+		}
+	}
+	else
+		return (write(2, "missing arguments in file\n", 27), 0);
+	return (1);
+}
 
 void	struct_init(t_wall *wall_dim)
 {
@@ -44,14 +68,18 @@ int	parsing(char *line, int fd, t_wall *wall_dim, t_garbage **garbage)
 			continue ;
 		return_value = add_dimensions(wall_dim, line, garbage);
 		if (!return_value)
-			return (0);
+			return (free(line), 0);
 		else if (return_value == 2)
 			continue ;
 		return_value = add_colors(wall_dim, line, garbage);
 		if (!return_value)
-			return (0);
+			return (free(line), 0);
 		else if (return_value == 2)
 			continue ;
+		if (!add_to_map(line, wall_dim, garbage, fd))
+			return (free(line), 0);
+		if (check_options(wall_dim, 1))
+			return (free(line), 1);
 	}
 	return (1);
 }
@@ -60,27 +88,19 @@ int	main(int argc, char **argv)
 {
 	t_wall		wall_dim;
 	int			fd;
+	char		*line;
 	t_garbage	*garbage;
 
 	struct_init(&wall_dim);
+	line = NULL;
 	if (argc != 2)
 		return (1);
 	garbage = NULL;
 	fd = open(argv[1], O_RDONLY);
-	if (!parsing(NULL, fd, &wall_dim, &garbage))
+	if (!parsing(line, fd, &wall_dim, &garbage))
 		return (close(fd), ft_lstclear(&garbage), 1);
-	printf("[%d] ", wall_dim.ceiling[0]);
-	printf("[%d] ", wall_dim.ceiling[1]);
-	printf("[%d]\n", wall_dim.ceiling[2]);
-	printf("[%d] ", wall_dim.floor[0]);
-	printf("[%d] ", wall_dim.floor[1]);
-	printf("[%d]\n", wall_dim.floor[2]);
-	printf("%s\n", wall_dim.no);
-	printf("%s\n", wall_dim.we);
-	printf("%s\n", wall_dim.ea);
-	printf("%s\n", wall_dim.so);
-	printf("%s\n", wall_dim.map[0]);
-	printf("%s\n", wall_dim.map[1]);
-	printf("%s\n", wall_dim.map[2]);
+	if (!check_remaining(&wall_dim, fd, line))
+		return (close(fd), ft_lstclear(&garbage), 1);
+	
 	return (0);
 }

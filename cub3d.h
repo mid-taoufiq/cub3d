@@ -6,7 +6,7 @@
 /*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 11:35:29 by tibarike          #+#    #+#             */
-/*   Updated: 2025/08/25 13:31:42 by tibarike         ###   ########.fr       */
+/*   Updated: 2025/08/26 13:13:37 by tibarike         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ typedef struct s_wall
 	int		so_filled;
 	int		f_filled;
 	int		c_filled;
+	int		map_filled;
 }	t_wall;
 
 void	*ft_malloc(int size, t_garbage **garbage);
@@ -61,8 +62,11 @@ char	**ft_split2(char *s, char c, t_garbage **garbage);
 int		add_colors(t_wall *wall_dim, char *line, t_garbage **garbage);
 int		check_empty_line(char *line);
 int		ft_strsearch(char *str, char *search);
+int		ft_strsearch2(char *str, char *search);
 int		arg_counter(char **arr);
 int		add_dimensions(t_wall *wall_dim, char *line, t_garbage **garbage);
 void	ft_lstclear(t_garbage **lst);
+int		add_to_map(char *line, t_wall *wall_dim, t_garbage **garbage, int fd);
+int		check_options(t_wall *wall, int option);
 
 #endif
