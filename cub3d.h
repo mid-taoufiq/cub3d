@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 11:35:29 by tibarike          #+#    #+#             */
-/*   Updated: 2025/08/24 15:42:22 by tibarike         ###   ########.fr       */
+/*   Updated: 2025/08/26 14:47:04 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <limits.h>
 # include <stdio.h>
 # include <fcntl.h>
+# include "MLX42.h"
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 42
@@ -46,6 +47,14 @@ typedef struct s_wall
 	int		f_filled;
 	int		c_filled;
 }	t_wall;
+
+typedef struct s_win
+{
+	mlx_t		*mlx;
+	mlx_image_t	*img;
+	int			tile;
+	
+}	t_win;
 
 void	*ft_malloc(int size, t_garbage **garbage);
 char	*ft_strjoin(char *s1, char *s2, t_garbage **garbage);
