@@ -6,7 +6,7 @@
 /*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 11:40:58 by tibarike          #+#    #+#             */
-/*   Updated: 2025/08/26 17:48:45 by tibarike         ###   ########.fr       */
+/*   Updated: 2025/08/26 17:59:11 by tibarike         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,9 +64,7 @@ int	parsing2(char *line, int fd, t_wall *wall_dim, t_garbage **garbage)
 	return_value = check_options(wall_dim, 1);
 	if (return_value == 0)
 		return (free(line), 0);
-	else
-		return (free(line), 1);
-	return (1);
+	return (free(line), 1);
 }
 
 int	parsing(char *line, int fd, t_wall *wall_dim, t_garbage **garbage)
