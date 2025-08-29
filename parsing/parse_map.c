@@ -6,7 +6,7 @@
 /*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/26 15:11:37 by tibarike          #+#    #+#             */
-/*   Updated: 2025/08/27 15:02:56 by tibarike         ###   ########.fr       */
+/*   Updated: 2025/08/29 13:33:54 by tibarike         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,49 +19,57 @@ int	player_match(char c)
 	return (0);
 }
 
-int	parse_zero(char **map, int i, int j)
+int	is_valid(char c)
 {
-	if (i == 0 || j == 0)
+	return (c == '0' || c == '1' || player_match(c));
+}
+
+int	parse_palyer_0(char **map, int i, int j)
+{
+	if (i == 0 || j >= ft_strlen(map[i - 1]) || !is_valid(map[i - 1][j]))
 		return (0);
-	if (map[i - 1][j] != 1 || map[i - 1][j] != 0
-		|| !player_match(map[i - 1][j]))
+	if (!map[i + 1] || j >= ft_strlen(map[i + 1]) || !is_valid(map[i + 1][j]))
 		return (0);
-	if (map[i + 1][j] != 1 || map[i + 1][j] != 0
-		|| !player_match(map[i + 1][j]))
+	if (j == 0 || !is_valid(map[i][j - 1]))
 		return (0);
-	if (map[i][j - 1] != 1 || map[i][j - 1] != 0
-		|| !player_match(map[i][j - 1]))
+	if (j + 1 >= ft_strlen(map[i]) || !is_valid(map[i][j + 1]))
 		return (0);
-	if (map[i][j + 1] != 1 || map[i][j + 1] != 0
-		|| !player_match(map[i][j + 1]))
+	return (1);
+}
+
+int	handle_p(char **map, int i, int j, int *cplayer)
+{
+	(*cplayer)++;
+	if (!parse_palyer_0(map, i, j))
 		return (0);
+	return (1);
 }
 
 int	parse_map(char **map)
 {
 	int	i;
 	int	j;
-	int	player_count;
+	int	cplayer;
 
 	i = 0;
+	cplayer = 0;
 	while (map[i])
 	{
 		j = 0;
 		while (map[i][j])
 		{
-			if (map[i][j] == '0')
-			{
-				if (!parse_zero(map, i, j))
-					return (write(2, "map not correct\n", 17), 0);
-			}
-			else if (player_match(map[i][j]))
-				player_count++;
-			else if (map[i][j] != '1')
-				return (write(2, "map not correct\n", 17), 0);
+			if (map[i][j] == '0' && !parse_palyer_0(map, i, j))
+				return (write(2, "zero position not correct\n", 27), 0);
+			else if (player_match(map[i][j]) && !handle_p(map, i, j, &cplayer))
+				return (write(2, "player position not correct\n", 29), 0);
+			else if (map[i][j] != '1' && map[i][j] != ' ' && map[i][j] != '0'
+				&& !player_match(map[i][j]))
+				return (write(2, "unallowed character\n", 21), 0);
 			j++;
 		}
 		i++;
 	}
-	if (player_count != 1)
-		return (write(2, "more than one player in map\n", 29), 0);
+	if (cplayer != 1)
+		return (write(2, "player not correct\n", 20), 0);
+	return (1);
 }
