@@ -6,7 +6,7 @@
 /*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 11:32:50 by tibarike          #+#    #+#             */
-/*   Updated: 2025/08/26 12:01:07 by tibarike         ###   ########.fr       */
+/*   Updated: 2025/08/29 14:47:06 by tibarike         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int	check_empty_line(char *line)
 	while (line[i] == ' ')
 		i++;
 	if (line[i] == '\0')
-		return (1);
+		return (free(line), 1);
 	return (0);
 }
 

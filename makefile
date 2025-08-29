@@ -2,8 +2,10 @@ NAME = cub3d
 
 SRC = main.c\
 	garbage.c\
+	./parsing/parsing.c\
 	./parsing/add_colors.c\
 	./parsing/add_to_map.c\
+	./parsing/parse_map.c\
 	./parsing/add_wall.c\
 	./parsing/ft_split.c\
 	./parsing/ft_split2.c\

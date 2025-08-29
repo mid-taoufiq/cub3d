@@ -6,7 +6,7 @@
 /*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 11:35:29 by tibarike          #+#    #+#             */
-/*   Updated: 2025/08/26 13:13:37 by tibarike         ###   ########.fr       */
+/*   Updated: 2025/08/29 14:43:56 by tibarike         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,5 +68,9 @@ int		add_dimensions(t_wall *wall_dim, char *line, t_garbage **garbage);
 void	ft_lstclear(t_garbage **lst);
 int		add_to_map(char *line, t_wall *wall_dim, t_garbage **garbage, int fd);
 int		check_options(t_wall *wall, int option);
+int		parse_map(char **map);
+int		check_remaining(int fd, char *line);
+void	struct_init(t_wall *wall_dim);
+int		parsing(char *line, int fd, t_wall *wall_dim, t_garbage **garbage);
 
 #endif
