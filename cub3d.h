@@ -6,7 +6,7 @@
 /*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 11:35:29 by tibarike          #+#    #+#             */
-/*   Updated: 2025/08/29 14:43:56 by tibarike         ###   ########.fr       */
+/*   Updated: 2025/08/31 11:10:24 by tibarike         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,8 @@ void	*ft_malloc(int size, t_garbage **garbage);
 char	*ft_strjoin(char *s1, char *s2, t_garbage **garbage);
 int		ft_strlen(char *str);
 char	*ft_strdup(char *str, t_garbage **garbage);
-char	*ft_substr(char *s, int start, size_t len, t_garbage **garbage);
+char	*ft_substr(char *s, int start, int len, t_garbage **garbage);
+char	*ft_strtrim(char *s1, char *set, t_garbage **garbage);
 int		find_newline(char *str);
 char	*get_next_line(int fd);
 int		ft_atoi(char *nb);

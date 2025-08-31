@@ -6,7 +6,7 @@
 /*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/20 16:10:25 by tibarike          #+#    #+#             */
-/*   Updated: 2025/08/29 14:38:07 by tibarike         ###   ########.fr       */
+/*   Updated: 2025/08/31 11:10:37 by tibarike         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,14 +66,18 @@ char	*ft_strjoin(char *s1, char *s2, t_garbage **garbage)
 	return (str);
 }
 
-char	*ft_substr(char *s, int start, size_t len, t_garbage **garbage)
+char	*ft_substr(char *s, int start, int len, t_garbage **garbage)
 {
 	char	*p;
-	size_t	i;
+	int		i;
 
 	i = 0;
 	if (!s)
 		return (NULL);
+	if (start >= ft_strlen(s))
+		return (ft_strdup("", garbage));
+	if (len > ft_strlen(s + start))
+		len = ft_strlen(s + start);
 	p = ft_malloc(len + 1, garbage);
 	if (!p)
 		return (NULL);

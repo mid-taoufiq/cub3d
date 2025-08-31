@@ -6,11 +6,31 @@
 /*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/27 14:24:39 by tibarike          #+#    #+#             */
-/*   Updated: 2025/08/27 14:26:51 by tibarike         ###   ########.fr       */
+/*   Updated: 2025/08/31 13:41:55 by tibarike         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
+
+int	ft_strncmp(char *str1, char *str2, size_t n)
+{
+	int	i;
+	int	j;
+
+	if (n == 0)
+		return (0);
+	i = 0;
+	j = 0;
+	while (str1[j] == ' ')
+		j++;
+	while ((str1[i] || str2[i]) && i < n + j)
+	{
+		if (str1[i] != str2[i])
+			return (0);
+		i++;
+	}
+	return (i);
+}
 
 static int	is_set(char c, char *set)
 {

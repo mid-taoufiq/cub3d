@@ -6,7 +6,7 @@
 /*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 12:01:06 by tibarike          #+#    #+#             */
-/*   Updated: 2025/08/29 13:55:26 by tibarike         ###   ########.fr       */
+/*   Updated: 2025/08/31 11:17:39 by tibarike         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,17 +36,17 @@ static int	add_colors2(char *surface_split, int *surface, t_garbage **garbage)
 	color_split = NULL;
 	i = 0;
 	if (comma_counter(surface_split) != 2)
-		return (write(2, "commas unvalid\n", 16), 0);
+		return (write(2, "colors error\n", 14), 0);
 	color_split = ft_split2(surface_split, ',', garbage);
 	if (!color_split)
 		return (0);
 	if (arg_counter(color_split) != 3)
-		return (write(2, "colors not correct\n", 20), 0);
+		return (write(2, "colors error\n", 14), 0);
 	while (i < 3)
 	{
 		surface[i] = ft_atoi(color_split[i]);
 		if (surface[i] < 0 || surface[i] > 255)
-			return (write(2, "colors not correct\n", 20), 0);
+			return (write(2, "colors error\n", 14), 0);
 		i++;
 	}
 	return (1);
