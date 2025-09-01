@@ -6,7 +6,7 @@
 /*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 11:35:29 by tibarike          #+#    #+#             */
-/*   Updated: 2025/08/31 11:10:24 by tibarike         ###   ########.fr       */
+/*   Updated: 2025/09/01 11:16:13 by tibarike         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,8 @@ typedef struct s_wall
 	char	*so;
 	char	*we;
 	char	*ea;
-	int		floor[3];
-	int		ceiling[3];
+	int		floor;
+	int		ceiling;
 	char	**map;
 	int		no_filled;
 	int		we_filled;
@@ -51,6 +51,7 @@ typedef struct s_wall
 void	*ft_malloc(int size, t_garbage **garbage);
 char	*ft_strjoin(char *s1, char *s2, t_garbage **garbage);
 int		ft_strlen(char *str);
+int		ft_strncmp(char *str1, char *str2, int n);
 char	*ft_strdup(char *str, t_garbage **garbage);
 char	*ft_substr(char *s, int start, int len, t_garbage **garbage);
 char	*ft_strtrim(char *s1, char *set, t_garbage **garbage);
@@ -73,5 +74,6 @@ int		parse_map(char **map);
 int		check_remaining(int fd, char *line);
 void	struct_init(t_wall *wall_dim);
 int		parsing(char *line, int fd, t_wall *wall_dim, t_garbage **garbage);
+int		check_extansion(char *line, char *extansion);
 
 #endif

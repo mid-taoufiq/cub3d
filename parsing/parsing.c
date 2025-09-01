@@ -6,7 +6,7 @@
 /*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/29 13:37:44 by tibarike          #+#    #+#             */
-/*   Updated: 2025/08/31 12:43:20 by tibarike         ###   ########.fr       */
+/*   Updated: 2025/09/01 11:19:56 by tibarike         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,17 +37,15 @@ void	struct_init(t_wall *wall_dim)
 	wall_dim->ea = NULL;
 	wall_dim->so = NULL;
 	wall_dim->map = NULL;
+	wall_dim->ceiling = 0;
+	wall_dim->floor = 0;
 	wall_dim->no_filled = 0;
 	wall_dim->we_filled = 0;
 	wall_dim->ea_filled = 0;
 	wall_dim->so_filled = 0;
+	wall_dim->c_filled = 0;
+	wall_dim->f_filled = 0;
 	wall_dim->map_filled = 0;
-	wall_dim->ceiling[0] = 0;
-	wall_dim->ceiling[1] = 0;
-	wall_dim->ceiling[2] = 0;
-	wall_dim->floor[0] = 0;
-	wall_dim->floor[1] = 0;
-	wall_dim->floor[2] = 0;
 }
 
 int	parsing2(char *line, int fd, t_wall *wall_dim, t_garbage **garbage)

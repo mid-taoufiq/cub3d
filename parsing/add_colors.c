@@ -6,11 +6,16 @@
 /*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 12:01:06 by tibarike          #+#    #+#             */
-/*   Updated: 2025/09/01 09:43:49 by tibarike         ###   ########.fr       */
+/*   Updated: 2025/09/01 11:22:05 by tibarike         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
+
+static int	coloring(int *surface)
+{
+	return (surface[0] << 16 | surface[1] << 8 | surface[2]);
+}
 
 static int	comma_counter(char *str)
 {
@@ -57,6 +62,7 @@ static int	ceiling_part(t_wall *wall_dim, char *line, t_garbage **garbage)
 	char	*surface_split;
 	int		i;
 	int		len;
+	int		ceiling[3];
 
 	i = ft_strncmp(line, "C ", 2);
 	len = 0;
@@ -67,9 +73,10 @@ static int	ceiling_part(t_wall *wall_dim, char *line, t_garbage **garbage)
 	{
 		surface_split = ft_substr(line, i, len - 1, garbage);
 		if (!surface_split)
-			return (0); 
-		if (!add_colors2(surface_split, wall_dim->ceiling, garbage))
 			return (0);
+		if (!add_colors2(surface_split, ceiling, garbage))
+			return (0);
+		wall_dim->ceiling = coloring(ceiling);
 		wall_dim->c_filled = 1;
 		return (2);
 	}
@@ -81,6 +88,7 @@ int	add_colors(t_wall *wall_dim, char *line, t_garbage **garbage)
 	char	*surface_split;
 	int		i;
 	int		len;
+	int		floor[3];
 
 	i = ft_strncmp(line, "F ", 2);
 	len = 0;
@@ -92,8 +100,9 @@ int	add_colors(t_wall *wall_dim, char *line, t_garbage **garbage)
 		surface_split = ft_substr(line, i, len - 1, garbage);
 		if (!surface_split)
 			return (0);
-		if (!add_colors2(surface_split, wall_dim->floor, garbage))
+		if (!add_colors2(surface_split, floor, garbage))
 			return (0);
+		wall_dim->floor = coloring(floor);
 		wall_dim->f_filled = 1;
 		return (2);
 	}

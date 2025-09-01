@@ -6,7 +6,7 @@
 /*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 12:00:54 by tibarike          #+#    #+#             */
-/*   Updated: 2025/09/01 09:43:27 by tibarike         ###   ########.fr       */
+/*   Updated: 2025/09/01 11:02:45 by tibarike         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static char	*add_path(char *line, t_garbage **garbage, char *option)
 	path = ft_strtrim(tmp, " ", garbage);
 	if (!path)
 		return (NULL);
-	if (path[0] == '\0')
+	if (path[0] == '\0' || !check_extansion(path, ".xpm"))
 		return (write(2, "argument error\n", 16), NULL);
 	return (path);
 }
