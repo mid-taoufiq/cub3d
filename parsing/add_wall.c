@@ -6,7 +6,7 @@
 /*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 12:00:54 by tibarike          #+#    #+#             */
-/*   Updated: 2025/08/31 13:41:00 by tibarike         ###   ########.fr       */
+/*   Updated: 2025/09/01 09:43:27 by tibarike         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static char	*add_path(char *line, t_garbage **garbage, char *option)
 
 int	add_dimensions2(t_wall *wall_dim, char *line, t_garbage **garbage)
 {
-	if (ft_strsearch(line, "EA ") != 0)
+	if (ft_strncmp(line, "EA ", 3) != 0)
 	{
 		if (!wall_dim->ea_filled)
 			wall_dim->ea = add_path(line, garbage, "EA ");
@@ -43,7 +43,7 @@ int	add_dimensions2(t_wall *wall_dim, char *line, t_garbage **garbage)
 		wall_dim->ea_filled = 1;
 		return (free(line), 2);
 	}
-	if (ft_strsearch(line, "SO ") != 0)
+	if (ft_strncmp(line, "SO ", 3) != 0)
 	{
 		if (!wall_dim->so_filled)
 			wall_dim->so = add_path(line, garbage, "SO ");
@@ -59,7 +59,7 @@ int	add_dimensions2(t_wall *wall_dim, char *line, t_garbage **garbage)
 
 int	add_dimensions(t_wall *wall_dim, char *line, t_garbage **garbage)
 {
-	if (ft_strsearch(line, "NO ") != 0)
+	if (ft_strncmp(line, "NO ", 3) != 0)
 	{
 		if (!wall_dim->no_filled)
 			wall_dim->no = add_path(line, garbage, "NO ");
@@ -70,7 +70,7 @@ int	add_dimensions(t_wall *wall_dim, char *line, t_garbage **garbage)
 		wall_dim->no_filled = 1;
 		return (free(line), 2);
 	}
-	if (ft_strsearch(line, "WE ") != 0)
+	if (ft_strncmp(line, "WE ", 3) != 0)
 	{
 		if (!wall_dim->we_filled)
 			wall_dim->we = add_path(line, garbage, "WE ");

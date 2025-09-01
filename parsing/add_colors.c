@@ -6,7 +6,7 @@
 /*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 12:01:06 by tibarike          #+#    #+#             */
-/*   Updated: 2025/08/31 11:17:39 by tibarike         ###   ########.fr       */
+/*   Updated: 2025/09/01 09:43:49 by tibarike         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ static int	ceiling_part(t_wall *wall_dim, char *line, t_garbage **garbage)
 	int		i;
 	int		len;
 
-	i = ft_strsearch2(line, "C ");
+	i = ft_strncmp(line, "C ", 2);
 	len = 0;
 	while (line[len])
 		len++;
@@ -82,7 +82,7 @@ int	add_colors(t_wall *wall_dim, char *line, t_garbage **garbage)
 	int		i;
 	int		len;
 
-	i = ft_strsearch2(line, "F ");
+	i = ft_strncmp(line, "F ", 2);
 	len = 0;
 	while (line[len])
 		len++;
