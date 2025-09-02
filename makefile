@@ -8,7 +8,6 @@ SRC = main.c\
 	./parsing/parse_map.c\
 	./parsing/add_wall.c\
 	./parsing/ft_split.c\
-	./parsing/ft_split2.c\
 	./parsing/utils.c\
 	./parsing/utils2.c\
 	./parsing/utils3.c\

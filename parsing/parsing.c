@@ -6,7 +6,7 @@
 /*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/29 13:37:44 by tibarike          #+#    #+#             */
-/*   Updated: 2025/09/01 11:19:56 by tibarike         ###   ########.fr       */
+/*   Updated: 2025/09/02 10:11:01 by tibarike         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ void	struct_init(t_wall *wall_dim)
 	wall_dim->ea = NULL;
 	wall_dim->so = NULL;
 	wall_dim->map = NULL;
+	wall_dim->player_direction = 0;
 	wall_dim->ceiling = 0;
 	wall_dim->floor = 0;
 	wall_dim->no_filled = 0;

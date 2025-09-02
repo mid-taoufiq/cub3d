@@ -6,7 +6,7 @@
 /*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/26 15:11:37 by tibarike          #+#    #+#             */
-/*   Updated: 2025/08/29 13:33:54 by tibarike         ###   ########.fr       */
+/*   Updated: 2025/09/02 10:06:20 by tibarike         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,33 +37,33 @@ int	parse_palyer_0(char **map, int i, int j)
 	return (1);
 }
 
-int	handle_p(char **map, int i, int j, int *cplayer)
+int	handle_p(t_wall *wall, int i, int j, int *cplayer)
 {
 	(*cplayer)++;
-	if (!parse_palyer_0(map, i, j))
+	wall->player_direction = wall->map[i][j];
+	if (!parse_palyer_0(wall->map, i, j))
 		return (0);
 	return (1);
 }
 
-int	parse_map(char **map)
+int	parse_map(t_wall *wall, int cplayer)
 {
 	int	i;
 	int	j;
-	int	cplayer;
 
 	i = 0;
-	cplayer = 0;
-	while (map[i])
+	while (wall->map[i])
 	{
 		j = 0;
-		while (map[i][j])
+		while (wall->map[i][j])
 		{
-			if (map[i][j] == '0' && !parse_palyer_0(map, i, j))
+			if (wall->map[i][j] == '0' && !parse_palyer_0(wall->map, i, j))
 				return (write(2, "zero position not correct\n", 27), 0);
-			else if (player_match(map[i][j]) && !handle_p(map, i, j, &cplayer))
+			else if (player_match(wall->map[i][j])
+				&& !handle_p(wall, i, j, &cplayer))
 				return (write(2, "player position not correct\n", 29), 0);
-			else if (map[i][j] != '1' && map[i][j] != ' ' && map[i][j] != '0'
-				&& !player_match(map[i][j]))
+			else if (wall->map[i][j] != '1' && wall->map[i][j] != ' '
+				&& wall->map[i][j] != '0' && !player_match(wall->map[i][j]))
 				return (write(2, "unallowed character\n", 21), 0);
 			j++;
 		}

@@ -6,7 +6,7 @@
 /*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 11:40:58 by tibarike          #+#    #+#             */
-/*   Updated: 2025/09/01 11:18:03 by tibarike         ###   ########.fr       */
+/*   Updated: 2025/09/02 10:12:13 by tibarike         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,15 +46,7 @@ int	main(int argc, char **argv)
 		return (close(fd), ft_lstclear(&garbage), 1);
 	if (!check_remaining(fd, line))
 		return (close(fd), ft_lstclear(&garbage), 1);
-	if (!wall_dim.map || !parse_map(wall_dim.map))
+	if (!wall_dim.map || !parse_map(&wall_dim, 0))
 		return (close(fd), ft_lstclear(&garbage), 1);
-	printf("%s\n", wall_dim.no);
-	printf("%s\n", wall_dim.we);
-	printf("%s\n", wall_dim.ea);
-	printf("%s\n", wall_dim.so);
-	printf("[%d]\n", wall_dim.ceiling);
-	printf("[%d]\n", wall_dim.floor);
-	for(int i = 0; wall_dim.map[i]; i++)
-		printf("%s\n", wall_dim.map[i]);
 	return (0);
 }
