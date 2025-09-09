@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 11:40:58 by tibarike          #+#    #+#             */
-/*   Updated: 2025/09/02 11:29:10 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/09/09 12:11:25 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,13 @@ void	struct_init(t_wall *wall_dim)
 	wall_dim->floor[0] = 0;
 	wall_dim->floor[1] = 0;
 	wall_dim->floor[2] = 0;
+}
+
+int	ft_check_player(char c)
+{
+	if (c == 'N' || c == 'E' || c == 'W' || c == 'S')
+		return (1);
+	return (0);
 }
 
 int	parsing(char *line, int fd, t_wall *wall_dim, t_garbage **garbage)
@@ -79,6 +86,26 @@ void	ft_recto(int x, int y, int color, t_win win)
 	}
 }
 
+void	ft_recto_player(int x, int y, int color, t_win win)
+{
+	int	start_x;
+	int	start_y;
+
+	start_x = x;
+	start_y = y;
+	while (y < start_y + win.tile/4 - 1)
+	{
+		x = start_x;
+		while (x < start_x + win.tile/4 - 1)
+		{
+			if (x >= 0 && y >= 0)
+				mlx_put_pixel(win.img_player, x, y, color);
+			x++;
+		}
+		y++;
+	}
+}
+
 void	ft_player(int x, int y, int color, t_win win)
 {
 	int	start_x;
@@ -111,29 +138,20 @@ void	ft_line(t_win win, int desired_x, int limit_y, int (*ft_color)(int r, int g
 	}
 }
 
-int	ft_check_player(char c)
-{
-	if (c == 'N' || c == 'E' || c == 'W' || c == 'S')
-		return (1);
-	return (0);
-}
 
-void	ft_put_img(char **arr, t_win win)
+void	ft_put_img(char **arr, t_win *win, int check)
 {
 	int	x;
 	int	y;
 	int	i;
 	int	j;
+	// int	player_tile;
 
 	x = 0;
 	y = 0;
 	i = 0;
 	j = 0;
-	// while (win.arr[i])
-	// {
-	// 	printf("%s\n", win.arr[i]);
-	// 	i++;
-	// }
+	// player_tile = win->tile/4;
 	if (!arr || !*arr)
 		return ;
 	while (arr[j])
@@ -142,19 +160,10 @@ void	ft_put_img(char **arr, t_win win)
 		x = 0;
 		while (arr[j][i])
 		{
-			// printf("no %d and i %d\n", j, i);
 			if (arr[j][i] == '1')
-			{
-				ft_recto(x * win.tile, y * win.tile, ft_color(0, 0, 255, 255), win);
-			}
-			else if (ft_check_player(arr[j][i]))
-			{
-				ft_recto(x * win.tile, y * win.tile, ft_color(255, 0, 0, 255), win);
-				mlx_put_pixel(win.img, x * win.tile + win.tile/2, y * win.tile + win.tile/2, ft_color(0, 0, 0, 255));
-				ft_line(win, x * win.tile + win.tile/2, y * win.tile + win.tile/2, ft_color(0, 255, 0, 255));
-			}
+				ft_recto(x * win->tile, y * win->tile, ft_color(0, 0, 255, 255), *win);
 			else
-				ft_recto(x * win.tile, y * win.tile, ft_color(255, 255, 0, 255), win);
+				ft_recto(x * win->tile, y * win->tile, ft_color(255, 255, 0, 255), *win);
 			x += 1;
 			i++;
 		}
@@ -163,61 +172,187 @@ void	ft_put_img(char **arr, t_win win)
 	}
 }
 
-void	ft_print_arr(char **arr)
+void	ft_recast(t_win *win, char c)
 {
-	int i = 0;
-	if (!arr[i])
-		printf("hell nah\n");
-	while (arr[i])
+	double	now;
+	double	before;
+	int		x;
+	double	camera;
+	double	ray_Dirx;
+	double	ray_Diry;
+	double draw_x;
+	double draw_y;
+
+	now = 0;
+	before = 0;
+	x = 0;
+	camera = 0;
+	ray_Dirx = 0;
+	ray_Diry = 0;
+	if (c == 'E')
 	{
-		printf("this is ad %s\n", arr[i]);
-		i++;
+		win->player_dirx = -1;
+		win->player_diry = 0;
+		win->plane_dirx = 0;
+		win->plane_diry = 0.66;
+		double initial1; 
+		double initial2;
+		while (x < win->width)
+		{
+			camera = 2 * x / (double)win->width - 1;
+			ray_Dirx = win->player_dirx + win->plane_dirx * camera;
+			ray_Diry = win->player_diry + win->plane_diry * camera;
+			// printf("this is %.1f and %.1f\n", ray_Dirx, ray_Diry);
+			draw_x = win->player_x;//just for testing
+			draw_y = win->player_y;
+			initial1 = win->player_x;//just for testing
+			initial2 = win->player_y;
+			double test = 0;
+			while (test < 50)
+			{
+				draw_x = initial1 + ray_Dirx * test;
+				draw_y = initial2 + ray_Diry * test;
+				mlx_put_pixel(win->img_player, draw_x, draw_y, ft_color(0,0,0,255));
+				test += 1;
+			}
+			x++;
+		}
 	}
-	printf("==============\n");
+	else if (c == 'N')
+	{
+		win->player_dirx = 0;
+		win->player_diry = -1;
+		win->plane_dirx = -0.66;
+		win->plane_diry = 0;
+		double initial1; 
+		double initial2;
+		while (x < win->width)
+		{
+			camera = 2 * x / (double)win->width - 1;
+			ray_Dirx = win->player_dirx + win->plane_dirx * camera;
+			ray_Diry = win->player_diry + win->plane_diry * camera;
+			// printf("this is %.1f and %.1f\n", ray_Dirx, ray_Diry);
+			draw_x = win->player_x;//just for testing
+			draw_y = win->player_y;
+			initial1 = win->player_x;//just for testing
+			initial2 = win->player_y;
+			double test = 0;
+			while (test < 50)
+			{
+				draw_x = initial1 + ray_Dirx * test;
+				draw_y = initial2 + ray_Diry * test;
+				mlx_put_pixel(win->img_player, draw_x, draw_y, ft_color(0,0,0,255));
+				test += 1;
+			}
+			x++;
+		}
+	}
+	else if (c == 'S')
+	{
+		win->player_dirx = 0;
+		win->player_diry = 1;
+		win->plane_dirx = -0.66;
+		win->plane_diry = 0;
+		double initial1; 
+		double initial2;
+		while (x < win->width)
+		{
+			camera = 2 * x / (double)win->width - 1;
+			ray_Dirx = win->player_dirx + win->plane_dirx * camera;
+			ray_Diry = win->player_diry + win->plane_diry * camera;
+			printf("this is %.1f and %.1f\n", ray_Dirx, ray_Diry);
+			draw_x = win->player_x;//just for testing
+			draw_y = win->player_y;
+			initial1 = win->player_x;//just for testing
+			initial2 = win->player_y;
+			double test = 0;
+			while (test < 50)
+			{
+				draw_x = initial1 + ray_Dirx * test;
+				draw_y = initial2 + ray_Diry * test;
+				mlx_put_pixel(win->img_player, draw_x, draw_y, ft_color(0,0,0,255));
+				test += 1;
+			}
+			x++;
+		}
+	}
+	else if (c == 'W')
+	{
+		win->player_dirx = 1;
+		win->player_diry = 0;
+		win->plane_dirx = 0;
+		win->plane_diry = 0.66;
+		double initial1; 
+		double initial2;
+		while (x < win->width)
+		{
+			camera = 2 * x / (double)win->width - 1;
+			ray_Dirx = win->player_dirx + win->plane_dirx * camera;
+			ray_Diry = win->player_diry + win->plane_diry * camera;
+			printf("this is %.1f and %.1f\n", ray_Dirx, ray_Diry);
+			draw_x = win->player_x;//just for testing
+			draw_y = win->player_y;
+			initial1 = win->player_x;//just for testing
+			initial2 = win->player_y;
+			double test = 0;
+			while (test < 50)
+			{
+				draw_x = initial1 + ray_Dirx * test;
+				draw_y = initial2 + ray_Diry * test;
+				mlx_put_pixel(win->img_player, draw_x, draw_y, ft_color(0,0,0,255));
+				test += 1;
+			}
+			x++;
+		}
+	}
 }
 
-void	ft_redraw(char	**arr, int l)
+void	ft_movement(t_win *win, int check)
 {
-	int	i;
-	int	j;
+	int		x;
+	int		y;
+	int		i;
+	int		j;
+	int		player_tile;
+	char	c;
+	int		one;
 
+	x = 0;
+	y = 0;
 	i = 0;
 	j = 0;
-	while (arr[i])
+	one = 0;
+	player_tile = win->tile/4;
+	while (win->arr[j])
 	{
-		j = 0;
-		while (arr[i][j])
+		i = 0;
+		x = 0;
+		while (win->arr[j][i])
 		{
-			if (ft_check_player(arr[i][j]))
+			// printf("enterd\n");
+			if (ft_check_player(win->arr[j][i]))
 			{
-				if (l == 1 && arr[i-1][j] != '1')
+				c = win->arr[j][i];
+				if (!check)
 				{
-					arr[i-1][j] = arr[i][j];
-					arr[i][j] = '0';
-					return ;
+					win->player_x = (x * win->tile + win->tile/2);
+					win->player_y = (y * win->tile + win->tile/2);
+					win->start_posx = win->player_x/win->tile;
+					win->start_posy = win->player_y/win->tile;
+					// printf("thsi is them %.1f and %.1f\n", win->start_posx, win->start_posy);
 				}
-				else if (l == 2 && arr[i][j+1] != '1')
-				{
-					arr[i][j+1] = arr[i][j];
-					arr[i][j] = '0';
-					return ;
-				}
-				else if (l == 3 && arr[i][j-1] != '1')
-				{
-					arr[i][j-1] = arr[i][j];
-					arr[i][j] = '0';
-					return ;
-				}
-				else if (l == 4 && arr[i+1][j] != '1')
-				{
-					arr[i+1][j] = arr[i][j];
-					arr[i][j] = '0';
-					return ;
-				}
+				ft_recto_player(win->player_x - player_tile/2, win->player_y -player_tile/2, ft_color(255, 0, 0, 255), *win);
+				if (win->player_x >= 0 && win->player_y >= 0)
+					mlx_put_pixel(win->img_player, (int)win->player_x, (int)win->player_y, ft_color(0, 0, 0, 255));
+				// if (!one)
+				// 	ft_recast(win, 'W');
+				one = 1;
 			}
-			j++;
+			x += 1;
+			i++;
 		}
-		i++;
+		y += 1;
+		j++;
 	}
 }
 
@@ -248,6 +383,25 @@ void	ft_remove_line(t_win *win)
 	}
 }
 
+void	ft_clear_img(t_win *win)
+{
+	int	x;
+	int	y;
+	
+	x = 0;
+	y = 0;
+	while (y < win->height)
+	{
+		x = 0;
+		while (x < win->width)
+		{
+			mlx_put_pixel(win->img_player, x, y, ft_color(0,0,0,0));
+			x++;
+		}
+		y++;
+	}
+}
+
 void func(mlx_key_data_t keydata, void *param)
 {
 	t_win	*win;
@@ -255,36 +409,33 @@ void func(mlx_key_data_t keydata, void *param)
 	win = (t_win *)param;
 	if (keydata.key == MLX_KEY_W)
 	{
-		ft_remove_line(win);
-		ft_redraw(win->arr, 1);
-		ft_put_img(win->arr, *win);
+		ft_clear_img(win);
+		win->player_y -= win->tile/16;
+		win->start_posy = win->player_y/win->tile;
+		ft_movement(win, 1);
 	}
 	else if (keydata.key == MLX_KEY_S)
 	{
-		ft_remove_line(win);
-		ft_redraw(win->arr, 4);
-		ft_put_img(win->arr, *win);
+		ft_clear_img(win);
+		win->player_y += win->tile/16;
+		win->start_posy = win->player_y/win->tile;
+		ft_movement(win, 1);
 	}
 	else if (keydata.key == MLX_KEY_A)
 	{
-		ft_remove_line(win);
-		ft_redraw(win->arr, 3);
-		ft_put_img(win->arr, *win);
+		ft_clear_img(win);
+		win->player_x -= win->tile/16;
+		win->start_posx = win->player_x/win->tile;
+		ft_movement(win, 1);
 	}
 	else if (keydata.key == MLX_KEY_D)
 	{
-		ft_remove_line(win);
-		ft_redraw(win->arr, 2);
-		ft_put_img(win->arr, *win);
+		ft_clear_img(win);
+		win->player_x += win->tile/16;
+		win->start_posx = win->player_x/win->tile;
+		ft_movement(win, 1);
 	}
 }
-
-// void	f(void *param)
-// {
-// 	t_win	*win;
-// 	win = (t_win *)param;
-// 	ft_put_img(win->arr, *win);
-// }
 
 int	ft_move_player(char **arr, t_win *win)
 {
@@ -311,6 +462,38 @@ char	*ft_strdupo(char *s1)
 	}
 	dup[i] = '\0';
 	return (dup);
+}
+
+void	ft_draw_line(char c, t_win *win, int i, int j)
+{
+	int	x;
+	int	y;
+	int	end;
+
+	y = win->player_y;
+	x = win->player_x;
+	end = win->player_y;
+	if (c == 'N')
+	{
+		while (j >= 0)
+		{
+			if (win->arr[i][j] != '1')
+			{
+				while (y >= end - win->tile/2)
+				{
+					printf("this is x %d and y %d\n", win->player_x, y);
+					if (win->player_x >= 0 && y >= 0)
+						mlx_put_pixel(win->img_player, win->player_x, y, ft_color(0, 0, 0, 255));
+					y--;
+				}
+				end = y;
+			}
+			else
+				break;
+			j--;
+		}
+	}
+	
 }
 
 char	**ft_alloc_arr(char **map)
@@ -363,9 +546,21 @@ int	main(int argc, char **argv)
 		mlx_terminate(win.mlx);
 		exit (1);
 	}
-	ft_put_img(win.arr, win);
+	win.img_player = mlx_new_image(win.mlx, 700, 700);
+	if (!win.img_player)
+	{
+		mlx_terminate(win.mlx);
+		exit (1);
+	}
+	ft_put_img(win.arr, &win, 1);
+	ft_movement(&win, 0);
 	ft_move_player(win.arr, &win);
 	if (mlx_image_to_window(win.mlx, win.img, 0, 0) == -1)
+	{
+		mlx_terminate(win.mlx);
+		exit (1);
+	}
+	if (mlx_image_to_window(win.mlx, win.img_player, 0, 0) == -1)
 	{
 		mlx_terminate(win.mlx);
 		exit (1);

@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 11:35:29 by tibarike          #+#    #+#             */
-/*   Updated: 2025/09/01 18:05:32 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/09/09 12:05:43 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <stdio.h>
 # include <fcntl.h>
 # include "MLX42.h"
+# include <math.h>
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 42
@@ -52,10 +53,19 @@ typedef struct s_win
 {
 	mlx_t		*mlx;
 	mlx_image_t	*img;
+	mlx_image_t	*img_player;
 	int			tile;
 	int			width;
 	int			height;
 	char		**arr;
+	double			player_x;
+	double			player_y;
+	double		player_dirx;
+	double		player_diry;
+	double		plane_dirx;
+	double		plane_diry;
+	double		start_posx;
+	double		start_posy;
 }	t_win;
 
 void	*ft_malloc(int size, t_garbage **garbage);
@@ -75,5 +85,7 @@ int		ft_strsearch(char *str, char *search);
 int		arg_counter(char **arr);
 int		add_dimensions(t_wall *wall_dim, char *line, t_garbage **garbage);
 void	ft_lstclear(t_garbage **lst);
+int		ft_check_player(char c);
+void	ft_draw_line(char c, t_win *win, int i, int j);
 
 #endif
