@@ -19,10 +19,10 @@ OBJ = $(SRC:.c=.o)
 all: ${NAME}
 
 ${NAME}: ${OBJ}
-	cc -Wall -Werror -Wextra -fsanitize=address -g ${OBJ} -o $@
+	cc -Wall -Werror -Wextra -g ${OBJ} -o $@
 
 %.o: %.c cub3d.h
-	cc -Wall -Werror -Wextra -fsanitize=address -g -c $< -o $@
+	cc -Wall -Werror -Wextra -g -c $< -o $@
 
 clean:
 	rm -rf ${OBJ}

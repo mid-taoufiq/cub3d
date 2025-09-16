@@ -6,7 +6,7 @@
 /*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 12:00:54 by tibarike          #+#    #+#             */
-/*   Updated: 2025/09/01 11:37:14 by tibarike         ###   ########.fr       */
+/*   Updated: 2025/09/17 00:50:22 by tibarike         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,10 @@ static char	*add_path(char *line, t_garbage **garbage, char *option)
 	if (!path)
 		return (NULL);
 	if (path[0] == '\0' || !check_extansion(path, ".xpm"))
-		return (write(2, "argument error\n", 16), NULL);
+		return (write(2, "arguments error\n", 16), NULL);
 	fd = open(path, O_RDONLY);
 	if (fd < 0)
-		return (close(fd), write(2, "argument error\n", 16), NULL);
+		return (close(fd), write(2, "arguments error\n", 16), NULL);
 	close(fd);
 	return (path);
 }

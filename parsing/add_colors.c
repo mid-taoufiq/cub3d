@@ -6,7 +6,7 @@
 /*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 12:01:06 by tibarike          #+#    #+#             */
-/*   Updated: 2025/09/01 11:48:46 by tibarike         ###   ########.fr       */
+/*   Updated: 2025/09/17 00:26:23 by tibarike         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,8 @@ static int	ceiling_part(t_wall *wall_dim, char *line, t_garbage **garbage)
 	surface_split = NULL;
 	if (i != 0)
 	{
+		if (wall_dim->c_filled)
+			return (0);
 		surface_split = ft_substr(line, i, len - 1, garbage);
 		if (!surface_split)
 			return (0);
@@ -97,6 +99,8 @@ int	add_colors(t_wall *wall_dim, char *line, t_garbage **garbage)
 	surface_split = NULL;
 	if (i != 0)
 	{
+		if (wall_dim->f_filled)
+			return (0);
 		surface_split = ft_substr(line, i, len - 1, garbage);
 		if (!surface_split)
 			return (0);

@@ -6,14 +6,16 @@
 /*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/29 13:37:44 by tibarike          #+#    #+#             */
-/*   Updated: 2025/09/02 10:11:01 by tibarike         ###   ########.fr       */
+/*   Updated: 2025/09/17 00:50:49 by tibarike         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
-int	check_remaining(int fd, char *line)
+int	check_remaining(int fd, char *line, t_wall *wall)
 {
+	if (!check_options(wall, 1))
+		return (write(2, "arguments error\n", 17), 0);
 	line = get_next_line(fd);
 	while (line)
 	{
@@ -54,7 +56,7 @@ int	parsing2(char *line, int fd, t_wall *wall_dim, t_garbage **garbage)
 	int	return_value;
 
 	if (!add_to_map(line, wall_dim, garbage, fd))
-		return (free(line), 0);
+		return (free(line), write(2, "arguments error\n", 17), 0);
 	return_value = check_options(wall_dim, 1);
 	if (return_value == 0)
 		return (free(line), write(2, "arguments error\n", 17), 0);

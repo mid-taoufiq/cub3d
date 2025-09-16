@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_map.c                                        :+:      :+:    :+:   */
+/*   add_to_map.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/21 15:10:48 by tibarike          #+#    #+#             */
-/*   Updated: 2025/08/26 13:13:29 by tibarike         ###   ########.fr       */
+/*   Updated: 2025/09/17 00:39:20 by tibarike         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,8 @@ char	**ft_darrayjoin(char **old_darray, char *line, t_garbage **garbage)
 
 int	add_to_map(char *line, t_wall *wall_dim, t_garbage **garbage, int fd)
 {
-	if (check_options(wall_dim, 0)
-		&& (ft_strsearch(line, "1") || ft_strsearch(line, "0")))
+	if ((ft_strsearch(line, "1") || ft_strsearch(line, "0"))
+		&& check_options(wall_dim, 0))
 	{
 		while (line && !check_empty_line(line))
 		{
@@ -51,6 +51,8 @@ int	add_to_map(char *line, t_wall *wall_dim, t_garbage **garbage, int fd)
 			line = get_next_line(fd);
 		}
 		wall_dim->map_filled = 1;
+		return (1);
 	}
-	return (1);
+	else
+		return (0);
 }

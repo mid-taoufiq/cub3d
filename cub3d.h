@@ -6,7 +6,7 @@
 /*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 11:35:29 by tibarike          #+#    #+#             */
-/*   Updated: 2025/09/02 10:11:34 by tibarike         ###   ########.fr       */
+/*   Updated: 2025/09/17 00:47:16 by tibarike         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ void	ft_lstclear(t_garbage **lst);
 int		add_to_map(char *line, t_wall *wall_dim, t_garbage **garbage, int fd);
 int		check_options(t_wall *wall, int option);
 int		parse_map(t_wall *wall, int cplayer);
-int		check_remaining(int fd, char *line);
+int		check_remaining(int fd, char *line, t_wall *wall);
 void	struct_init(t_wall *wall_dim);
 int		parsing(char *line, int fd, t_wall *wall_dim, t_garbage **garbage);
 int		check_extansion(char *line, char *extansion);

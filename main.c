@@ -6,7 +6,7 @@
 /*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 11:40:58 by tibarike          #+#    #+#             */
-/*   Updated: 2025/09/02 10:12:13 by tibarike         ###   ########.fr       */
+/*   Updated: 2025/09/17 00:49:08 by tibarike         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,7 @@
 int	check_extansion(char *line, char *extansion)
 {
 	int	i;
-	int	j;
 
-	j = 0;
 	i = 0;
 	while (line[i])
 		i++;
@@ -44,9 +42,9 @@ int	main(int argc, char **argv)
 		return (perror(argv[1]), 1);
 	if (!parsing(line, fd, &wall_dim, &garbage))
 		return (close(fd), ft_lstclear(&garbage), 1);
-	if (!check_remaining(fd, line))
+	if (!check_remaining(fd, line, &wall_dim))
 		return (close(fd), ft_lstclear(&garbage), 1);
-	if (!wall_dim.map || !parse_map(&wall_dim, 0))
+	if (!parse_map(&wall_dim, 0))
 		return (close(fd), ft_lstclear(&garbage), 1);
 	return (0);
 }
