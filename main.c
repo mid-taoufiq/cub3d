@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 11:40:58 by tibarike          #+#    #+#             */
-/*   Updated: 2025/09/09 12:11:25 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/09/21 11:28:15 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,7 +172,7 @@ void	ft_put_img(char **arr, t_win *win, int check)
 	}
 }
 
-void	ft_recast(t_win *win, char c)
+void	ft_recast(t_win *win, char c, int check)
 {
 	double	now;
 	double	before;
@@ -182,125 +182,446 @@ void	ft_recast(t_win *win, char c)
 	double	ray_Diry;
 	double draw_x;
 	double draw_y;
+	int		mx;
+	int		my;
+	double	deltax;
+	double	deltay;
+	double	distance;
+	int		sx;
+	int		sy;
+	int		was_hit;
+	int		way;
+	double	wall;
+	double new_rayx = 0.0;
+	double new_rayy = 0.0;
 
 	now = 0;
+	was_hit = 0;
+	wall = 0;
+	way = 0;
+	sx = 0;
+	sy = 0;
+	distance = 0;
 	before = 0;
 	x = 0;
 	camera = 0;
 	ray_Dirx = 0;
 	ray_Diry = 0;
+	double y = 0;
+	mx = (int)win->start_posx;
+	my = (int)win->start_posy;
 	if (c == 'E')
 	{
-		win->player_dirx = -1;
-		win->player_diry = 0;
-		win->plane_dirx = 0;
-		win->plane_diry = 0.66;
+		if (!check)
+		{
+			win->player_dirx = -1;
+			win->player_diry = 0;
+			win->plane_dirx = 0;
+			win->plane_diry = 0.66;
+		}
 		double initial1; 
 		double initial2;
 		while (x < win->width)
 		{
 			camera = 2 * x / (double)win->width - 1;
-			ray_Dirx = win->player_dirx + win->plane_dirx * camera;
-			ray_Diry = win->player_diry + win->plane_diry * camera;
-			// printf("this is %.1f and %.1f\n", ray_Dirx, ray_Diry);
+			// printf("this is camera %.1f\n", camera);
+			ray_Dirx = win->player_dirx + win->plane_dirx*camera;
+			ray_Diry = win->player_diry + win->plane_diry*camera;
+			// printf("this is ray %.1f  and %.1f and ccam %.5f\n", win->player_dirx, win->plane_dirx, camera);
+			if (ray_Dirx == 0)
+				deltax = 999999999999999;
+			else
+				deltax = fabs(1/ray_Dirx);
+			if (ray_Diry == 0)
+				deltay = 999999999999999;
+			else
+				deltay = fabs(1/ray_Diry);
+			if (ray_Dirx < 0)
+			{
+				sx = -1;
+				win->distx = (win->start_posx - mx) * deltax;
+				printf("this is the x %.2f\n", win->distx*win->tile);
+			}
+			else
+			{
+				sx = 1;
+				win->distx = (mx + 1 - win->start_posx) * deltax;
+			}
+			if (ray_Diry < 0)
+			{
+				sy = -1;
+				win->disty = (win->start_posy - my) * deltay;
+			}
+			else
+			{
+				sy = 1;
+				win->disty = (my + 1 - win->start_posy) * deltay;
+				printf("this is the y %.2f\n", win->disty*win->tile);
+			}
+			was_hit = 0;
+			mx = (int)win->start_posx;
+			my = (int)win->start_posy;
+			while (!was_hit)
+			{
+				if (win->distx < win->disty)
+				{
+					// printf("thi sis the wanted pxl %.2f\n", win->distx*win->tile);
+					win->distx += deltax;
+					// mlx_put_pixel(win->img_player, (int)(win->distx * win->tile), (int)(win->disty*win->tile), ft_color(255,0,0,255));
+					mx += sx;
+					way = 0;
+				}
+				else 
+				{
+					// printf("thi sis the wanted pyl %.2f\n", win->disty*win->tile);
+					win->disty += deltay;
+					mlx_put_pixel(win->img_player, (int)(win->distx * win->tile), (int)(win->disty*win->tile), ft_color(255,0,0,255));
+					my += sy;
+					way = 1;
+				}
+				// printf("this is it %d and %d\n", mx, my);
+				if (win->arr[my][mx] != 0)
+					was_hit = 1;
+			}
+			// if (!way)
+			// 	wall = win->distx - deltax;
+			// else
+			// 	wall = win->disty - deltay;
+			// printf("this is wall %.3f\n", wall);
+			// double finalx = win->start_posx + ray_Dirx*wall;
+			// double finaly = win->start_posy + ray_Diry*wall;
+			// printf("this is fx %.3f and fy %.3f\n", finalx, finaly);
 			draw_x = win->player_x;//just for testing
 			draw_y = win->player_y;
 			initial1 = win->player_x;//just for testing
 			initial2 = win->player_y;
 			double test = 0;
-			while (test < 50)
+			int my_max = (int)draw_x/64;
+			int my_may = (int)draw_y/64;
+			// while (win->arr[my_may][my_max] != '1')
+			// {
+			// 	draw_x = initial1 + ray_Dirx * test;
+			// 	draw_y = initial2 + ray_Diry * test;
+			// 	new_rayx = ray_Dirx * test;
+			// 	new_rayy = ray_Diry * test;
+			// 	my_max = (int)draw_x/64;
+			// 	my_may = (int)draw_y/64;
+			// 	if (draw_x < 0 || draw_y < 0)
+			// 		break;
+			// 	mlx_put_pixel(win->img_player, draw_x, draw_y, ft_color(0,0,0,255));
+			// 	test += 1;
+			// }
+			if (camera == 0.0)
+				win->distance = sqrt(new_rayx*new_rayx + new_rayy*new_rayy);
+			x++;
+		}
+	}
+	if (c == 'W')
+	{
+		if (!check)
+		{
+			win->player_dirx = 1;
+			win->player_diry = 0;
+			win->plane_dirx = 0;
+			win->plane_diry = 0.66;
+		}
+		double initial1; 
+		double initial2;
+		while (x < win->width)
+		{
+			camera = 2 * x / (double)win->width - 1;
+			// printf("this is camera %.1f\n", camera);
+			ray_Dirx = win->player_dirx + win->plane_dirx*camera;
+			ray_Diry = win->player_diry + win->plane_diry*camera;
+			// printf("this is ray %.1f  and %.1f and ccam %.5f\n", win->player_dirx, win->plane_dirx, camera);
+			// if (ray_Dirx == 0)
+			// 	deltax = 999999999999999;
+			// else
+			// 	deltax = fabs(1/ray_Dirx);
+			// if (ray_Diry == 0)
+			// 	deltay = 999999999999999;
+			// else
+			// 	deltay = fabs(1/ray_Diry);
+			// if (ray_Dirx < 0)
+			// {
+			// 	sx = -1;
+			// 	win->distx = (win->start_posx - mx) * deltax;
+			// }
+			// else
+			// {
+			// 	sx = 1;
+			// 	win->distx = (mx + 1 - win->start_posx) * deltax;
+			// }
+			// if (ray_Diry < 0)
+			// {
+			// 	sy = -1;
+			// 	win->disty = (win->start_posy - my) * deltay;
+			// }
+			// else
+			// {
+			// 	sy = 1;
+			// 	win->disty = (my + 1 - win->start_posy) * deltay;
+			// }
+			// was_hit = 0;
+			// mx = (int)win->start_posx;
+			// my = (int)win->start_posy;
+			// while (!was_hit)
+			// {
+			// 	if (win->distx < win->disty)
+			// 	{
+			// 		win->distx += deltax;
+			// 		mx += sx;
+			// 		way = 0;
+			// 	}
+			// 	else 
+			// 	{
+			// 		win->disty += deltay;
+			// 		my += sy;
+			// 		way = 1;
+			// 	}
+			// 	printf("this is it %d and %d\n", mx, my);
+			// 	if (win->arr[my][mx] != 0)
+			// 		was_hit = 1;
+			// }
+			// if (!way)
+			// 	wall = win->distx - deltax;
+			// else
+			// 	wall = win->disty - deltay;
+			// printf("this is wall %.3f\n", wall);
+			// double finalx = win->start_posx + ray_Dirx*wall;
+			// double finaly = win->start_posy + ray_Diry*wall;
+			// printf("this is fx %.3f and fy %.3f\n", finalx, finaly);
+			draw_x = win->player_x;//just for testing
+			draw_y = win->player_y;
+			initial1 = win->player_x;//just for testing
+			initial2 = win->player_y;
+			double test = 0;
+			int my_max = (int)draw_x/64;
+			int my_may = (int)draw_y/64;
+			while (win->arr[my_may][my_max] != '1')
 			{
 				draw_x = initial1 + ray_Dirx * test;
 				draw_y = initial2 + ray_Diry * test;
+				new_rayx = ray_Dirx * test;
+				new_rayy = ray_Diry * test;
+				my_max = (int)draw_x/64;
+				my_may = (int)draw_y/64;
+				if (draw_x < 0 || draw_y < 0)
+					break;
 				mlx_put_pixel(win->img_player, draw_x, draw_y, ft_color(0,0,0,255));
 				test += 1;
+			}
+			if (x == win->width/2)
+			{
+				win->distance = sqrt(new_rayx*new_rayx + new_rayy*new_rayy);
+				// printf("this is dist %.2f and rthis is tile %.2f\n", win->distance, win->player_tile);
 			}
 			x++;
 		}
 	}
-	else if (c == 'N')
+	if (c == 'N')
 	{
-		win->player_dirx = 0;
-		win->player_diry = -1;
-		win->plane_dirx = -0.66;
-		win->plane_diry = 0;
+		if (!check)
+		{
+			win->player_dirx = 0;
+			win->player_diry = -1;
+			win->plane_dirx = 0.66;
+			win->plane_diry = 0;	
+		}
 		double initial1; 
 		double initial2;
 		while (x < win->width)
 		{
 			camera = 2 * x / (double)win->width - 1;
-			ray_Dirx = win->player_dirx + win->plane_dirx * camera;
-			ray_Diry = win->player_diry + win->plane_diry * camera;
-			// printf("this is %.1f and %.1f\n", ray_Dirx, ray_Diry);
+			// printf("this is camera %.1f and x %d abd width %.1f\n", camera, x, win->width);
+			ray_Dirx = win->player_dirx + win->plane_dirx*camera;
+			ray_Diry = win->player_diry + win->plane_diry*camera;
+			// printf("this is ray %.1f  and %.1f and ccam %.5f\n", win->player_dirx, win->plane_dirx, camera);
+			// if (ray_Dirx == 0)
+			// 	deltax = 999999999999999;
+			// else
+			// 	deltax = fabs(1/ray_Dirx);
+			// if (ray_Diry == 0)
+			// 	deltay = 999999999999999;
+			// else
+			// 	deltay = fabs(1/ray_Diry);
+			// if (ray_Dirx < 0)
+			// {
+			// 	sx = -1;
+			// 	win->distx = (win->start_posx - mx) * deltax;
+			// }
+			// else
+			// {
+			// 	sx = 1;
+			// 	win->distx = (mx + 1 - win->start_posx) * deltax;
+			// }
+			// if (ray_Diry < 0)
+			// {
+			// 	sy = -1;
+			// 	win->disty = (win->start_posy - my) * deltay;
+			// }
+			// else
+			// {
+			// 	sy = 1;
+			// 	win->disty = (my + 1 - win->start_posy) * deltay;
+			// }
+			// was_hit = 0;
+			// mx = (int)win->start_posx;
+			// my = (int)win->start_posy;
+			// while (!was_hit)
+			// {
+			// 	if (win->distx < win->disty)
+			// 	{
+			// 		win->distx += deltax;
+			// 		mx += sx;
+			// 		way = 0;
+			// 	}
+			// 	else 
+			// 	{
+			// 		win->disty += deltay;
+			// 		my += sy;
+			// 		way = 1;
+			// 	}
+			// 	printf("this is it %d and %d\n", mx, my);
+			// 	if (win->arr[my][mx] != 0)
+			// 		was_hit = 1;
+			// }
+			// if (!way)
+			// 	wall = win->distx - deltax;
+			// else
+			// 	wall = win->disty - deltay;
+			// printf("this is wall %.3f\n", wall);
+			// double finalx = win->start_posx + ray_Dirx*wall;
+			// double finaly = win->start_posy + ray_Diry*wall;
+			// printf("this is fx %.3f and fy %.3f\n", finalx, finaly);
 			draw_x = win->player_x;//just for testing
 			draw_y = win->player_y;
 			initial1 = win->player_x;//just for testing
 			initial2 = win->player_y;
 			double test = 0;
-			while (test < 50)
+			int my_max = (int)draw_x/64;
+			int my_may = (int)draw_y/64;
+			while (win->arr[my_may][my_max] != '1')
 			{
 				draw_x = initial1 + ray_Dirx * test;
 				draw_y = initial2 + ray_Diry * test;
+				new_rayx = ray_Dirx * test;
+				new_rayy = ray_Diry * test;
+				my_max = (int)draw_x/64;
+				my_may = (int)draw_y/64;
+				if (draw_x < 0 || draw_y < 0)
+					break;
 				mlx_put_pixel(win->img_player, draw_x, draw_y, ft_color(0,0,0,255));
 				test += 1;
 			}
+			if (x == win->width/2)
+			{
+				win->distance = sqrt(new_rayx*new_rayx + new_rayy*new_rayy);
+				// printf("this is dist %.2f and rthis is tile %.2f\n", win->distance, win->player_tile);
+			}
+				// win->distance = sqrt((draw_x - initial1)*(draw_x - initial1) + (draw_y - initial2)*(draw_y - initial2));
 			x++;
 		}
 	}
-	else if (c == 'S')
+	if (c == 'S')
 	{
-		win->player_dirx = 0;
-		win->player_diry = 1;
-		win->plane_dirx = -0.66;
-		win->plane_diry = 0;
+		if (!check)
+		{
+			win->player_dirx = 0;
+			win->player_diry = 1;
+			win->plane_dirx = 0.66;
+			win->plane_diry = 0;
+		}
 		double initial1; 
 		double initial2;
 		while (x < win->width)
 		{
 			camera = 2 * x / (double)win->width - 1;
-			ray_Dirx = win->player_dirx + win->plane_dirx * camera;
-			ray_Diry = win->player_diry + win->plane_diry * camera;
-			printf("this is %.1f and %.1f\n", ray_Dirx, ray_Diry);
+			// printf("this is camera %.1f\n", camera);
+			ray_Dirx = win->player_dirx + win->plane_dirx*camera;
+			ray_Diry = win->player_diry + win->plane_diry*camera;
+			// printf("this is ray %.1f  and %.1f and ccam %.5f\n", win->player_dirx, win->plane_dirx, camera);
+			// if (ray_Dirx == 0)
+			// 	deltax = 999999999999999;
+			// else
+			// 	deltax = fabs(1/ray_Dirx);
+			// if (ray_Diry == 0)  
+			// 	deltay = 999999999999999;
+			// else
+			// 	deltay = fabs(1/ray_Diry);
+			// if (ray_Dirx < 0)
+			// {
+			// 	sx = -1;
+			// 	win->distx = (win->start_posx - mx) * deltax;
+			// }
+			// else
+			// {
+			// 	sx = 1;
+			// 	win->distx = (mx + 1 - win->start_posx) * deltax;
+			// }
+			// if (ray_Diry < 0)
+			// {
+			// 	sy = -1;
+			// 	win->disty = (win->start_posy - my) * deltay;
+			// }
+			// else
+			// {
+			// 	sy = 1;
+			// 	win->disty = (my + 1 - win->start_posy) * deltay;
+			// }
+			// was_hit = 0;
+			// mx = (int)win->start_posx;
+			// my = (int)win->start_posy;
+			// while (!was_hit)
+			// {
+			// 	if (win->distx < win->disty)
+			// 	{
+			// 		win->distx += deltax;
+			// 		mx += sx;
+			// 		way = 0;
+			// 	}
+			// 	else 
+			// 	{
+			// 		win->disty += deltay;
+			// 		my += sy;
+			// 		way = 1;
+			// 	}
+			// 	printf("this is it %d and %d\n", mx, my);
+			// 	if (win->arr[my][mx] != 0)
+			// 		was_hit = 1;
+			// }
+			// if (!way)
+			// 	wall = win->distx - deltax;
+			// else
+			// 	wall = win->disty - deltay;
+			// printf("this is wall %.3f\n", wall);
+			// double finalx = win->start_posx + ray_Dirx*wall;
+			// double finaly = win->start_posy + ray_Diry*wall;
+			// printf("this is fx %.3f and fy %.3f\n", finalx, finaly);
 			draw_x = win->player_x;//just for testing
 			draw_y = win->player_y;
 			initial1 = win->player_x;//just for testing
 			initial2 = win->player_y;
 			double test = 0;
-			while (test < 50)
+			int my_max = (int)draw_x/64;
+			int my_may = (int)draw_y/64;
+			while (win->arr[my_may][my_max] != '1')
 			{
 				draw_x = initial1 + ray_Dirx * test;
 				draw_y = initial2 + ray_Diry * test;
+				new_rayx = ray_Dirx * test;
+				new_rayy = ray_Diry * test;
+				my_max = (int)draw_x/64;
+				my_may = (int)draw_y/64;
+				if (draw_x < 0 || draw_y < 0)
+					break;
 				mlx_put_pixel(win->img_player, draw_x, draw_y, ft_color(0,0,0,255));
 				test += 1;
 			}
-			x++;
-		}
-	}
-	else if (c == 'W')
-	{
-		win->player_dirx = 1;
-		win->player_diry = 0;
-		win->plane_dirx = 0;
-		win->plane_diry = 0.66;
-		double initial1; 
-		double initial2;
-		while (x < win->width)
-		{
-			camera = 2 * x / (double)win->width - 1;
-			ray_Dirx = win->player_dirx + win->plane_dirx * camera;
-			ray_Diry = win->player_diry + win->plane_diry * camera;
-			printf("this is %.1f and %.1f\n", ray_Dirx, ray_Diry);
-			draw_x = win->player_x;//just for testing
-			draw_y = win->player_y;
-			initial1 = win->player_x;//just for testing
-			initial2 = win->player_y;
-			double test = 0;
-			while (test < 50)
+			if (x == win->width/2)
 			{
-				draw_x = initial1 + ray_Dirx * test;
-				draw_y = initial2 + ray_Diry * test;
-				mlx_put_pixel(win->img_player, draw_x, draw_y, ft_color(0,0,0,255));
-				test += 1;
+				win->distance = sqrt(new_rayx*new_rayx + new_rayy*new_rayy);
+				printf("this is dist %.2f and rthis is tile %.2f\n", win->distance, win->player_tile);
 			}
 			x++;
 		}
@@ -313,7 +634,6 @@ void	ft_movement(t_win *win, int check)
 	int		y;
 	int		i;
 	int		j;
-	int		player_tile;
 	char	c;
 	int		one;
 
@@ -322,7 +642,7 @@ void	ft_movement(t_win *win, int check)
 	i = 0;
 	j = 0;
 	one = 0;
-	player_tile = win->tile/4;
+	win->player_tile = win->tile/4;
 	while (win->arr[j])
 	{
 		i = 0;
@@ -341,11 +661,11 @@ void	ft_movement(t_win *win, int check)
 					win->start_posy = win->player_y/win->tile;
 					// printf("thsi is them %.1f and %.1f\n", win->start_posx, win->start_posy);
 				}
-				ft_recto_player(win->player_x - player_tile/2, win->player_y -player_tile/2, ft_color(255, 0, 0, 255), *win);
+				ft_recto_player(win->player_x - win->player_tile/2, win->player_y -win->player_tile/2, ft_color(255, 0, 0, 255), *win);
 				if (win->player_x >= 0 && win->player_y >= 0)
 					mlx_put_pixel(win->img_player, (int)win->player_x, (int)win->player_y, ft_color(0, 0, 0, 255));
-				// if (!one)
-				// 	ft_recast(win, 'W');
+				if (!one)
+					ft_recast(win, 'E', check);
 				one = 1;
 			}
 			x += 1;
@@ -405,34 +725,99 @@ void	ft_clear_img(t_win *win)
 void func(mlx_key_data_t keydata, void *param)
 {
 	t_win	*win;
-
+	int my_max;
+	int my_may;
 	win = (t_win *)param;
 	if (keydata.key == MLX_KEY_W)
 	{
-		ft_clear_img(win);
-		win->player_y -= win->tile/16;
-		win->start_posy = win->player_y/win->tile;
-		ft_movement(win, 1);
+		// if (win->distance-win->tile/16 > win->player_tile/2)
+		// {
+			my_max = (int)win->player_x/win->tile;
+			my_may = (int)(win->player_y - win->tile/16 - win->player_tile/2)/win->tile;
+			if (win->arr[my_may][my_max] != '1')
+			{
+				ft_clear_img(win);
+				win->player_y -= win->tile/16;
+				win->start_posy = win->player_y/win->tile;
+				ft_movement(win, 1);
+			}
+		// }
 	}
 	else if (keydata.key == MLX_KEY_S)
 	{
-		ft_clear_img(win);
-		win->player_y += win->tile/16;
-		win->start_posy = win->player_y/win->tile;
-		ft_movement(win, 1);
+		// if (win->distance-win->tile/16 > win->player_tile/2)
+		// {
+			my_max = (int)win->player_x/win->tile;
+			my_may = (int)(win->player_y + win->tile/16 + win->player_tile/3)/win->tile;
+			printf("this is my may %d and mx %d and pixel %.2f\n", my_may, my_max, (win->player_y + win->tile/16)/win->tile);
+			if (win->arr[my_may][my_max] != '1')
+			{
+				ft_clear_img(win);
+				win->player_y += win->tile/16;
+				win->start_posy = win->player_y/win->tile;
+				ft_movement(win, 1);
+			}
+		// }
 	}
 	else if (keydata.key == MLX_KEY_A)
 	{
-		ft_clear_img(win);
-		win->player_x -= win->tile/16;
-		win->start_posx = win->player_x/win->tile;
-		ft_movement(win, 1);
+		// if (win->distance-win->tile/16 > win->player_tile/2)
+		// {
+			my_max = (int)(win->player_x - win->tile/16 - win->player_tile/2)/win->tile;
+			my_may = (int)(win->player_y)/win->tile;
+			if (win->arr[my_may][my_max] != '1')
+			{
+				ft_clear_img(win);
+				win->player_x -= win->tile/16;
+				win->start_posx = win->player_x/win->tile;
+				ft_movement(win, 1);
+			}
+		// }
 	}
 	else if (keydata.key == MLX_KEY_D)
 	{
+		// if (win->distance-win->tile/16 > win->player_tile/2)
+		// {
+			my_max = (int)(win->player_x + win->tile/16 +win->player_tile/3)/win->tile;
+			my_may = (int)(win->player_y)/win->tile;
+			printf("this is mx %d and my %d and this is pixel %.2f\n", my_max, my_may, ((win->player_x + win->tile/16)/win->tile));
+			if (win->arr[my_may][my_max] != '1')
+			{
+				ft_clear_img(win);
+				win->player_x += win->tile/16;
+				win->start_posx = win->player_x/win->tile;
+				ft_movement(win, 1);
+			}
+		// }
+	}
+	else if (keydata.key == MLX_KEY_RIGHT)
+	{
 		ft_clear_img(win);
-		win->player_x += win->tile/16;
+		double store_x = win->player_dirx;
+		double store_y = win->player_diry;
+		double store_planex = win->plane_dirx;
+		double store_planey = win->plane_diry;
+		win->player_dirx = store_x * cos(0.1) - store_y * sin(0.1);
+		win->player_diry = store_x * sin(0.1) + store_y * cos(0.1);
+		win->plane_dirx = store_planex * cos(0.1) - store_planey * sin(0.1);
+		win->plane_diry = store_planex * sin(0.1) + store_planey * cos(0.1);
 		win->start_posx = win->player_x/win->tile;
+		win->start_posy = win->player_y/win->tile;
+		ft_movement(win, 1);
+	}
+	else if (keydata.key == MLX_KEY_LEFT)
+	{
+		ft_clear_img(win);
+		double store_x = win->player_dirx;
+		double store_y = win->player_diry;
+		double store_planex = win->plane_dirx;
+		double store_planey = win->plane_diry;
+		win->player_dirx = store_x * cos(0.1) + store_y * sin(0.1);
+		win->player_diry = -store_x * sin(0.1) + store_y * cos(0.1);
+		win->plane_dirx = store_planex * cos(0.1) + store_planey * sin(0.1);
+		win->plane_diry = -store_planex * sin(0.1) + store_planey * cos(0.1);
+		win->start_posx = win->player_x/win->tile;
+		win->start_posy = win->player_y/win->tile;
 		ft_movement(win, 1);
 	}
 }
@@ -481,7 +866,6 @@ void	ft_draw_line(char c, t_win *win, int i, int j)
 			{
 				while (y >= end - win->tile/2)
 				{
-					printf("this is x %d and y %d\n", win->player_x, y);
 					if (win->player_x >= 0 && y >= 0)
 						mlx_put_pixel(win->img_player, win->player_x, y, ft_color(0, 0, 0, 255));
 					y--;
@@ -504,7 +888,7 @@ char	**ft_alloc_arr(char **map)
 
 	i = 0;
 	j = 0;
-	dup = malloc(sizeof(char *) * 6);
+	dup = malloc(sizeof(char *) * 9);
 	while (map[i])
 	{
 		dup[i] = ft_strdupo(map[i]);
@@ -522,10 +906,12 @@ int	main(int argc, char **argv)
 	t_win		win;
 	char		*map[] = {"11111111",
 			"10000001",
+			"10010001",
 			"10N00101",
+			"10010101",
 			"10000001",
 			"11111111",
-			NULL};;
+			NULL};
 	win.arr = ft_alloc_arr(map);
 	win.tile = 64;
 	// struct_init(&wall_dim);
@@ -537,16 +923,16 @@ int	main(int argc, char **argv)
 	// 	return (close(fd), ft_lstclear(&garbage), 1);
 	win.width = 700;
 	win.height = 700;
-	win.mlx = mlx_init(700, 700, "my_mlx", true);
+	win.mlx = mlx_init(win.width, win.height, "my_mlx", true);
 	if (!win.mlx)
 		exit (1);
-	win.img = mlx_new_image(win.mlx, 700, 700);
+	win.img = mlx_new_image(win.mlx, win.width, win.height);
 	if (!win.img)
 	{
 		mlx_terminate(win.mlx);
 		exit (1);
 	}
-	win.img_player = mlx_new_image(win.mlx, 700, 700);
+	win.img_player = mlx_new_image(win.mlx, win.width, win.height);
 	if (!win.img_player)
 	{
 		mlx_terminate(win.mlx);

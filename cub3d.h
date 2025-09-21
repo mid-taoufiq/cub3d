@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 11:35:29 by tibarike          #+#    #+#             */
-/*   Updated: 2025/09/09 12:05:43 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/09/18 13:58:03 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ typedef struct s_win
 	mlx_image_t	*img;
 	mlx_image_t	*img_player;
 	int			tile;
+	double		player_tile;
 	int			width;
 	int			height;
 	char		**arr;
@@ -66,6 +67,9 @@ typedef struct s_win
 	double		plane_diry;
 	double		start_posx;
 	double		start_posy;
+	double		distx;
+	double		disty;
+	double		distance;
 }	t_win;
 
 void	*ft_malloc(int size, t_garbage **garbage);
