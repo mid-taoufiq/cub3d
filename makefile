@@ -11,8 +11,7 @@ SRC = main.c\
 	./parsing/utils.c\
 	./parsing/utils2.c\
 	./parsing/utils3.c\
-	./parsing/gnl/get_next_line.c\
-	./parsing/gnl/get_next_line_utils.c\
+	./parsing/get_next_line.c\
 
 OBJ = $(SRC:.c=.o)
 

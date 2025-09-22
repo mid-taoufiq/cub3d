@@ -6,7 +6,7 @@
 /*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 11:35:29 by tibarike          #+#    #+#             */
-/*   Updated: 2025/09/17 00:47:16 by tibarike         ###   ########.fr       */
+/*   Updated: 2025/09/22 10:32:26 by tibarike         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ char	*ft_strdup(char *str, t_garbage **garbage);
 char	*ft_substr(char *s, int start, int len, t_garbage **garbage);
 char	*ft_strtrim(char *s1, char *set, t_garbage **garbage);
 int		find_newline(char *str);
-char	*get_next_line(int fd);
+char	*get_next_line(int fd, t_garbage **garb);
 int		ft_atoi(char *nb);
 int		arg_counter(char **arr);
 char	**ft_split(char *s, char c, t_garbage **garbage);
@@ -71,7 +71,7 @@ void	ft_lstclear(t_garbage **lst);
 int		add_to_map(char *line, t_wall *wall_dim, t_garbage **garbage, int fd);
 int		check_options(t_wall *wall, int option);
 int		parse_map(t_wall *wall, int cplayer);
-int		check_remaining(int fd, char *line, t_wall *wall);
+int		check_remaining(int fd, char *line, t_wall *wall, t_garbage **garbage);
 void	struct_init(t_wall *wall_dim);
 int		parsing(char *line, int fd, t_wall *wall_dim, t_garbage **garbage);
 int		check_extansion(char *line, char *extansion);

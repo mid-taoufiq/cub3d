@@ -6,28 +6,28 @@
 /*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/29 13:37:44 by tibarike          #+#    #+#             */
-/*   Updated: 2025/09/17 00:50:49 by tibarike         ###   ########.fr       */
+/*   Updated: 2025/09/22 10:32:00 by tibarike         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
-int	check_remaining(int fd, char *line, t_wall *wall)
+int	check_remaining(int fd, char *line, t_wall *wall, t_garbage **garbage)
 {
 	if (!check_options(wall, 1))
 		return (write(2, "arguments error\n", 17), 0);
-	line = get_next_line(fd);
+	line = get_next_line(fd, garbage);
 	while (line)
 	{
 		if (check_empty_line(line))
 		{
-			line = get_next_line(fd);
+			line = get_next_line(fd, garbage);
 			continue ;
 		}
 		else
 			return (write(2, "arguments error\n", 17), 0);
 		free(line);
-		line = get_next_line(fd);
+		line = get_next_line(fd, garbage);
 	}
 	return (1);
 }
@@ -56,11 +56,11 @@ int	parsing2(char *line, int fd, t_wall *wall_dim, t_garbage **garbage)
 	int	return_value;
 
 	if (!add_to_map(line, wall_dim, garbage, fd))
-		return (free(line), write(2, "arguments error\n", 17), 0);
+		return (write(2, "arguments error\n", 17), 0);
 	return_value = check_options(wall_dim, 1);
 	if (return_value == 0)
-		return (free(line), write(2, "arguments error\n", 17), 0);
-	return (free(line), 1);
+		return (write(2, "arguments error\n", 17), 0);
+	return (1);
 }
 
 int	parsing(char *line, int fd, t_wall *wall_dim, t_garbage **garbage)
@@ -69,19 +69,19 @@ int	parsing(char *line, int fd, t_wall *wall_dim, t_garbage **garbage)
 
 	while (1)
 	{
-		line = get_next_line(fd);
+		line = get_next_line(fd, garbage);
 		if (!line)
 			return (1);
 		if (check_empty_line(line))
 			continue ;
 		return_value = add_dimensions(wall_dim, line, garbage);
 		if (!return_value)
-			return (free(line), 0);
+			return (0);
 		else if (return_value == 2)
 			continue ;
 		return_value = add_colors(wall_dim, line, garbage);
 		if (!return_value)
-			return (free(line), 0);
+			return (0);
 		else if (return_value == 2)
 			continue ;
 		if (!parsing2(line, fd, wall_dim, garbage))

@@ -6,7 +6,7 @@
 /*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 12:00:54 by tibarike          #+#    #+#             */
-/*   Updated: 2025/09/17 00:50:22 by tibarike         ###   ########.fr       */
+/*   Updated: 2025/09/22 10:30:49 by tibarike         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static char	*add_path(char *line, t_garbage **garbage, char *option)
 	char	*tmp;
 	char	*path;
 	int		i;
-	int		fd;
+	// int		fd;
 
 	i = ft_strsearch2(line, option);
 	tmp = ft_substr(line, i, ft_strlen(line), garbage);
@@ -28,10 +28,10 @@ static char	*add_path(char *line, t_garbage **garbage, char *option)
 		return (NULL);
 	if (path[0] == '\0' || !check_extansion(path, ".xpm"))
 		return (write(2, "arguments error\n", 16), NULL);
-	fd = open(path, O_RDONLY);
-	if (fd < 0)
-		return (close(fd), write(2, "arguments error\n", 16), NULL);
-	close(fd);
+	// fd = open(path, O_RDONLY);
+	// if (fd < 0)
+	// 	return (close(fd), write(2, "arguments error\n", 16), NULL);
+	// close(fd);
 	return (path);
 }
 
@@ -46,7 +46,7 @@ int	add_dimensions2(t_wall *wall_dim, char *line, t_garbage **garbage)
 		if (!wall_dim->ea)
 			return (0);
 		wall_dim->ea_filled = 1;
-		return (free(line), 2);
+		return (2);
 	}
 	if (ft_strncmp(line, "SO ", 3) != 0)
 	{
@@ -57,7 +57,7 @@ int	add_dimensions2(t_wall *wall_dim, char *line, t_garbage **garbage)
 		if (!wall_dim->so)
 			return (0);
 		wall_dim->so_filled = 1;
-		return (free(line), 2);
+		return (2);
 	}
 	return (1);
 }
@@ -73,7 +73,7 @@ int	add_dimensions(t_wall *wall_dim, char *line, t_garbage **garbage)
 		if (!wall_dim->no)
 			return (0);
 		wall_dim->no_filled = 1;
-		return (free(line), 2);
+		return (2);
 	}
 	if (ft_strncmp(line, "WE ", 3) != 0)
 	{
@@ -84,7 +84,7 @@ int	add_dimensions(t_wall *wall_dim, char *line, t_garbage **garbage)
 		if (!wall_dim->we)
 			return (0);
 		wall_dim->we_filled = 1;
-		return (free(line), 2);
+		return (2);
 	}
 	return (add_dimensions2(wall_dim, line, garbage));
 }
