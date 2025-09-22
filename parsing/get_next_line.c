@@ -6,32 +6,49 @@
 /*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 11:37:59 by tibarike          #+#    #+#             */
-/*   Updated: 2025/08/24 15:33:49 by tibarike         ###   ########.fr       */
+/*   Updated: 2025/09/22 10:29:38 by tibarike         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
-static char	*extract_line(char **buffer, t_garbage **garbage, int index)
+int	find_newline(char *str)
+{
+	int	i;
+
+	i = 0;
+	if (!str)
+		return (-1);
+	while (str[i])
+	{
+		if (str[i] == '\n')
+			return (i);
+		i++;
+	}
+	return (-1);
+}
+
+static char	*extract_line(char **buffer, t_garbage **garb)
 {
 	char	*line;
 	char	*tmp;
+	int		index;
 
 	if (!(*buffer) || **buffer == '\0')
 		return (NULL);
 	index = find_newline(*buffer);
 	if (index >= 0)
 	{
-		line = ft_substr(*buffer, 0, index + 1, garbage);
-		tmp = ft_substr(*buffer, index + 1,
-				ft_strlen(*buffer) - index - 1, garbage);
+		line = ft_substr(*buffer, 0, index, garb);
+		tmp = ft_substr(*buffer, index + 1, ft_strlen(*buffer) - index - 1,
+				garb);
 		if (!line || !tmp)
 			return (NULL);
 		*buffer = tmp;
 	}
 	else
 	{
-		line = ft_substr(*buffer, 0, ft_strlen(*buffer), garbage);
+		line = ft_substr(*buffer, 0, ft_strlen(*buffer), garb);
 		*buffer = NULL;
 		if (!line)
 			return (NULL);
@@ -39,12 +56,13 @@ static char	*extract_line(char **buffer, t_garbage **garbage, int index)
 	return (line);
 }
 
-static char	*read_buff(int fd, char *buff, ssize_t read_b, t_garbage **garbage)
+static	char	*read_buffer(int fd, char *buff, char *temp, t_garbage **garb)
 {
 	char	*arr;
-	char	*temp;
+	ssize_t	read_b;
 
-	arr = ft_malloc(((size_t)BUFFER_SIZE + 1) * sizeof(char), garbage);
+	read_b = 0;
+	arr = ft_malloc(((size_t)BUFFER_SIZE + 1) * sizeof(char), garb);
 	if (!arr)
 		return (NULL);
 	while (find_newline(buff) == -1)
@@ -55,7 +73,7 @@ static char	*read_buff(int fd, char *buff, ssize_t read_b, t_garbage **garbage)
 		if (read_b == 0)
 			break ;
 		arr[read_b] = '\0';
-		temp = ft_strjoin(buff, arr, garbage);
+		temp = ft_strjoin(buff, arr, garb);
 		if (!temp)
 			return (NULL);
 		buff = temp;
@@ -65,14 +83,16 @@ static char	*read_buff(int fd, char *buff, ssize_t read_b, t_garbage **garbage)
 	return (buff);
 }
 
-char	*get_next_line(int fd, t_garbage **garbage)
+char	*get_next_line(int fd, t_garbage **garb)
 {
 	static char	*buffer;
+	char		*temporary;
 	ssize_t		read_bytes;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	read_bytes = 0;
-	buffer = read_buff(fd, buffer, read_bytes, garbage);
-	return (extract_line(&buffer, garbage, 0));
+	temporary = NULL;
+	buffer = read_buffer(fd, buffer, temporary, garb);
+	return (extract_line(&buffer, garb));
 }

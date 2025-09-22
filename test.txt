@@ -2,9 +2,7 @@ printf("%s\n", wall_dim.no);
 printf("%s\n", wall_dim.we);
 printf("%s\n", wall_dim.ea);
 printf("%s\n", wall_dim.so);
-printf("[%d] ", wall_dim.ceiling[0]);
-printf("[%d] ", wall_dim.ceiling[1]);
-printf("[%d]\n", wall_dim.ceiling[2]);
-printf("[%d] ", wall_dim.floor[0]);
-printf("[%d] ", wall_dim.floor[1]);
-printf("[%d]\n", wall_dim.floor[2]);
+printf("[%d]\n", wall_dim.ceiling);
+printf("[%d]\n", wall_dim.floor);
+for(int i = 0; wall_dim.map[i]; i++)
+	printf("%s\n", wall_dim.map[i]);

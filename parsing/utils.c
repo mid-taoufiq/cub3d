@@ -6,11 +6,61 @@
 /*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 11:32:50 by tibarike          #+#    #+#             */
-/*   Updated: 2025/08/24 15:41:04 by tibarike         ###   ########.fr       */
+/*   Updated: 2025/09/22 10:30:57 by tibarike         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
+
+int	ft_strsearch2(char *str, char *search)
+{
+	size_t	i;
+	size_t	j;
+
+	i = 0;
+	if (!str)
+		return (0);
+	while (str[i])
+	{
+		j = 0;
+		while (str[i + j] == search[j] && str[i + j])
+			j++;
+		if (search[j] == '\0')
+			return (i + j);
+		i++;
+	}
+	return (0);
+}
+
+int	ft_strsearch(char *str, char *search)
+{
+	size_t	i;
+	size_t	j;
+
+	i = 0;
+	if (!str)
+		return (0);
+	while (str[i])
+	{
+		j = 0;
+		while (str[i + j] == search[j] && str[i + j])
+			j++;
+		if (search[j] == '\0')
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
+int	ft_strlen(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+		i++;
+	return (i);
+}
 
 int	check_empty_line(char *line)
 {
@@ -19,7 +69,7 @@ int	check_empty_line(char *line)
 	i = 0;
 	while (line[i] == ' ')
 		i++;
-	if (line[i] == '\n')
+	if (line[i] == '\0')
 		return (1);
 	return (0);
 }

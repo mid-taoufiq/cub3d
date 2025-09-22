@@ -6,7 +6,7 @@
 /*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 11:35:29 by tibarike          #+#    #+#             */
-/*   Updated: 2025/08/24 15:42:22 by tibarike         ###   ########.fr       */
+/*   Updated: 2025/09/22 10:32:26 by tibarike         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,33 +36,44 @@ typedef struct s_wall
 	char	*so;
 	char	*we;
 	char	*ea;
-	int		floor[3];
-	int		ceiling[3];
 	char	**map;
+	char	player_direction;
+	int		floor;
+	int		ceiling;
 	int		no_filled;
 	int		we_filled;
 	int		ea_filled;
 	int		so_filled;
 	int		f_filled;
 	int		c_filled;
+	int		map_filled;
 }	t_wall;
 
 void	*ft_malloc(int size, t_garbage **garbage);
 char	*ft_strjoin(char *s1, char *s2, t_garbage **garbage);
-size_t	ft_strlen(char *str);
+int		ft_strlen(char *str);
+int		ft_strncmp(char *str1, char *str2, int n);
 char	*ft_strdup(char *str, t_garbage **garbage);
-char	*ft_substr(char *s, int start, size_t len, t_garbage **garbage);
+char	*ft_substr(char *s, int start, int len, t_garbage **garbage);
+char	*ft_strtrim(char *s1, char *set, t_garbage **garbage);
 int		find_newline(char *str);
-char	*get_next_line(int fd, t_garbage **garbage);
+char	*get_next_line(int fd, t_garbage **garb);
 int		ft_atoi(char *nb);
 int		arg_counter(char **arr);
-char	**ft_split(char *s, t_garbage **garbage);
-char	**ft_split2(char *s, char c, t_garbage **garbage);
+char	**ft_split(char *s, char c, t_garbage **garbage);
 int		add_colors(t_wall *wall_dim, char *line, t_garbage **garbage);
 int		check_empty_line(char *line);
 int		ft_strsearch(char *str, char *search);
+int		ft_strsearch2(char *str, char *search);
 int		arg_counter(char **arr);
 int		add_dimensions(t_wall *wall_dim, char *line, t_garbage **garbage);
 void	ft_lstclear(t_garbage **lst);
+int		add_to_map(char *line, t_wall *wall_dim, t_garbage **garbage, int fd);
+int		check_options(t_wall *wall, int option);
+int		parse_map(t_wall *wall, int cplayer);
+int		check_remaining(int fd, char *line, t_wall *wall, t_garbage **garbage);
+void	struct_init(t_wall *wall_dim);
+int		parsing(char *line, int fd, t_wall *wall_dim, t_garbage **garbage);
+int		check_extansion(char *line, char *extansion);
 
 #endif
