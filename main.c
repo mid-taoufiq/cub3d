@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 11:40:58 by tibarike          #+#    #+#             */
-/*   Updated: 2025/09/21 11:28:15 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/09/23 17:24:22 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -240,7 +240,7 @@ void	ft_recast(t_win *win, char c, int check)
 			{
 				sx = -1;
 				win->distx = (win->start_posx - mx) * deltax;
-				printf("this is the x %.2f\n", win->distx*win->tile);
+				// printf("this is the x %.2f\n", win->distx*win->tile);
 			}
 			else
 			{
@@ -256,37 +256,35 @@ void	ft_recast(t_win *win, char c, int check)
 			{
 				sy = 1;
 				win->disty = (my + 1 - win->start_posy) * deltay;
-				printf("this is the y %.2f\n", win->disty*win->tile);
+				// printf("this is the y %.2f\n", win->disty*win->tile);
 			}
+			// printf("this is dx %.2f and dy %.2f\n", win->distx, win->disty);
 			was_hit = 0;
 			mx = (int)win->start_posx;
 			my = (int)win->start_posy;
+			// printf("this is it %d and %d\n", (int)(win->player_x + (ray_Dirx * win->distx * win->tile)), (int)(win->player_y + ray_Diry * win->disty*win->tile));
 			while (!was_hit)
 			{
 				if (win->distx < win->disty)
 				{
-					// printf("thi sis the wanted pxl %.2f\n", win->distx*win->tile);
 					win->distx += deltax;
-					// mlx_put_pixel(win->img_player, (int)(win->distx * win->tile), (int)(win->disty*win->tile), ft_color(255,0,0,255));
 					mx += sx;
 					way = 0;
 				}
 				else 
 				{
-					// printf("thi sis the wanted pyl %.2f\n", win->disty*win->tile);
 					win->disty += deltay;
-					mlx_put_pixel(win->img_player, (int)(win->distx * win->tile), (int)(win->disty*win->tile), ft_color(255,0,0,255));
 					my += sy;
 					way = 1;
 				}
-				// printf("this is it %d and %d\n", mx, my);
 				if (win->arr[my][mx] != 0)
 					was_hit = 1;
 			}
-			// if (!way)
-			// 	wall = win->distx - deltax;
-			// else
-			// 	wall = win->disty - deltay;
+			if (!way)
+				wall = win->distx - deltax;
+			else
+				wall = win->disty - deltay;
+			// mlx_put_pixel(win->img_player, (int)(win->player_x + ray_Dirx * wall*win->tile), (int)(win->player_y + ray_Diry * wall*win->tile), ft_color(255,0,0,255));
 			// printf("this is wall %.3f\n", wall);
 			// double finalx = win->start_posx + ray_Dirx*wall;
 			// double finaly = win->start_posy + ray_Diry*wall;
