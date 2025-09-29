@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 11:35:29 by tibarike          #+#    #+#             */
-/*   Updated: 2025/09/18 13:58:03 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/09/29 11:40:01 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,5 +91,6 @@ int		add_dimensions(t_wall *wall_dim, char *line, t_garbage **garbage);
 void	ft_lstclear(t_garbage **lst);
 int		ft_check_player(char c);
 void	ft_draw_line(char c, t_win *win, int i, int j);
+void	ft_clear_img(t_win *win, mlx_image_t *img);
 
 #endif
