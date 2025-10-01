@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 11:35:29 by tibarike          #+#    #+#             */
-/*   Updated: 2025/09/29 11:40:01 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/09/30 10:48:38 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,8 @@ typedef struct s_win
 	double		distx;
 	double		disty;
 	double		distance;
+	int			past_posx;
+	int			past_posy;
 }	t_win;
 
 void	*ft_malloc(int size, t_garbage **garbage);
