@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 11:35:29 by tibarike          #+#    #+#             */
-/*   Updated: 2025/09/22 10:32:26 by tibarike         ###   ########.fr       */
+/*   Updated: 2025/10/06 17:13:27 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ int		ft_strncmp(char *str1, char *str2, int n);
 char	*ft_strdup(char *str, t_garbage **garbage);
 char	*ft_substr(char *s, int start, int len, t_garbage **garbage);
 char	*ft_strtrim(char *s1, char *set, t_garbage **garbage);
+char	*ft_strtrimlast(char *s1, char *set, t_garbage **garbage);
 int		find_newline(char *str);
 char	*get_next_line(int fd, t_garbage **garb);
 int		ft_atoi(char *nb);

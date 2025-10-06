@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils3.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/27 14:24:39 by tibarike          #+#    #+#             */
-/*   Updated: 2025/09/01 09:46:26 by tibarike         ###   ########.fr       */
+/*   Updated: 2025/10/06 17:13:22 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,29 @@ char	*ft_strtrim(char *s1, char *set, t_garbage **garbage)
 	while (end > start && is_set(s1[end - 1], set))
 		end--;
 	str = ft_malloc(end - start + 1, garbage);
+	if (!str)
+		return (NULL);
+	i = 0;
+	while (start < end)
+		str[i++] = s1[start++];
+	str[i] = '\0';
+	return (str);
+}
+
+char	*ft_strtrimlast(char *s1, char *set, t_garbage **garbage)
+{
+	int		start;
+	char	*str;
+	int		end;
+	int		i;
+
+	if (!s1 || !set)
+		return (NULL);
+	start = 0;
+	end = ft_strlen(s1);
+	while (end > start && is_set(s1[end - 1], set))
+		end--;
+	str = ft_malloc(end + 1, garbage);
 	if (!str)
 		return (NULL);
 	i = 0;

@@ -2,16 +2,16 @@ NAME = cub3d
 
 SRC = main.c\
 	garbage.c\
-	./Parsing/parsing.c\
-	./Parsing/add_colors.c\
-	./Parsing/add_to_map.c\
-	./Parsing/parse_map.c\
-	./Parsing/add_wall.c\
-	./Parsing/ft_split.c\
-	./Parsing/utils.c\
-	./Parsing/utils2.c\
-	./Parsing/utils3.c\
-	./Parsing/get_next_line.c\
+	./parsing/parsing.c\
+	./parsing/add_colors.c\
+	./parsing/add_to_map.c\
+	./parsing/parse_map.c\
+	./parsing/add_wall.c\
+	./parsing/ft_split.c\
+	./parsing/utils.c\
+	./parsing/utils2.c\
+	./parsing/utils3.c\
+	./parsing/get_next_line.c\
 
 OBJ = $(SRC:.c=.o)
 

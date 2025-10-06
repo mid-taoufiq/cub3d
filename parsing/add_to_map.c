@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   add_to_map.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/21 15:10:48 by tibarike          #+#    #+#             */
-/*   Updated: 2025/09/22 10:34:30 by tibarike         ###   ########.fr       */
+/*   Updated: 2025/10/06 17:13:01 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ char	**ft_darrayjoin(char **old_darray, char *line, t_garbage **garbage)
 			i++;
 		}
 	}
-	new_darray[i] = ft_strdup(line, garbage);
+	new_darray[i] = ft_strtrimlast(line, " ", garbage);
 	if (!new_darray[i])
 		return (NULL);
 	i++;
