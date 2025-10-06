@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 11:35:29 by tibarike          #+#    #+#             */
-/*   Updated: 2025/10/06 17:13:27 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/10/06 17:15:30 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@
 # include <limits.h>
 # include <stdio.h>
 # include <fcntl.h>
+# include "MLX42.h"
+# include <math.h>
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 42
@@ -49,6 +51,31 @@ typedef struct s_wall
 	int		map_filled;
 }	t_wall;
 
+typedef struct s_win
+{
+	mlx_t		*mlx;
+	mlx_image_t	*img;
+	mlx_image_t	*img_player;
+	int			tile;
+	double		player_tile;
+	int			width;
+	int			height;
+	char		**arr;
+	double			player_x;
+	double			player_y;
+	double		player_dirx;
+	double		player_diry;
+	double		plane_dirx;
+	double		plane_diry;
+	double		start_posx;
+	double		start_posy;
+	double		distx;
+	double		disty;
+	double		distance;
+	int			past_posx;
+	int			past_posy;
+}	t_win;
+
 void	*ft_malloc(int size, t_garbage **garbage);
 char	*ft_strjoin(char *s1, char *s2, t_garbage **garbage);
 int		ft_strlen(char *str);
@@ -76,5 +103,8 @@ int		check_remaining(int fd, char *line, t_wall *wall, t_garbage **garbage);
 void	struct_init(t_wall *wall_dim);
 int		parsing(char *line, int fd, t_wall *wall_dim, t_garbage **garbage);
 int		check_extansion(char *line, char *extansion);
+int		ft_check_player(char c);
+void	ft_draw_line(char c, t_win *win, int i, int j);
+void	ft_clear_img(t_win *win, mlx_image_t *img);
 
 #endif
