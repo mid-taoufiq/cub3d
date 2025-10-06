@@ -1,6 +1,7 @@
 {
 	"files.associations": {
 		"complex": "c",
-		"bitset": "c"
+		"bitset": "c",
+		"mlx42.h": "c"
 	}
 }
