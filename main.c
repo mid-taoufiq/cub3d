@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 11:40:58 by tibarike          #+#    #+#             */
-/*   Updated: 2025/10/06 15:03:01 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/10/06 16:38:19 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -510,13 +510,13 @@ void	ft_mov_press(t_win *win, int check)
 	my_may = 0;
 	if (check == 1)
 	{
-		my_max = (int)(win->player_x + win->player_dirx * 2)/win->tile;
+		my_max = (int)(win->player_x + win->player_dirx * 5)/win->tile;
 		my_may = (int)(win->player_y/win->tile);
 		if (win->arr[my_may][my_max] != '1')
-			win->player_x += win->player_dirx * 2;
-		my_may = (int)(win->player_y + win->player_diry * 2)/win->tile;
+			win->player_x += win->player_dirx * 5;
+		my_may = (int)(win->player_y + win->player_diry * 5)/win->tile;
 		if (win->arr[my_may][my_max] != '1')
-			win->player_y += win->player_diry * 2;
+			win->player_y += win->player_diry * 5;
 		win->start_posx = win->player_x/win->tile;
 		win->start_posy = win->player_y/win->tile;
 		ft_clear_img(win, win->img);
@@ -525,13 +525,13 @@ void	ft_mov_press(t_win *win, int check)
 	}
 	else if (check == 2)
 	{
-		my_max = (int)(win->player_x - win->player_dirx * 2)/win->tile;
+		my_max = (int)(win->player_x - win->player_dirx * 5)/win->tile;
 		my_may = (int)(win->player_y/win->tile);
 		if (win->arr[my_may][my_max] != '1')
-			win->player_x -= win->player_dirx * 2;
-		my_may = (int)(win->player_y - win->player_diry * 2)/win->tile;
+			win->player_x -= win->player_dirx * 5;
+		my_may = (int)(win->player_y - win->player_diry * 5)/win->tile;
 		if (win->arr[my_may][my_max] != '1')
-			win->player_y -= win->player_diry * 2;
+			win->player_y -= win->player_diry * 5;
 		win->start_posx = win->player_x/win->tile;
 		win->start_posy = win->player_y/win->tile;
 		ft_clear_img(win, win->img);
@@ -654,13 +654,13 @@ int	main(int argc, char **argv)
 			NULL};
 	win.arr = ft_alloc_arr(map);
 	win.tile = 64;
-	// struct_init(&wall_dim);
-	// // if (argc != 2)
-	// // 	return (1);
-	// garbage = NULL;
-	// fd = open(argv[1], O_RDONLY);
-	// if (!parsing(NULL, fd, &wall_dim, &garbage))
-	// 	return (close(fd), ft_lstclear(&garbage), 1);
+	struct_init(&wall_dim);
+	if (argc != 2)
+		return (1);
+	garbage = NULL;
+	fd = open(argv[1], O_RDONLY);
+	if (!parsing(NULL, fd, &wall_dim, &garbage))
+		return (close(fd), ft_lstclear(&garbage), 1);
 	win.width = 700;
 	win.height = 700;
 	win.mlx = mlx_init(win.width, win.height, "my_mlx", true);
