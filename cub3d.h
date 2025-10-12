@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 11:35:29 by tibarike          #+#    #+#             */
-/*   Updated: 2025/10/06 17:15:30 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/10/12 22:19:09 by tibarike         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,19 @@ typedef struct s_win
 	int			past_posx;
 	int			past_posy;
 }	t_win;
+
+typedef struct s_texture
+{
+	
+	char	*path;
+	void	*img;
+	int		bpp;
+	int		line_len;
+	int		endian;
+	char	*addr;
+	int		height;
+	int		width;
+}	t_texture;
 
 void	*ft_malloc(int size, t_garbage **garbage);
 char	*ft_strjoin(char *s1, char *s2, t_garbage **garbage);
