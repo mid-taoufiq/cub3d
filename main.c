@@ -6,7 +6,7 @@
 /*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 11:40:58 by tibarike          #+#    #+#             */
-/*   Updated: 2025/10/12 22:23:17 by tibarike         ###   ########.fr       */
+/*   Updated: 2025/10/13 10:23:24 by tibarike         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -294,7 +294,7 @@ void	ft_recast_helper(t_win *win, t_wall wall_dim)
 		draw = 0;
 		while (draw <= ps)
 		{
-			mlx_put_pixel(win->img, x, draw, ft_color(255, 255, 0, 255));
+			mlx_put_pixel(win->img, x, draw, wall_dim.ceiling);
 			draw += 1;
 		}
 		while (draw <= pe)
@@ -302,12 +302,12 @@ void	ft_recast_helper(t_win *win, t_wall wall_dim)
 			tex_y = (int)tex_pos & (tex.height - 1);
 			tex_pos += step;
 			tex_pixel = *(int *)(tex.addr + (tex_y * tex.line_len + tex_x * (tex.bpp / 8)));
-			mlx_put_pixel(win->img, x, draw, ft_color(0, 0, 255, 255));
+			mlx_put_pixel(win->img, x, draw, tex_pixel);
 			draw += 1;
 		}
 		while (draw <= win->width)
 		{
-			mlx_put_pixel(win->img, x, draw, ft_color(255, 255, 0, 255));
+			mlx_put_pixel(win->img, x, draw, wall_dim.floor);
 			draw += 1;
 		}
 		x++;
