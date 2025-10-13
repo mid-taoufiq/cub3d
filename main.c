@@ -6,7 +6,7 @@
 /*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 11:40:58 by tibarike          #+#    #+#             */
-/*   Updated: 2025/10/13 10:23:24 by tibarike         ###   ########.fr       */
+/*   Updated: 2025/10/13 10:42:02 by tibarike         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -645,7 +645,7 @@ int	main(int argc, char **argv)
 	struct_init(&wall_dim);
 	line = NULL;
 	if (argc != 2 || !check_extansion(argv[1], ".cub"))
-		return (write(2, "not valid arguments\n", 21), 1);
+		return (write(2, "Error\nnot valid arguments\n", 27), 1);
 	garbage = NULL;
 	fd = open(argv[1], O_RDONLY);
 	if (fd < 0)
