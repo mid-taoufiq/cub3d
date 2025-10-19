@@ -6,7 +6,7 @@
 /*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/26 15:11:37 by tibarike          #+#    #+#             */
-/*   Updated: 2025/09/02 10:06:20 by tibarike         ###   ########.fr       */
+/*   Updated: 2025/10/13 10:45:06 by tibarike         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,18 +58,18 @@ int	parse_map(t_wall *wall, int cplayer)
 		while (wall->map[i][j])
 		{
 			if (wall->map[i][j] == '0' && !parse_palyer_0(wall->map, i, j))
-				return (write(2, "zero position not correct\n", 27), 0);
+				return (write(2, "Error\nzero position not correct\n", 33), 0);
 			else if (player_match(wall->map[i][j])
 				&& !handle_p(wall, i, j, &cplayer))
-				return (write(2, "player position not correct\n", 29), 0);
+				return (write(2, "Error\nplayer position not correct\n", 35), 0);
 			else if (wall->map[i][j] != '1' && wall->map[i][j] != ' '
 				&& wall->map[i][j] != '0' && !player_match(wall->map[i][j]))
-				return (write(2, "unallowed character\n", 21), 0);
+				return (write(2, "Error\nunallowed character\n", 27), 0);
 			j++;
 		}
 		i++;
 	}
 	if (cplayer != 1)
-		return (write(2, "player not correct\n", 20), 0);
+		return (write(2, "Error\nplayer not correct\n", 26), 0);
 	return (1);
 }

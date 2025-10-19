@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   add_colors.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 12:01:06 by tibarike          #+#    #+#             */
-/*   Updated: 2025/10/06 17:11:26 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/10/13 10:42:53 by tibarike         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,17 +41,17 @@ static int	add_colors2(char *surface_split, int *surface, t_garbage **garbage)
 	color_split = NULL;
 	i = 0;
 	if (comma_counter(surface_split) != 2)
-		return (write(2, "colors error\n", 14), 0);
+		return (write(2, "Error\ncolors error\n", 20), 0);
 	color_split = ft_split(surface_split, ',', garbage);
 	if (!color_split)
 		return (0);
 	if (arg_counter(color_split) != 3)
-		return (write(2, "colors error\n", 14), 0);
+		return (write(2, "Error\ncolors error\n", 20), 0);
 	while (i < 3)
 	{
 		surface[i] = ft_atoi(color_split[i]);
 		if (surface[i] < 0 || surface[i] > 255)
-			return (write(2, "colors error\n", 14), 0);
+			return (write(2, "Error\ncolors error\n", 20), 0);
 		i++;
 	}
 	return (1);
