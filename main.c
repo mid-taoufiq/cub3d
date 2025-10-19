@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 11:40:58 by tibarike          #+#    #+#             */
-/*   Updated: 2025/10/06 17:21:06 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/10/19 11:03:12 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -641,15 +641,6 @@ int	main(int argc, char **argv)
 	if (!parse_map(&wall_dim, 0))
 		return (close(fd), ft_lstclear(&garbage), 1);
 	win.arr = wall_dim.map;
-	printf("%s\n", wall_dim.no);
-	printf("%s\n", wall_dim.we);
-	printf("%s\n", wall_dim.ea);
-	printf("%s\n", wall_dim.so);
-	printf("[%d]\n", wall_dim.ceiling);
-	printf("[%d]\n", wall_dim.floor);
-	for(int i = 0; wall_dim.map[i]; i++)
-		printf("%s\n", wall_dim.map[i]);
-	return (close(fd), ft_lstclear(&garbage), 0);
 	win.width = 700;
 	win.height = 700;
 	win.mlx = mlx_init(win.width, win.height, "my_mlx", true);

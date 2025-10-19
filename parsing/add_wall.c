@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 12:00:54 by tibarike          #+#    #+#             */
-/*   Updated: 2025/10/06 17:13:51 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/10/19 11:02:41 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static char	*add_path(char *line, t_garbage **garbage, char *option)
 	char	*tmp;
 	char	*path;
 	int		i;
-	int		fd;
+	// int		fd;
 
 	i = ft_strsearch2(line, option);
 	tmp = ft_substr(line, i, ft_strlen(line), garbage);
@@ -27,11 +27,11 @@ static char	*add_path(char *line, t_garbage **garbage, char *option)
 	if (!path)
 		return (NULL);
 	if (path[0] == '\0' || !check_extansion(path, ".xpm"))
-		return (write(2, "arguments error\n", 16), NULL);
-	fd = open(path, O_RDONLY);
-	if (fd < 0)
-		return (close(fd), write(2, "arguments error\n", 16), NULL);
-	close(fd);
+		return (write(2, "arguments error1\n", 16), NULL);
+	// fd = open(path, O_RDONLY);
+	// if (fd < 0)
+	// 	return (close(fd), write(2, "arguments error\n", 16), NULL);
+	// close(fd);
 	return (path);
 }
 
