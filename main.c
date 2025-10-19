@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 11:40:58 by tibarike          #+#    #+#             */
-/*   Updated: 2025/10/13 10:42:02 by tibarike         ###   ########.fr       */
+/*   Updated: 2025/10/19 11:10:41 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -209,8 +209,6 @@ void	ft_recast_helper(t_win *win, t_wall wall_dim)
 	way = 0;
 	wall = 0.0;
 	distance = 0.0;
-	tex.img = mlx_xpm_file_to_image(win->mlx, tex.path, &tex.width, &tex.height);
-	tex.addr = mlx_get_data_addr(tex.img, &tex.bpp, &tex.line_len, &tex.endian);
 	while (x < win->width)
 	{
 		camera = 2 * x / (double)win->width - 1;
@@ -269,22 +267,6 @@ void	ft_recast_helper(t_win *win, t_wall wall_dim)
 		else
 			wall = win->disty - deltay;
 		line = (int)(win->height/wall);
-		if (!way && ray_Dirx > 0)
-			tex.path = wall_dim.we;
-		else if (!way && ray_Dirx < 0)
-			tex.path = wall_dim.ea;
-		else if (way && ray_Diry > 0)
-			tex.path = wall_dim.no;
-		else if (way && ray_Diry < 0)
-			tex.path = wall_dim.so;
-		if (!way)
-			wall_x = win->start_posy + wall * ray_Diry;
-		else
-			wall_x = win->start_posx + wall * ray_Dirx;
-		wall_x -= floor(wall_x);
-		tex_x = (int)(wall_x * (double)tex.width);
-		step = 1.0 * tex.height / line;
-		tex_pos = (ps - win->height / 2 + line / 2) * step;
 		ps = -line/2 + win->height/2;
 		if (ps < 0)
 			ps = 0;
@@ -294,20 +276,17 @@ void	ft_recast_helper(t_win *win, t_wall wall_dim)
 		draw = 0;
 		while (draw <= ps)
 		{
-			mlx_put_pixel(win->img, x, draw, wall_dim.ceiling);
+			mlx_put_pixel(win->img, x, draw, ft_color(0, 255, 255, 255));
 			draw += 1;
 		}
 		while (draw <= pe)
 		{
-			tex_y = (int)tex_pos & (tex.height - 1);
-			tex_pos += step;
-			tex_pixel = *(int *)(tex.addr + (tex_y * tex.line_len + tex_x * (tex.bpp / 8)));
-			mlx_put_pixel(win->img, x, draw, tex_pixel);
+			mlx_put_pixel(win->img, x, draw, ft_color(255, 0, 0, 255));
 			draw += 1;
 		}
 		while (draw <= win->width)
 		{
-			mlx_put_pixel(win->img, x, draw, wall_dim.floor);
+			mlx_put_pixel(win->img, x, draw, ft_color(255, 0, 255, 255));
 			draw += 1;
 		}
 		x++;
