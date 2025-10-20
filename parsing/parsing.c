@@ -6,7 +6,7 @@
 /*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/29 13:37:44 by tibarike          #+#    #+#             */
-/*   Updated: 2025/10/13 10:45:28 by tibarike         ###   ########.fr       */
+/*   Updated: 2025/10/20 13:47:32 by tibarike         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ void	struct_init(t_wall *wall_dim)
 	wall_dim->c_filled = 0;
 	wall_dim->f_filled = 0;
 	wall_dim->map_filled = 0;
+	
 }
 
 int	parsing2(char *line, int fd, t_wall *wall_dim, t_garbage **garbage)

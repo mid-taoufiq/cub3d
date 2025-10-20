@@ -6,7 +6,7 @@
 /*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 11:35:29 by tibarike          #+#    #+#             */
-/*   Updated: 2025/10/12 22:19:09 by tibarike         ###   ########.fr       */
+/*   Updated: 2025/10/20 14:02:29 by tibarike         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,14 @@ typedef struct s_garbage
 	struct s_garbage	*next;
 }	t_garbage;
 
+typedef struct s_tex
+{
+	xpm_t *north;
+	xpm_t *west;
+	xpm_t *east;
+	xpm_t *south;
+}	t_tex;
+
 typedef struct s_wall
 {
 	char	*no;
@@ -49,7 +57,9 @@ typedef struct s_wall
 	int		f_filled;
 	int		c_filled;
 	int		map_filled;
+	t_tex	tex;
 }	t_wall;
+
 
 typedef struct s_win
 {
@@ -74,20 +84,9 @@ typedef struct s_win
 	double		distance;
 	int			past_posx;
 	int			past_posy;
+	t_wall		*wall_dim;
 }	t_win;
 
-typedef struct s_texture
-{
-	
-	char	*path;
-	void	*img;
-	int		bpp;
-	int		line_len;
-	int		endian;
-	char	*addr;
-	int		height;
-	int		width;
-}	t_texture;
 
 void	*ft_malloc(int size, t_garbage **garbage);
 char	*ft_strjoin(char *s1, char *s2, t_garbage **garbage);

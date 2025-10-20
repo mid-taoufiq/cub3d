@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 11:40:58 by tibarike          #+#    #+#             */
-/*   Updated: 2025/10/19 11:25:38 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/10/20 14:33:54 by tibarike         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,7 +163,7 @@ void	ft_two_d_map(t_win *win, double ray_Dirx, double ray_Diry)
 	}
 }
 
-void	ft_recast_helper(t_win *win, t_wall wall_dim)
+void	ft_recast_helper(t_win *win)
 {
 	int	x;
 	double	camera;
@@ -183,13 +183,18 @@ void	ft_recast_helper(t_win *win, t_wall wall_dim)
 	int ps;
 	int pe;
 	int draw;
-	t_texture tex;
 	double wall_x;
 	int tex_x;
+	xpm_t *tex;
 	double	step;
 	double	tex_pos;
 	int		tex_y;
 	int		tex_pixel;
+	uint8_t *pixel;
+	uint8_t pixel_r;
+	uint8_t pixel_g;
+	uint8_t pixel_b;
+	uint8_t pixel_a;
 
 	x = 0;
 	line = 0;
@@ -266,8 +271,26 @@ void	ft_recast_helper(t_win *win, t_wall wall_dim)
 			wall = win->distx - deltax;
 		else
 			wall = win->disty - deltay;
+		if (!way && ray_Dirx > 0)
+			tex = win->wall_dim->tex.east;
+		if (!way && ray_Dirx < 0)
+			tex = win->wall_dim->tex.west;
+		if (way && ray_Diry > 0)
+			tex = win->wall_dim->tex.north;
+		if (way && ray_Diry < 0)
+			tex = win->wall_dim->tex.south;
+		if (!way)
+			wall_x = win->start_posy + wall * ray_Diry;
+		else
+			wall_x = win->start_posx + wall * ray_Dirx;
+		wall_x -= floor(wall_x);
+		tex_x = (int)(wall_x * tex->texture.width);
+		// if ((way == 0 && ray_Dirx > 0) || (way == 1 && ray_Diry < 0))
+		// 	tex_x = tex->texture.width - tex_x - 1; 
 		line = (int)(win->height/wall);
+		step = 1.0 * tex->texture.height / line;
 		ps = -line/2 + win->height/2;
+		tex_pos = (ps - win->height / 2 + line / 2) * step;
 		if (ps < 0)
 			ps = 0;
 		pe = line/2 + win->height/2;
@@ -281,7 +304,14 @@ void	ft_recast_helper(t_win *win, t_wall wall_dim)
 		}
 		while (draw <= pe)
 		{
-			mlx_put_pixel(win->img, x, draw, ft_color(255, 0, 0, 255));
+			tex_y = (int)tex_pos & (tex->texture.height - 1);
+			tex_pos += step;
+			pixel = &tex->texture.pixels[(tex_y * tex->texture.width + tex_x) * 4];
+			pixel_r = pixel[0];
+			pixel_g = pixel[1];
+			pixel_b = pixel[2];
+			pixel_a = pixel[3];
+			mlx_put_pixel(win->img, x, draw, ft_color(pixel_r, pixel_g, pixel_b, pixel_a));
 			draw += 1;
 		}
 		while (draw <= win->width)
@@ -293,7 +323,7 @@ void	ft_recast_helper(t_win *win, t_wall wall_dim)
 	}
 }
 
-void	ft_recast(t_win *win, char c, int check, t_wall wall_dim)
+void	ft_recast(t_win *win, char c, int check)
 {
 	double	now;
 	double	before;
@@ -340,7 +370,7 @@ void	ft_recast(t_win *win, char c, int check, t_wall wall_dim)
 			win->plane_dirx = 0;
 			win->plane_diry = 0.66;
 		}
-		ft_recast_helper(win, wall_dim);
+		ft_recast_helper(win);
 	}
 	else if (c == 'E')
 	{
@@ -351,7 +381,7 @@ void	ft_recast(t_win *win, char c, int check, t_wall wall_dim)
 			win->plane_dirx = 0;
 			win->plane_diry = -0.66;
 		}
-		ft_recast_helper(win, wall_dim);
+		ft_recast_helper(win);
 	}
 	if (c == 'N')
 	{
@@ -362,7 +392,7 @@ void	ft_recast(t_win *win, char c, int check, t_wall wall_dim)
 			win->plane_dirx = -0.66;
 			win->plane_diry = 0;
 		}
-		ft_recast_helper(win, wall_dim);
+		ft_recast_helper(win);
 	}
 	if (c == 'S')
 	{
@@ -373,11 +403,11 @@ void	ft_recast(t_win *win, char c, int check, t_wall wall_dim)
 			win->plane_dirx = 0.66;
 			win->plane_diry = 0;
 		}
-		ft_recast_helper(win, wall_dim);
+		ft_recast_helper(win);
 	}
 }
 
-void	ft_movement(t_win *win, int check, t_wall wall_dim)
+void	ft_movement(t_win *win, int check)
 {
 	int		x;
 	int		y;
@@ -411,7 +441,7 @@ void	ft_movement(t_win *win, int check, t_wall wall_dim)
 					win->past_posy = (int)win->start_posy;
 				}
 				if (!one)
-					ft_recast(win, c, check, wall_dim);
+					ft_recast(win, c, check);
 				one = 1;
 			}
 			x += 1;
@@ -473,7 +503,7 @@ void	ft_rotation(t_win *win, int check)
 	
 }
 
-void	ft_mov_press(t_win *win, int check, t_wall wall_dim)
+void	ft_mov_press(t_win *win, int check)
 {
 	int	my_max;
 	int	my_may;
@@ -493,7 +523,7 @@ void	ft_mov_press(t_win *win, int check, t_wall wall_dim)
 		win->start_posy = win->player_y/win->tile;
 		ft_clear_img(win, win->img);
 		ft_clear_img(win, win->img_player);
-		ft_movement(win, 1, wall_dim);
+		ft_movement(win, 1);
 	}
 	else if (check == 2)
 	{
@@ -508,30 +538,30 @@ void	ft_mov_press(t_win *win, int check, t_wall wall_dim)
 		win->start_posy = win->player_y/win->tile;
 		ft_clear_img(win, win->img);
 		ft_clear_img(win, win->img_player);
-		ft_movement(win, 1, wall_dim);
+		ft_movement(win, 1);
 	}
 }
 
-void func(mlx_key_data_t keydata, void *param, t_wall wall_dim)
+void func(mlx_key_data_t keydata, void *param)
 {
 	t_win	*win;
 
 	win = (t_win *)param;
 	if (keydata.key == MLX_KEY_W)
-		ft_mov_press(win, 1, wall_dim);
+		ft_mov_press(win, 1);
 	else if (keydata.key == MLX_KEY_S)
-		ft_mov_press(win, 2, wall_dim);
+		ft_mov_press(win, 2);
 	if (keydata.key == MLX_KEY_RIGHT)
 	{
 		ft_clear_img(win, win->img);
 		ft_rotation(win, 1);
-		ft_movement(win, 1, wall_dim);
+		ft_movement(win, 1);
 	}
 	else if (keydata.key == MLX_KEY_LEFT)
 	{
 		ft_clear_img(win, win->img);
 		ft_rotation(win, 2);
-		ft_movement(win, 1, wall_dim);
+		ft_movement(win, 1);
 	}
 }
 
@@ -653,7 +683,11 @@ int	main(int argc, char **argv)
 		mlx_terminate(win.mlx);
 		exit (1);
 	}
-	ft_movement(&win, 0, wall_dim);
+	wall_dim.tex.east = mlx_load_xpm42(wall_dim.ea);
+	wall_dim.tex.north = mlx_load_xpm42(wall_dim.no);
+	wall_dim.tex.west = mlx_load_xpm42(wall_dim.we);
+	wall_dim.tex.south = mlx_load_xpm42(wall_dim.so);
+	ft_movement(&win, 0);
 	ft_move_player(win.arr, &win);
 	if (mlx_image_to_window(win.mlx, win.img, 0, 0) == -1)
 	{
