@@ -1,0 +1,133 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cub3d.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/17 11:35:29 by tibarike          #+#    #+#             */
+/*   Updated: 2025/10/21 12:32:07 by tibarike         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#ifndef CUB3D_H
+# define CUB3D_H
+
+# include <stdlib.h>
+# include <unistd.h>
+# include <stdbool.h>
+# include <limits.h>
+# include <stdio.h>
+# include <fcntl.h>
+# include "MLX42.h"
+# include <math.h>
+
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 42
+# endif
+
+typedef struct s_garbage
+{
+	void				*address;
+	struct s_garbage	*next;
+}	t_garbage;
+
+typedef struct s_frames
+{
+	xpm_t		*frames[15];
+	int			current_frame;
+	int			frames_number;
+	int			x;
+	int			y;
+	double		timer;
+	mlx_image_t	*img;
+}	t_frames;
+
+typedef struct s_tex
+{
+	xpm_t	*north;
+	xpm_t	*west;
+	xpm_t	*east;
+	xpm_t	*south;
+}	t_tex;
+
+typedef struct s_wall
+{
+	char	*no;
+	char	*so;
+	char	*we;
+	char	*ea;
+	char	**map;
+	char	player_direction;
+	int		floor;
+	int		ceiling;
+	int		no_filled;
+	int		we_filled;
+	int		ea_filled;
+	int		so_filled;
+	int		f_filled;
+	int		c_filled;
+	int		map_filled;
+	t_tex	tex;
+}	t_wall;
+
+typedef struct s_win
+{
+	mlx_t		*mlx;
+	mlx_image_t	*img;
+	mlx_image_t	*img_player;
+	int			tile;
+	double		player_tile;
+	int			width;
+	int			height;
+	char		**arr;
+	double		player_x;
+	double		player_y;
+	double		player_dirx;
+	double		player_diry;
+	double		plane_dirx;
+	double		plane_diry;
+	double		start_posx;
+	double		start_posy;
+	double		distx;
+	double		disty;
+	double		distance;
+	int			past_posx;
+	int			past_posy;
+	t_wall		*wall_dim;
+	t_frames	frames;
+}	t_win;
+
+void	*ft_malloc(int size, t_garbage **garbage);
+char	*ft_strjoin(char *s1, char *s2, t_garbage **garbage);
+int		ft_strlen(char *str);
+int		ft_strncmp(char *str1, char *str2, int n);
+char	*ft_strdup(char *str, t_garbage **garbage);
+char	*ft_substr(char *s, int start, int len, t_garbage **garbage);
+char	*ft_strtrim(char *s1, char *set, t_garbage **garbage);
+char	*ft_strtrimlast(char *s1, char *set, t_garbage **garbage);
+int		find_newline(char *str);
+char	*get_next_line(int fd, t_garbage **garb);
+int		ft_atoi(char *nb);
+int		arg_counter(char **arr);
+char	**ft_split(char *s, char c, t_garbage **garbage);
+int		add_colors(t_wall *wall_dim, char *line, t_garbage **garbage);
+int		check_empty_line(char *line);
+int		ft_strsearch(char *str, char *search);
+int		ft_strsearch2(char *str, char *search);
+int		arg_counter(char **arr);
+int		add_dimensions(t_wall *wall_dim, char *line, t_garbage **garbage);
+void	ft_lstclear(t_garbage **lst);
+int		add_to_map(char *line, t_wall *wall_dim, t_garbage **garbage, int fd);
+int		check_options(t_wall *wall, int option);
+int		parse_map(t_wall *wall, int cplayer);
+int		check_remaining(int fd, char *line, t_wall *wall, t_garbage **garbage);
+void	struct_init(t_wall *wall_dim);
+int		parsing(char *line, int fd, t_wall *wall_dim, t_garbage **garbage);
+int		check_extansion(char *line, char *extansion, int option);
+int		ft_check_player(char c);
+void	ft_draw_line(char c, t_win *win, int i, int j);
+void	ft_clear_img(t_win *win, mlx_image_t *img);
+int		ft_color(int r, int g, int b, int a);
+
+#endif
