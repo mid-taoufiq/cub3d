@@ -6,7 +6,7 @@
 /*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 11:40:58 by tibarike          #+#    #+#             */
-/*   Updated: 2025/10/21 12:26:46 by tibarike         ###   ########.fr       */
+/*   Updated: 2025/10/22 13:44:03 by tibarike         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,10 +74,6 @@ void	ft_recast_helper(t_win *win)
 	double	tex_pos;
 	int		tex_y;
 	uint8_t *pixel;
-	uint8_t pixel_r;
-	uint8_t pixel_g;
-	uint8_t pixel_b;
-	uint8_t pixel_a;
 
 	x = 0;
 	line = 0;
@@ -173,9 +169,9 @@ void	ft_recast_helper(t_win *win)
 		line = (int)(win->height/wall);
 		step = 1.0 * tex->texture.height / line;
 		ps = -line/2 + win->height/2;
-		tex_pos = (ps - win->height / 2 + line / 2) * step;
 		if (ps < 0)
 			ps = 0;
+		tex_pos = (ps - win->height / 2 + line / 2) * step;
 		pe = line/2 + win->height/2;
 		if (pe >= win->height)
 			pe = win->height-1;
@@ -187,14 +183,10 @@ void	ft_recast_helper(t_win *win)
 		}
 		while (draw <= pe)
 		{
-			tex_y = (int)tex_pos & (tex->texture.height - 1);
+			tex_y = (int)tex_pos % (tex->texture.height - 1);
 			tex_pos += step;
 			pixel = &tex->texture.pixels[(tex_y * tex->texture.width + tex_x) * 4];
-			pixel_r = pixel[0];
-			pixel_g = pixel[1];
-			pixel_b = pixel[2];
-			pixel_a = pixel[3];
-			mlx_put_pixel(win->img, x, draw, ft_color(pixel_r, pixel_g, pixel_b, pixel_a));
+			mlx_put_pixel(win->img, x, draw, ft_color(pixel[0], pixel[1], pixel[2], pixel[3]));
 			draw += 1;
 		}
 		while (draw < win->height)
