@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 11:35:29 by tibarike          #+#    #+#             */
-/*   Updated: 2025/10/06 17:15:30 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/10/22 13:28:00 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,11 @@ typedef struct s_win
 	double		distance;
 	int			past_posx;
 	int			past_posy;
+	int			column;
+	int			row;
+	int			middle_x;
+	int			middle_y;
+	mlx_image_t	*img_3d;
 }	t_win;
 
 void	*ft_malloc(int size, t_garbage **garbage);
