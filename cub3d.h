@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 11:35:29 by tibarike          #+#    #+#             */
-/*   Updated: 2025/10/22 13:28:00 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/10/22 16:44:11 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,10 @@ typedef struct s_win
 	int			middle_x;
 	int			middle_y;
 	mlx_image_t	*img_3d;
+	int			map_startx;
+	int			map_starty;
+	int			map_endx;
+	int			map_endy;
 }	t_win;
 
 void	*ft_malloc(int size, t_garbage **garbage);
@@ -109,7 +113,22 @@ void	struct_init(t_wall *wall_dim);
 int		parsing(char *line, int fd, t_wall *wall_dim, t_garbage **garbage);
 int		check_extansion(char *line, char *extansion);
 int		ft_check_player(char c);
-void	ft_draw_line(char c, t_win *win, int i, int j);
 void	ft_clear_img(t_win *win, mlx_image_t *img);
+void	ft_put_img(char **arr, t_win *win, int check);
+void	ft_player(int x, int y, int color, t_win win);
+void	ft_recto_player(int x, int y, int color, t_win win);
+void	ft_recto(int x, int y, int color, t_win win);
+void	ft_recast(t_win *win, char c, int check);
+void	ft_recast_helper(t_win *win);
+int		ft_move_player(char **arr, t_win *win);
+void	ft_calculate_lent(t_win *win, char **arr);
+void	func(mlx_key_data_t keydata, void *param);
+void	ft_clear_img(t_win *win, mlx_image_t *img);
+void	ft_two_d_map(t_win *win, double ray_Dirx, double ray_Diry, int check);
+int		ft_color(int r, int g, int b, int a);
+void	ft_rotation(t_win *win, int check);
+void	ft_movement(t_win *win, int check);
+int		ft_check_player(char c);
+void	ft_mov_press(t_win *win, int check);
 
 #endif
