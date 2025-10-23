@@ -2,8 +2,8 @@ NO ./textures/north.xpm42
 WE ./textures/west.xpm42
 EA ./textures/east.xpm42
 SO ./textures/south.xpm42
-F 255,0,0
-C 0,0,255
+F 0,0,255
+C 255,0,0
 
 
 1111111111111111111
