@@ -6,7 +6,7 @@
 /*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 11:35:29 by tibarike          #+#    #+#             */
-/*   Updated: 2025/10/21 12:09:57 by tibarike         ###   ########.fr       */
+/*   Updated: 2025/10/23 13:37:08 by tibarike         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@
 #  define BUFFER_SIZE 42
 # endif
 
-#define WIDTH 1000
-#define HEIGHT 700
+#define WIDTH 1920
+#define HEIGHT 1080
 
 typedef struct s_garbage
 {

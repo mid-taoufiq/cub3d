@@ -6,7 +6,7 @@
 /*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 11:40:58 by tibarike          #+#    #+#             */
-/*   Updated: 2025/10/22 13:44:03 by tibarike         ###   ########.fr       */
+/*   Updated: 2025/10/23 15:09:33 by tibarike         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,7 +143,7 @@ void	ft_recast_helper(t_win *win)
 				my += sy;
 				way = 1;
 			}
-			if (win->arr[my][mx] != '0')
+			if (win->arr[my][mx] == '1')
 				was_hit = 1;
 		}
 		if (!way)
@@ -164,8 +164,6 @@ void	ft_recast_helper(t_win *win)
 			wall_x = win->start_posx + wall * ray_Dirx;
 		wall_x -= floor(wall_x);
 		tex_x = (int)(wall_x * tex->texture.width);
-		if ((way == 0 && ray_Dirx > 0) || (way == 1 && ray_Diry < 0))
-			tex_x = tex->texture.width - tex_x - 1; 
 		line = (int)(win->height/wall);
 		step = 1.0 * tex->texture.height / line;
 		ps = -line/2 + win->height/2;
@@ -181,7 +179,7 @@ void	ft_recast_helper(t_win *win)
 			mlx_put_pixel(win->img, x, draw, win->wall_dim->ceiling);
 			draw += 1;
 		}
-		while (draw <= pe)
+		while (draw < pe)
 		{
 			tex_y = (int)tex_pos % (tex->texture.height - 1);
 			tex_pos += step;

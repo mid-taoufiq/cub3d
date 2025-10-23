@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 11:40:58 by tibarike          #+#    #+#             */
-/*   Updated: 2025/10/23 13:19:20 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/10/23 13:43:36 by tibarike         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -689,8 +689,8 @@ int	main(int argc, char **argv)
 	if (!parse_map(&wall_dim, 0))
 		return (close(fd), ft_lstclear(&garbage), 1);
 	win.arr = wall_dim.map;
-	win.width = 700;
-	win.height = 700;
+	win.width = WIDTH;
+	win.height = HEIGHT;
 	win.wall_dim = &wall_dim;
 	win.mlx = mlx_init(win.width, win.height, "my_mlx", true);
 	if (!win.mlx)
@@ -714,7 +714,7 @@ int	main(int argc, char **argv)
 	if (!wall_dim.tex.east || !wall_dim.tex.north || !wall_dim.tex.west
 		|| !wall_dim.tex.south)
 		return (1);
-	// init_frames(&win);
+	init_frames(&win);
 	ft_movement(&win, 0);
 	ft_move_player(win.arr, &win);
 	if (mlx_image_to_window(win.mlx, win.img, 0, 0) == -1)
@@ -727,23 +727,23 @@ int	main(int argc, char **argv)
 		mlx_terminate(win.mlx);
 		exit (1);
 	}
-	// frames_now = mlx_get_time();
-	// win.frames.x = win.frames.img->width - 20;
-	// win.frames.y = win.frames.img->height - 20;
-	// if ((frames_now - win.frames.timer) > 0.15)
-	// {
-	// 	if (win.frames.img != NULL)
-	// 		mlx_delete_image(win.mlx, win.frames.img);
-	// 	win.frames.current_frame++;
-	// 	if (win.frames.current_frame == win.frames.frames_number)
-	// 		win.frames.current_frame = 0;
-	// 	win.frames.img = mlx_texture_to_image(win.mlx, &win.frames.frames[win.frames.current_frame]->texture);
-	// 	if (mlx_image_to_window(win.mlx, win.frames.img, win.frames.x, win.frames.y) == -1)
-	// 	{
-	// 		mlx_terminate(win.mlx);
-	// 		exit (1);
-	// 	}
-	// }
+	frames_now = mlx_get_time();
+	if ((frames_now - win.frames.timer) > 0.15)
+	{
+		if (win.frames.img != NULL)
+			mlx_delete_image(win.mlx, win.frames.img);
+		win.frames.img = mlx_texture_to_image(win.mlx, &win.frames.frames[win.frames.current_frame]->texture);
+		win.frames.x = win.frames.img->width - 20;
+		win.frames.y = win.frames.img->height - 20;
+		win.frames.current_frame++;
+		if (win.frames.current_frame == win.frames.frames_number)
+			win.frames.current_frame = 0;
+		if (mlx_image_to_window(win.mlx, win.frames.img, win.frames.x, win.frames.y) == -1)
+		{
+			mlx_terminate(win.mlx);
+			exit (1);
+		}
+	}
 	mlx_loop(win.mlx);
 	return (0);
 }
