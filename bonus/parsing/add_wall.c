@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 12:00:54 by tibarike          #+#    #+#             */
-/*   Updated: 2025/10/19 11:26:09 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/10/23 14:18:53 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static char	*add_path(char *line, t_garbage **garbage, char *option)
 	char	*tmp;
 	char	*path;
 	int		i;
-	// int		fd;
+	int		fd;
 
 	i = ft_strsearch2(line, option);
 	tmp = ft_substr(line, i, ft_strlen(line), garbage);
@@ -26,12 +26,12 @@ static char	*add_path(char *line, t_garbage **garbage, char *option)
 	path = ft_strtrim(tmp, " ", garbage);
 	if (!path)
 		return (NULL);
-	if (path[0] == '\0' || !check_extansion(path, ".xpm"))
+	if (path[0] == '\0' || !check_extansion(path, ".xpm42", 1))
 		return (write(2, "Error\narguments error\n", 23), NULL);
-	// fd = open(path, O_RDONLY);
-	// if (fd < 0)
-	// 	return (close(fd), write(2, "arguments error\n", 16), NULL);
-	// close(fd);
+	fd = open(path, O_RDONLY);
+	if (fd < 0)
+		return (close(fd), write(2, "Error\narguments error\n", 23), NULL);
+	close(fd);
 	return (path);
 }
 

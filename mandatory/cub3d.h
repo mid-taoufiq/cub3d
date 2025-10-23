@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 11:35:29 by tibarike          #+#    #+#             */
-/*   Updated: 2025/10/20 14:02:29 by tibarike         ###   ########.fr       */
+/*   Updated: 2025/10/23 14:11:56 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,9 @@
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 42
 # endif
+
+#define WIDTH 1000
+#define HEIGHT 700
 
 typedef struct s_garbage
 {
@@ -87,7 +90,6 @@ typedef struct s_win
 	t_wall		*wall_dim;
 }	t_win;
 
-
 void	*ft_malloc(int size, t_garbage **garbage);
 char	*ft_strjoin(char *s1, char *s2, t_garbage **garbage);
 int		ft_strlen(char *str);
@@ -114,9 +116,10 @@ int		parse_map(t_wall *wall, int cplayer);
 int		check_remaining(int fd, char *line, t_wall *wall, t_garbage **garbage);
 void	struct_init(t_wall *wall_dim);
 int		parsing(char *line, int fd, t_wall *wall_dim, t_garbage **garbage);
-int		check_extansion(char *line, char *extansion);
+int		check_extansion(char *line, char *extansion, int option);
 int		ft_check_player(char c);
 void	ft_draw_line(char c, t_win *win, int i, int j);
 void	ft_clear_img(t_win *win, mlx_image_t *img);
+int		ft_color(int r, int g, int b, int a);
 
 #endif
