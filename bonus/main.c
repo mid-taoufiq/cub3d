@@ -6,7 +6,7 @@
 /*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 11:40:58 by tibarike          #+#    #+#             */
-/*   Updated: 2025/10/23 13:43:36 by tibarike         ###   ########.fr       */
+/*   Updated: 2025/10/25 18:23:16 by tibarike         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,6 +172,20 @@ void	ft_two_d_map(t_win *win, double ray_Dirx, double ray_Diry)
 	}
 }
 
+int	check_hit_door(t_win *win, int mx, int my)
+{
+	int	i;
+	
+	i = 0;
+	while (i < win->doors_count)
+	{
+		if (mx == win->doors[i].x && my == win->doors[i].y)
+			return (1);
+			i++;
+	}
+	return (0);
+}
+
 void	ft_recast_helper(t_win *win)
 {
 	int	x;
@@ -199,6 +213,7 @@ void	ft_recast_helper(t_win *win)
 	double	tex_pos;
 	int		tex_y;
 	uint8_t *pixel;
+	int		is_door;
 
 	x = 0;
 	line = 0;
@@ -218,6 +233,7 @@ void	ft_recast_helper(t_win *win)
 	way = 0;
 	wall = 0.0;
 	distance = 0.0;
+	is_door = 0;
 	while (x < win->width)
 	{
 		camera = 2 * x / (double)win->width - 1;
@@ -268,13 +284,18 @@ void	ft_recast_helper(t_win *win)
 				my += sy;
 				way = 1;
 			}
-			if (win->arr[my][mx] != '0')
+			if (win->arr[my][mx] == '1')
+			{
 				was_hit = 1;
+				is_door = check_hit_door(win, mx, my);
+			}
 		}
 		if (!way)
 			wall = win->distx - deltax;
 		else
 			wall = win->disty - deltay;
+		if (is_door)
+			tex = win->wall_dim->tex.door;
 		if (!way && ray_Dirx > 0)
 			tex = win->wall_dim->tex.east;
 		else if (!way && ray_Dirx < 0)
@@ -289,8 +310,6 @@ void	ft_recast_helper(t_win *win)
 			wall_x = win->start_posx + wall * ray_Dirx;
 		wall_x -= floor(wall_x);
 		tex_x = (int)(wall_x * tex->texture.width);
-		if ((way == 0 && ray_Dirx > 0) || (way == 1 && ray_Diry < 0))
-			tex_x = tex->texture.width - tex_x - 1; 
 		line = (int)(win->height/wall);
 		step = 1.0 * tex->texture.height / line;
 		ps = -line/2 + win->height/2;
@@ -319,11 +338,12 @@ void	ft_recast_helper(t_win *win)
 			mlx_put_pixel(win->img, x, draw, win->wall_dim->floor);
 			draw += 1;
 		}
+		is_door = 0;
 		x++;
 	}
 }
 
-void	ft_recast(t_win *win, char c, int check)
+void	ft_recast(t_win *win, int check)
 {
 	double	now;
 	double	before;
@@ -345,6 +365,7 @@ void	ft_recast(t_win *win, char c, int check)
 	double	wall;
 	double new_rayx = 0.0;
 	double new_rayy = 0.0;
+	double frames_now;
 
 	now = 0;
 	was_hit = 0;
@@ -361,7 +382,7 @@ void	ft_recast(t_win *win, char c, int check)
 	double y = 0;
 	mx = (int)win->start_posx;
 	my = (int)win->start_posy;
-	if (c == 'W')
+	if (win->wall_dim->player_direction == 'W')
 	{
 		if (!check)
 		{
@@ -372,7 +393,7 @@ void	ft_recast(t_win *win, char c, int check)
 		}
 		ft_recast_helper(win);
 	}
-	else if (c == 'E')
+	else if (win->wall_dim->player_direction == 'E')
 	{
 		if (!check)
 		{
@@ -383,7 +404,7 @@ void	ft_recast(t_win *win, char c, int check)
 		}
 		ft_recast_helper(win);
 	}
-	if (c == 'N')
+	if (win->wall_dim->player_direction == 'N')
 	{
 		if (!check)
 		{
@@ -394,7 +415,7 @@ void	ft_recast(t_win *win, char c, int check)
 		}
 		ft_recast_helper(win);
 	}
-	if (c == 'S')
+	if (win->wall_dim->player_direction == 'S')
 	{
 		if (!check)
 		{
@@ -405,6 +426,23 @@ void	ft_recast(t_win *win, char c, int check)
 		}
 		ft_recast_helper(win);
 	}
+	frames_now = mlx_get_time();
+	if ((frames_now - win->frames.timer) > 3)
+	{
+		if (win->frames.img != NULL)
+			mlx_delete_image(win->mlx, win->frames.img);
+		win->frames.img = mlx_texture_to_image(win->mlx, &win->frames.frames[win->frames.current_frame]->texture);
+		win->frames.x = win->frames.img->width - 600;
+		win->frames.y = win->frames.img->height - 600;
+		win->frames.current_frame++;
+		if (win->frames.current_frame == win->frames.frames_number)
+			win->frames.current_frame = 0;
+		if (mlx_image_to_window(win->mlx, win->frames.img, win->frames.x, win->frames.y) == -1)
+		{
+			mlx_terminate(win->mlx);
+			exit (1);
+		}
+	}
 }
 
 void	ft_movement(t_win *win, int check)
@@ -413,7 +451,6 @@ void	ft_movement(t_win *win, int check)
 	int		y;
 	int		i;
 	int		j;
-	char	c;
 	int		one;
 
 	x = 0;
@@ -430,7 +467,6 @@ void	ft_movement(t_win *win, int check)
 		{
 			if (ft_check_player(win->arr[j][i]))
 			{
-				c = win->arr[j][i];
 				if (!check)
 				{
 					win->player_x = (x * win->tile + win->tile/2);
@@ -441,7 +477,7 @@ void	ft_movement(t_win *win, int check)
 					win->past_posy = (int)win->start_posy;
 				}
 				if (!one)
-					ft_recast(win, c, check);
+					ft_recast(win, check);
 				one = 1;
 			}
 			x += 1;
@@ -523,7 +559,6 @@ void	ft_mov_press(t_win *win, int check)
 		win->start_posy = win->player_y/win->tile;
 		ft_clear_img(win, win->img);
 		ft_clear_img(win, win->img_player);
-		ft_movement(win, 1);
 	}
 	else if (check == 2)
 	{
@@ -538,36 +573,54 @@ void	ft_mov_press(t_win *win, int check)
 		win->start_posy = win->player_y/win->tile;
 		ft_clear_img(win, win->img);
 		ft_clear_img(win, win->img_player);
-		ft_movement(win, 1);
 	}
 }
 
-void func(mlx_key_data_t keydata, void *param)
+void key_press(mlx_key_data_t keydata, void *param)
+{
+	t_win *win;
+	win = param;
+
+	if (keydata.key == MLX_KEY_W)
+		win->key_pressed = MLX_KEY_W;
+	else if (keydata.key == MLX_KEY_S)
+		win->key_pressed = MLX_KEY_S;
+	else if (keydata.key == MLX_KEY_RIGHT)
+		win->key_pressed = MLX_KEY_RIGHT;
+	else if (keydata.key == MLX_KEY_LEFT)
+		win->key_pressed = MLX_KEY_LEFT;
+}
+
+void func(void *param)
 {
 	t_win	*win;
 
 	win = (t_win *)param;
-	if (keydata.key == MLX_KEY_W)
+	if (win->key_pressed == MLX_KEY_W)
 		ft_mov_press(win, 1);
-	else if (keydata.key == MLX_KEY_S)
+	else if (win->key_pressed == MLX_KEY_S)
 		ft_mov_press(win, 2);
-	if (keydata.key == MLX_KEY_RIGHT)
+	else if (win->key_pressed == MLX_KEY_RIGHT)
 	{
 		ft_clear_img(win, win->img);
 		ft_rotation(win, 1);
-		ft_movement(win, 1);
 	}
-	else if (keydata.key == MLX_KEY_LEFT)
+	else if (win->key_pressed == MLX_KEY_LEFT)
 	{
 		ft_clear_img(win, win->img);
 		ft_rotation(win, 2);
-		ft_movement(win, 1);
 	}
+	else if (win->key_pressed == MLX_KEY_E)
+	{
+		handle_doors(win);
+	}
+	ft_movement(win, 1);
 }
 
 int	ft_move_player(char **arr, t_win *win)
 {
-	mlx_key_hook(win->mlx, func, win);
+	mlx_key_hook(win->mlx, key_press, win);
+	mlx_loop_hook(win->mlx, func, win);
 	return (0);
 }
 
@@ -644,24 +697,69 @@ char	**ft_alloc_arr(char **map)
 
 int	init_frames(t_win *win)
 {
-	win->frames.frames[0] = mlx_load_xpm42("");
-	win->frames.frames[1] = mlx_load_xpm42("");
-	win->frames.frames[2] = mlx_load_xpm42("");
-	win->frames.frames[3] = mlx_load_xpm42("");
-	win->frames.frames[4] = mlx_load_xpm42("");
-	win->frames.frames[5] = mlx_load_xpm42("");
-	win->frames.frames[6] = mlx_load_xpm42("");
-	win->frames.frames[7] = mlx_load_xpm42("");
-	win->frames.frames[8] = mlx_load_xpm42("");
-	win->frames.frames[9] = mlx_load_xpm42("");
-	win->frames.frames[10] = mlx_load_xpm42("");
-	win->frames.frames[11] = mlx_load_xpm42("");
-	win->frames.frames[12] = mlx_load_xpm42("");
-	win->frames.frames[13] = mlx_load_xpm42("");
-	win->frames.frames[14] = mlx_load_xpm42("");
+	win->frames.frames[0] = mlx_load_xpm42("./textures/frame_0.xpm42");
+	win->frames.frames[1] = mlx_load_xpm42("./textures/frame_1.xpm42");
+	win->frames.frames[2] = mlx_load_xpm42("./textures/frame_2.xpm42");
+	win->frames.frames[3] = mlx_load_xpm42("./textures/frame_3.xpm42");
+	win->frames.frames[4] = mlx_load_xpm42("./textures/frame_4.xpm42");
+	win->frames.frames[5] = mlx_load_xpm42("./textures/frame_5.xpm42");	
 	win->frames.current_frame = 0;
-	win->frames.frames_number = 15;
+	win->frames.frames_number = 6;
 	win->frames.timer = mlx_get_time();
+}
+
+int	doors_counter(t_win *win)
+{
+	int	i;
+	int	j;
+	int counter;
+
+	counter = 0;
+	i = 0;
+	while (win->wall_dim->map[i])
+	{
+		j = 0;
+		while (win->wall_dim->map[i][j])
+		{
+			if (win->wall_dim->map[i][j] == 'D')
+				counter++;
+			j++;
+		}
+		i++;
+	}
+	return (counter);
+}
+
+void	get_door_x_y(t_win *win)
+{
+	int	i;
+	int	j;
+	int door_index;
+
+	i = 0;
+	while (win->wall_dim->map[i])
+	{
+		j = 0;
+		while (win->wall_dim->map[i][j])
+		{
+			if (win->wall_dim->map[i][j] == 'D')
+			{
+				win->doors[door_index].x = i;
+				win->doors[door_index].y = j;
+				door_index++;
+				win->wall_dim->map[i][j] = '1';
+			}
+			j++;
+		}
+		i++;
+	}
+}
+
+int parse_doors(t_win *win, t_garbage **garbage)
+{
+	win->doors_count = doors_counter(win);
+	win->doors = ft_malloc(sizeof(t_door) * win->doors_count + 1, garbage);
+	get_door_x_y(win);
 }
 
 int	main(int argc, char **argv)
@@ -692,6 +790,8 @@ int	main(int argc, char **argv)
 	win.width = WIDTH;
 	win.height = HEIGHT;
 	win.wall_dim = &wall_dim;
+	if (!parse_doors(&win, &garbage))
+		return (close(fd), ft_lstclear(&garbage), 1);
 	win.mlx = mlx_init(win.width, win.height, "my_mlx", true);
 	if (!win.mlx)
 		exit (1);
@@ -714,7 +814,8 @@ int	main(int argc, char **argv)
 	if (!wall_dim.tex.east || !wall_dim.tex.north || !wall_dim.tex.west
 		|| !wall_dim.tex.south)
 		return (1);
-	init_frames(&win);
+	if (init_frames(&win))
+		return (0);
 	ft_movement(&win, 0);
 	ft_move_player(win.arr, &win);
 	if (mlx_image_to_window(win.mlx, win.img, 0, 0) == -1)
@@ -726,23 +827,6 @@ int	main(int argc, char **argv)
 	{
 		mlx_terminate(win.mlx);
 		exit (1);
-	}
-	frames_now = mlx_get_time();
-	if ((frames_now - win.frames.timer) > 0.15)
-	{
-		if (win.frames.img != NULL)
-			mlx_delete_image(win.mlx, win.frames.img);
-		win.frames.img = mlx_texture_to_image(win.mlx, &win.frames.frames[win.frames.current_frame]->texture);
-		win.frames.x = win.frames.img->width - 20;
-		win.frames.y = win.frames.img->height - 20;
-		win.frames.current_frame++;
-		if (win.frames.current_frame == win.frames.frames_number)
-			win.frames.current_frame = 0;
-		if (mlx_image_to_window(win.mlx, win.frames.img, win.frames.x, win.frames.y) == -1)
-		{
-			mlx_terminate(win.mlx);
-			exit (1);
-		}
 	}
 	mlx_loop(win.mlx);
 	return (0);

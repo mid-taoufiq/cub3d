@@ -6,7 +6,7 @@
 /*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/26 15:11:37 by tibarike          #+#    #+#             */
-/*   Updated: 2025/10/13 10:45:06 by tibarike         ###   ########.fr       */
+/*   Updated: 2025/10/25 17:26:36 by tibarike         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,8 @@ int	parse_map(t_wall *wall, int cplayer)
 				&& !handle_p(wall, i, j, &cplayer))
 				return (write(2, "Error\nplayer position not correct\n", 35), 0);
 			else if (wall->map[i][j] != '1' && wall->map[i][j] != ' '
-				&& wall->map[i][j] != '0' && !player_match(wall->map[i][j]))
+				&& wall->map[i][j] != '0' && wall->map[i][j] != 'D'
+				&& !player_match(wall->map[i][j]))
 				return (write(2, "Error\nunallowed character\n", 27), 0);
 			j++;
 		}

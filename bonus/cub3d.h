@@ -6,7 +6,7 @@
 /*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 11:35:29 by tibarike          #+#    #+#             */
-/*   Updated: 2025/10/23 13:37:15 by tibarike         ###   ########.fr       */
+/*   Updated: 2025/10/25 18:19:59 by tibarike         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,12 @@ typedef struct s_garbage
 	struct s_garbage	*next;
 }	t_garbage;
 
+typedef struct s_door
+{
+	int x;
+	int y;
+} t_door;
+
 typedef struct s_frames
 {
 	xpm_t		*frames[15];
@@ -52,6 +58,7 @@ typedef struct s_tex
 	xpm_t	*west;
 	xpm_t	*east;
 	xpm_t	*south;
+	xpm_t	*door;
 }	t_tex;
 
 typedef struct s_wall
@@ -60,6 +67,7 @@ typedef struct s_wall
 	char	*so;
 	char	*we;
 	char	*ea;
+	char	*d;
 	char	**map;
 	char	player_direction;
 	int		floor;
@@ -97,8 +105,11 @@ typedef struct s_win
 	double		distance;
 	int			past_posx;
 	int			past_posy;
+	int			key_pressed;
 	t_wall		*wall_dim;
 	t_frames	frames;
+	t_door		*doors;
+	int			doors_count;
 }	t_win;
 
 void	*ft_malloc(int size, t_garbage **garbage);
