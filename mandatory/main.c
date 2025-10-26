@@ -6,7 +6,7 @@
 /*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 11:40:58 by tibarike          #+#    #+#             */
-/*   Updated: 2025/10/25 15:38:29 by tibarike         ###   ########.fr       */
+/*   Updated: 2025/10/26 18:36:18 by tibarike         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -586,5 +586,7 @@ int	main(int argc, char **argv)
 		exit (1);
 	}
 	mlx_loop(win.mlx);
+	close(fd);
+	ft_lstclear(&garbage);
 	return (0);
 }

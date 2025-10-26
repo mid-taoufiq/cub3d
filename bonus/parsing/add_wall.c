@@ -6,7 +6,7 @@
 /*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 12:00:54 by tibarike          #+#    #+#             */
-/*   Updated: 2025/10/21 12:30:17 by tibarike         ###   ########.fr       */
+/*   Updated: 2025/10/26 18:17:29 by tibarike         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,27 @@ static char	*add_path(char *line, t_garbage **garbage, char *option)
 	if (!path)
 		return (NULL);
 	if (path[0] == '\0' || !check_extansion(path, ".xpm42", 1))
-		return (write(2, "Error\narguments error\n", 23), NULL);
+		return (write(2, "Error\narguments error1\n", 23), NULL);
 	fd = open(path, O_RDONLY);
 	if (fd < 0)
-		return (close(fd), write(2, "Error\narguments error\n", 23), NULL);
+		return (close(fd), write(2, "Error\narguments error2\n", 23), NULL);
 	close(fd);
 	return (path);
+}
+
+int	add_door(char *line, t_wall *wall_dim, t_garbage **garbage)
+{
+	if (ft_strncmp(line, "D ", 2) != 0)
+	{
+		if (wall_dim->door_filled)
+			return (write(2, "Error\noption repeated\n", 23), 0);
+		wall_dim->d = add_path(line, garbage, "D ");
+		if (!wall_dim->d)
+			return (0);
+		wall_dim->door_filled = 1;
+		return (2);
+	}
+	return (1);
 }
 
 int	add_dimensions2(t_wall *wall_dim, char *line, t_garbage **garbage)
@@ -57,7 +72,7 @@ int	add_dimensions2(t_wall *wall_dim, char *line, t_garbage **garbage)
 		wall_dim->so_filled = 1;
 		return (2);
 	}
-	return (1);
+	return (add_door(line, wall_dim, garbage));
 }
 
 int	add_dimensions(t_wall *wall_dim, char *line, t_garbage **garbage)

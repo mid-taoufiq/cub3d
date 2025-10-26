@@ -6,7 +6,7 @@
 /*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 11:35:29 by tibarike          #+#    #+#             */
-/*   Updated: 2025/10/25 18:19:59 by tibarike         ###   ########.fr       */
+/*   Updated: 2025/10/26 18:29:46 by tibarike         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ typedef struct s_wall
 	int		f_filled;
 	int		c_filled;
 	int		map_filled;
+	int		door_filled;
 	t_tex	tex;
 }	t_wall;
 
@@ -131,6 +132,7 @@ int		ft_strsearch(char *str, char *search);
 int		ft_strsearch2(char *str, char *search);
 int		arg_counter(char **arr);
 int		add_dimensions(t_wall *wall_dim, char *line, t_garbage **garbage);
+int		add_door(char *line, t_wall *wall_dim, t_garbage **garbage);
 void	ft_lstclear(t_garbage **lst);
 int		add_to_map(char *line, t_wall *wall_dim, t_garbage **garbage, int fd);
 int		check_options(t_wall *wall, int option);

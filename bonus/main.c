@@ -6,7 +6,7 @@
 /*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 11:40:58 by tibarike          #+#    #+#             */
-/*   Updated: 2025/10/25 18:23:16 by tibarike         ###   ########.fr       */
+/*   Updated: 2025/10/26 18:39:49 by tibarike         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,20 +172,6 @@ void	ft_two_d_map(t_win *win, double ray_Dirx, double ray_Diry)
 	}
 }
 
-int	check_hit_door(t_win *win, int mx, int my)
-{
-	int	i;
-	
-	i = 0;
-	while (i < win->doors_count)
-	{
-		if (mx == win->doors[i].x && my == win->doors[i].y)
-			return (1);
-			i++;
-	}
-	return (0);
-}
-
 void	ft_recast_helper(t_win *win)
 {
 	int	x;
@@ -285,9 +271,11 @@ void	ft_recast_helper(t_win *win)
 				way = 1;
 			}
 			if (win->arr[my][mx] == '1')
+				was_hit = 1;
+			else if (win->arr[my][mx] == 'D')
 			{
 				was_hit = 1;
-				is_door = check_hit_door(win, mx, my);
+				is_door = 1;
 			}
 		}
 		if (!way)
@@ -296,7 +284,7 @@ void	ft_recast_helper(t_win *win)
 			wall = win->disty - deltay;
 		if (is_door)
 			tex = win->wall_dim->tex.door;
-		if (!way && ray_Dirx > 0)
+		else if (!way && ray_Dirx > 0)
 			tex = win->wall_dim->tex.east;
 		else if (!way && ray_Dirx < 0)
 			tex = win->wall_dim->tex.west;
@@ -550,29 +538,52 @@ void	ft_mov_press(t_win *win, int check)
 	{
 		my_max = (int)(win->player_x + win->player_dirx * 5)/win->tile;
 		my_may = (int)(win->player_y/win->tile);
-		if (win->arr[my_may][my_max] != '1')
+		if (win->arr[my_may][my_max] != '1' && win->arr[my_may][my_max] != 'D')
 			win->player_x += win->player_dirx * 5;
 		my_may = (int)(win->player_y + win->player_diry * 5)/win->tile;
-		if (win->arr[my_may][my_max] != '1')
+		if (win->arr[my_may][my_max] != '1' && win->arr[my_may][my_max] != 'D')
 			win->player_y += win->player_diry * 5;
-		win->start_posx = win->player_x/win->tile;
-		win->start_posy = win->player_y/win->tile;
-		ft_clear_img(win, win->img);
-		ft_clear_img(win, win->img_player);
 	}
 	else if (check == 2)
 	{
 		my_max = (int)(win->player_x - win->player_dirx * 5)/win->tile;
 		my_may = (int)(win->player_y/win->tile);
-		if (win->arr[my_may][my_max] != '1')
+		if (win->arr[my_may][my_max] != '1' && win->arr[my_may][my_max] != 'D')
 			win->player_x -= win->player_dirx * 5;
 		my_may = (int)(win->player_y - win->player_diry * 5)/win->tile;
-		if (win->arr[my_may][my_max] != '1')
+		if (win->arr[my_may][my_max] != '1' && win->arr[my_may][my_max] != 'D')
 			win->player_y -= win->player_diry * 5;
-		win->start_posx = win->player_x/win->tile;
-		win->start_posy = win->player_y/win->tile;
-		ft_clear_img(win, win->img);
-		ft_clear_img(win, win->img_player);
+
+	}
+	win->start_posx = win->player_x/win->tile;
+	win->start_posy = win->player_y/win->tile;
+	ft_clear_img(win, win->img);
+	ft_clear_img(win, win->img_player);
+}
+
+void	handle_doors(t_win *win)
+{
+	int front_x;
+	int front_y;
+	int	i;
+	
+	i = 0;
+	front_x = (int)(win->start_posx + win->plane_dirx);
+	front_y = (int)(win->start_posy + win->plane_diry);
+	if (win->arr[front_y][front_x] == 'D')
+	{
+		while (i < win->doors_count)
+		{
+			if (win->doors[i].x == front_x && win->doors[i].y == front_y)
+			{
+				if (win->arr[front_y][front_x] == '0')
+					win->arr[front_y][front_x] = 'D';
+				else
+					win->arr[front_y][front_x] = '0';
+				break;
+			}
+			i++;
+		}
 	}
 }
 
@@ -589,6 +600,8 @@ void key_press(mlx_key_data_t keydata, void *param)
 		win->key_pressed = MLX_KEY_RIGHT;
 	else if (keydata.key == MLX_KEY_LEFT)
 		win->key_pressed = MLX_KEY_LEFT;
+	else if (keydata.key == MLX_KEY_SPACE)
+		win->key_pressed = MLX_KEY_SPACE;
 }
 
 void func(void *param)
@@ -610,10 +623,8 @@ void func(void *param)
 		ft_clear_img(win, win->img);
 		ft_rotation(win, 2);
 	}
-	else if (win->key_pressed == MLX_KEY_E)
-	{
+	else if (win->key_pressed == MLX_KEY_SPACE)
 		handle_doors(win);
-	}
 	ft_movement(win, 1);
 }
 
@@ -736,6 +747,7 @@ void	get_door_x_y(t_win *win)
 	int	j;
 	int door_index;
 
+	door_index = 0;
 	i = 0;
 	while (win->wall_dim->map[i])
 	{
@@ -747,7 +759,6 @@ void	get_door_x_y(t_win *win)
 				win->doors[door_index].x = i;
 				win->doors[door_index].y = j;
 				door_index++;
-				win->wall_dim->map[i][j] = '1';
 			}
 			j++;
 		}
@@ -829,5 +840,7 @@ int	main(int argc, char **argv)
 		exit (1);
 	}
 	mlx_loop(win.mlx);
+	close(fd);
+	ft_lstclear(&garbage);
 	return (0);
 }
