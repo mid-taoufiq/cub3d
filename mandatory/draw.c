@@ -96,7 +96,6 @@ void	ft_put_img(char **arr, t_win *win, int check)
 	y = 0;
 	posx = (int)win->start_posx;
 	posy = (int)win->start_posy;
-	printf("entered in the right place\n");
 	win->middle_x = (win->tile*9)/2;
 	win->middle_y = (win->tile*9)/2;
 	win->map_startx = (int)win->start_posx - 4;
@@ -111,7 +110,6 @@ void	ft_put_img(char **arr, t_win *win, int check)
 		x = 0;
 		while (win->map_startx <= win->map_endx)
 		{
-			printf("oh noo %d and %d and column %d and row %d\n", win->map_startx, win->map_starty, win->column, win->row);
 			if (win->map_startx >= 0 && win->map_starty >= 0 && win->map_startx < win->column && win->map_starty < win->row)
 			{
 				if (win->map_startx == posx && win->map_starty == posy)

@@ -63,22 +63,50 @@ void	func(mlx_key_data_t keydata, void *param)
 		ft_mov_press(win, 2);
 	if (keydata.key == MLX_KEY_RIGHT)
 	{
-		ft_clear_img(win, win->img);
+		ft_clear_img(win, win->img_3d);
 		ft_clear_img(win, win->img_player);
 		ft_rotation(win, 1);
 		ft_movement(win, 1);
 	}
 	else if (keydata.key == MLX_KEY_LEFT)
 	{
-		ft_clear_img(win, win->img);
+		ft_clear_img(win, win->img_3d);
 		ft_clear_img(win, win->img_player);
 		ft_rotation(win, 2);
+		ft_movement(win, 1);
+	}
+	if (keydata.key == MLX_KEY_ESCAPE)
+		mlx_close_window(win->mlx);
+}
+
+void	mouse_handle(double xpos, double ypos, void *param)
+{
+	t_win *win;
+	int		x_center;
+	int		y_center;
+
+	win = (t_win *)param;
+	x_center = win->width/2;
+	y_center = win->height/2;
+	mlx_set_mouse_pos(win->mlx, win->width/2, win->height/2);
+	ft_clear_img(win, win->img_3d);
+	ft_clear_img(win, win->img_player);
+	if ((x_center - (int)xpos) > 0)
+	{
+		ft_rotation(win, 2);
+		ft_movement(win, 1);
+	}
+	else
+	{
+		ft_rotation(win, 1);
 		ft_movement(win, 1);
 	}
 }
 
 int	ft_move_player(char **arr, t_win *win)
 {
+	// mlx_set_cursor_mode(win->mlx, MLX_MOUSE_DISABLED);
+	mlx_cursor_hook(win->mlx, mouse_handle, (void *)win);
 	mlx_key_hook(win->mlx, func, win);
 	return (0);
 }

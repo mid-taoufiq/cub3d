@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 11:40:58 by tibarike          #+#    #+#             */
-/*   Updated: 2025/10/24 10:20:30 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/10/27 10:24:20 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -186,7 +186,7 @@ int	main(int argc, char **argv)
 		exit (1);
 	}
 	win.img_3d = mlx_new_image(win.mlx, win.width, win.height);
-	if (!win.img)
+	if (!win.img_3d)
 	{
 		mlx_terminate(win.mlx);
 		exit (1);
@@ -206,21 +206,20 @@ int	main(int argc, char **argv)
 		return (1);
 	ft_movement(&win, 0);
 	ft_move_player(win.arr, &win);
+	// mlx_terminate(win.mlx);
 	if (mlx_image_to_window(win.mlx, win.img_3d, 0, 0) == -1)
 	{
-		mlx_terminate(win.mlx);
-		exit (1);
+		mlx_close_window(win.mlx);
 	}
 	if (mlx_image_to_window(win.mlx, win.img, 0, 0) == -1)
 	{
-		mlx_terminate(win.mlx);
-		exit (1);
+		mlx_close_window(win.mlx);
 	}
 	if (mlx_image_to_window(win.mlx, win.img_player, 0, 0) == -1)
 	{
-		mlx_terminate(win.mlx);
-		exit (1);
+		mlx_close_window(win.mlx);
 	}
 	mlx_loop(win.mlx);
+	mlx_terminate(win.mlx);
 	return (0);
 }
