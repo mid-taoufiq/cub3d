@@ -6,7 +6,7 @@
 /*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 11:35:29 by tibarike          #+#    #+#             */
-/*   Updated: 2025/10/25 15:33:35 by tibarike         ###   ########.fr       */
+/*   Updated: 2025/10/31 14:22:08 by tibarike         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,6 @@ typedef struct s_win
 	int			past_posx;
 	int			past_posy;
 	t_wall		*wall_dim;
-	int			key_pressed;
 }	t_win;
 
 void	*ft_malloc(int size, t_garbage **garbage);
