@@ -61,18 +61,26 @@ void	func(mlx_key_data_t keydata, void *param)
 		ft_mov_press(win, 1);
 	else if (keydata.key == MLX_KEY_S)
 		ft_mov_press(win, 2);
+	else if (keydata.key == MLX_KEY_A)
+	{
+		ft_mov_press(win, 3);
+	}
+	else if (keydata.key == MLX_KEY_D)
+	{
+		ft_mov_press(win, 4);
+	}
 	if (keydata.key == MLX_KEY_RIGHT)
 	{
 		ft_clear_img(win, win->img_3d);
 		ft_clear_img(win, win->img_player);
-		ft_rotation(win, 1);
+		ft_rotation(win, 1, 0.1);
 		ft_movement(win, 1);
 	}
 	else if (keydata.key == MLX_KEY_LEFT)
 	{
 		ft_clear_img(win, win->img_3d);
 		ft_clear_img(win, win->img_player);
-		ft_rotation(win, 2);
+		ft_rotation(win, 2, 0.1);
 		ft_movement(win, 1);
 	}
 	if (keydata.key == MLX_KEY_ESCAPE)
@@ -88,19 +96,19 @@ void	mouse_handle(double xpos, double ypos, void *param)
 	win = (t_win *)param;
 	x_center = win->width/2;
 	y_center = win->height/2;
-	mlx_set_mouse_pos(win->mlx, win->width/2, win->height/2);
 	ft_clear_img(win, win->img_3d);
 	ft_clear_img(win, win->img_player);
 	if ((x_center - (int)xpos) > 0)
 	{
-		ft_rotation(win, 2);
+		ft_rotation(win, 2, 0.1);
 		ft_movement(win, 1);
 	}
 	else
 	{
-		ft_rotation(win, 1);
+		ft_rotation(win, 1, 0.1);
 		ft_movement(win, 1);
 	}
+	mlx_set_mouse_pos(win->mlx, win->width/2, win->height/2);
 }
 
 int	ft_move_player(char **arr, t_win *win)

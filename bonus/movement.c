@@ -68,7 +68,7 @@ void	ft_rotate_helper(t_win *win)
 	win->start_posy = win->player_y / win->tile;
 }
 
-void	ft_rotation(t_win *win, int check)
+void	ft_rotation(t_win *win, int check, double angle)
 {
 	double	store_x;
 	double	store_y;

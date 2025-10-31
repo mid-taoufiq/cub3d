@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 11:35:29 by tibarike          #+#    #+#             */
-/*   Updated: 2025/10/24 10:27:21 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/10/31 11:56:32 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,10 @@ typedef struct s_win
 	int			map_starty;
 	int			map_endx;
 	int			map_endy;
+	double		right_vecx;
+	double		right_vecy;
+	double		left_vecx;
+	double		left_vecy;
 }	t_win;
 
 void	*ft_malloc(int size, t_garbage **garbage);
@@ -141,7 +145,7 @@ void	func(mlx_key_data_t keydata, void *param);
 void	ft_clear_img(t_win *win, mlx_image_t *img);
 void	ft_two_d_map(t_win *win, double ray_Dirx, double ray_Diry, int check);
 int		ft_color(int r, int g, int b, int a);
-void	ft_rotation(t_win *win, int check);
+void	ft_rotation(t_win *win, int check, double angle);
 void	ft_movement(t_win *win, int check);
 int		ft_check_player(char c);
 void	ft_mov_press(t_win *win, int check);
