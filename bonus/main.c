@@ -6,7 +6,7 @@
 /*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 11:40:58 by tibarike          #+#    #+#             */
-/*   Updated: 2025/10/31 14:17:34 by tibarike         ###   ########.fr       */
+/*   Updated: 2025/10/31 18:04:23 by tibarike         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -270,6 +270,8 @@ void	ft_recast_helper(t_win *win)
 				my += sy;
 				way = 1;
 			}
+			if (win->arr[my][mx] == '\0')
+				printf("%d and mx %d\n", my, mx);
 			if (win->arr[my][mx] == '1')
 				was_hit = 1;
 			else if (win->arr[my][mx] == 'D')
@@ -414,14 +416,11 @@ void	ft_recast(t_win *win, int check)
 		}
 		ft_recast_helper(win);
 	}
-	frames_now = mlx_get_time();
-	if ((frames_now - win->frames.timer) > 3)
-	{
 		if (win->frames.img != NULL)
 			mlx_delete_image(win->mlx, win->frames.img);
 		win->frames.img = mlx_texture_to_image(win->mlx, &win->frames.frames[win->frames.current_frame]->texture);
-		win->frames.x = win->frames.img->width - 600;
-		win->frames.y = win->frames.img->height - 600;
+		win->frames.x = win->frames.img->width - 250;
+		win->frames.y = win->frames.img->height - 200;
 		win->frames.current_frame++;
 		if (win->frames.current_frame == win->frames.frames_number)
 			win->frames.current_frame = 0;
@@ -430,7 +429,6 @@ void	ft_recast(t_win *win, int check)
 			mlx_terminate(win->mlx);
 			exit (1);
 		}
-	}
 }
 
 void	ft_movement(t_win *win, int check)
@@ -478,27 +476,32 @@ void	ft_movement(t_win *win, int check)
 
 void	handle_doors(t_win *win)
 {
-	int front_x;
-	int front_y;
-	int	i;
-	
-	i = 0;
-	front_x = (int)(win->start_posx + win->plane_dirx);
-	front_y = (int)(win->start_posy + win->plane_diry);
-	if (win->arr[front_y][front_x] == 'D')
+	double player_x = win->start_posx;
+	double player_y = win->start_posy;
+	double step = 0.1;
+	double reach = 1.5;
+	double dist = 0.0;
+	int map_x;
+	int map_y;
+
+	while (dist < reach)
 	{
-		while (i < win->doors_count)
+		player_x += win->player_dirx * step;
+		player_y += win->player_diry * step;
+		map_x = (int)player_x;
+		map_y = (int)player_y;
+		if (win->arr[map_y][map_x] == 'D')
 		{
-			if (win->doors[i].x == front_x && win->doors[i].y == front_y)
-			{
-				if (win->arr[front_y][front_x] == '0')
-					win->arr[front_y][front_x] = 'D';
-				else
-					win->arr[front_y][front_x] = '0';
-				break;
-			}
-			i++;
+			win->arr[map_y][map_x] = 'O';
+			return;
 		}
+		else if (win->arr[map_y][map_x] == 'O')
+		{
+			win->arr[map_y][map_x] = 'D';
+			return;
+		}
+
+		dist += step;
 	}
 }
 
@@ -545,20 +548,20 @@ void	ft_mov_press(t_win *win, int check)
 	{
 		my_max = (int)(win->player_x + win->player_dirx * 5)/win->tile;
 		my_may = (int)(win->player_y/win->tile);
-		if (win->arr[my_may][my_max] != '1')
+		if (win->arr[my_may][my_max] != '1' && win->arr[my_may][my_max] != 'D')
 			win->player_x += win->player_dirx * 2;
 		my_may = (int)(win->player_y + win->player_diry * 5)/win->tile;
-		if (win->arr[my_may][my_max] != '1')
+		if (win->arr[my_may][my_max] != '1' && win->arr[my_may][my_max] != 'D')
 			win->player_y += win->player_diry * 2;
 	}
 	else if (check == 2)
 	{
 		my_max = (int)(win->player_x - win->player_dirx * 5)/win->tile;
 		my_may = (int)(win->player_y/win->tile);
-		if (win->arr[my_may][my_max] != '1')
+		if (win->arr[my_may][my_max] != '1' && win->arr[my_may][my_max] != 'D')
 			win->player_x -= win->player_dirx * 2;
 		my_may = (int)(win->player_y - win->player_diry * 5)/win->tile;
-		if (win->arr[my_may][my_max] != '1')
+		if (win->arr[my_may][my_max] != '1' && win->arr[my_may][my_max] != 'D')
 			win->player_y -= win->player_diry * 2;
 
 	}
@@ -568,9 +571,19 @@ void	ft_mov_press(t_win *win, int check)
 
 void func(void *param)
 {
-	t_win	*win;
+    static bool e_pressing = false;
+    t_win *win = param;
 
-	win = (t_win *)param;
+    if (mlx_is_key_down(win->mlx, MLX_KEY_E))
+    {
+        if (!e_pressing)
+        {
+            handle_doors(win);
+            e_pressing = true;
+        }
+    }
+    else
+        e_pressing = false;
 	if (mlx_is_key_down(win->mlx, MLX_KEY_W))
 		ft_mov_press(win, 1);
 	else if (mlx_is_key_down(win->mlx, MLX_KEY_S))
@@ -584,7 +597,6 @@ void func(void *param)
 
 int	ft_move_player(char **arr, t_win *win)
 {
-	mlx_key_hook(win->mlx, handle_doors, win);
 	mlx_loop_hook(win->mlx, func, win);
 	return (0);
 }
@@ -673,60 +685,6 @@ int	init_frames(t_win *win)
 	win->frames.timer = mlx_get_time();
 }
 
-int	doors_counter(t_win *win)
-{
-	int	i;
-	int	j;
-	int counter;
-
-	counter = 0;
-	i = 0;
-	while (win->wall_dim->map[i])
-	{
-		j = 0;
-		while (win->wall_dim->map[i][j])
-		{
-			if (win->wall_dim->map[i][j] == 'D')
-				counter++;
-			j++;
-		}
-		i++;
-	}
-	return (counter);
-}
-
-void	get_door_x_y(t_win *win)
-{
-	int	i;
-	int	j;
-	int door_index;
-
-	door_index = 0;
-	i = 0;
-	while (win->wall_dim->map[i])
-	{
-		j = 0;
-		while (win->wall_dim->map[i][j])
-		{
-			if (win->wall_dim->map[i][j] == 'D')
-			{
-				win->doors[door_index].x = i;
-				win->doors[door_index].y = j;
-				door_index++;
-			}
-			j++;
-		}
-		i++;
-	}
-}
-
-int parse_doors(t_win *win, t_garbage **garbage)
-{
-	win->doors_count = doors_counter(win);
-	win->doors = ft_malloc(sizeof(t_door) * win->doors_count + 1, garbage);
-	get_door_x_y(win);
-}
-
 int	main(int argc, char **argv)
 {
 	t_wall		wall_dim;
@@ -755,8 +713,6 @@ int	main(int argc, char **argv)
 	win.width = WIDTH;
 	win.height = HEIGHT;
 	win.wall_dim = &wall_dim;
-	if (!parse_doors(&win, &garbage))
-		return (close(fd), ft_lstclear(&garbage), 1);
 	win.mlx = mlx_init(win.width, win.height, "my_mlx", true);
 	if (!win.mlx)
 		exit (1);
@@ -776,6 +732,7 @@ int	main(int argc, char **argv)
 	wall_dim.tex.north = mlx_load_xpm42(wall_dim.no);
 	wall_dim.tex.west = mlx_load_xpm42(wall_dim.we);
 	wall_dim.tex.south = mlx_load_xpm42(wall_dim.so);
+	wall_dim.tex.door = mlx_load_xpm42(wall_dim.d);
 	if (!wall_dim.tex.east || !wall_dim.tex.north || !wall_dim.tex.west
 		|| !wall_dim.tex.south)
 		return (1);
