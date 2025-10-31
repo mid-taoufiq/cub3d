@@ -77,8 +77,3 @@ void	func(mlx_key_data_t keydata, void *param)
 	}
 }
 
-int	ft_move_player(char **arr, t_win *win)
-{
-	mlx_key_hook(win->mlx, func, win);
-	return (0);
-}

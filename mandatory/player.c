@@ -5,6 +5,25 @@ int	ft_color(int r, int g, int b, int a)
 	return (r << 24 | g << 16 | b << 8 | a);
 }
 
+// void	ft_clear_img(t_win *win, mlx_image_t *img)
+// {
+// 	int	x;
+// 	int	y;
+
+// 	x = 0;
+// 	y = 0;
+// 	while (y < 64)
+// 	{
+// 		x = 0;
+// 		while (x < 64)
+// 		{
+// 			mlx_put_pixel(img, x, y, ft_color(0, 0, 0, 0));
+// 			x++;
+// 		}
+// 		y++;
+// 	}
+// }
+
 void	ft_two_d_map(t_win *win, double ray_Dirx, double ray_Diry, int check)
 {
 	double	draw_x;
@@ -20,7 +39,7 @@ void	ft_two_d_map(t_win *win, double ray_Dirx, double ray_Diry, int check)
 	test = 0;
 	if (ray_Dirx == win->player_dirx && ray_Diry == win->player_diry)
 	{
-		while (test < 20)
+		while (test < 8)
 		{
 			draw_x = initial1 + ray_Dirx * test;
 			draw_y = initial2 + ray_Diry * test;
@@ -33,58 +52,37 @@ void	ft_two_d_map(t_win *win, double ray_Dirx, double ray_Diry, int check)
 	}
 }
 
-void	ft_clear_img(t_win *win, mlx_image_t *img)
-{
-	int	x;
-	int	y;
-
-	x = 0;
-	y = 0;
-	while (y < win->height)
-	{
-		x = 0;
-		while (x < win->width)
-		{
-			mlx_put_pixel(img, x, y, ft_color(0, 0, 0, 0));
-			x++;
-		}
-		y++;
-	}
-}
-
-void	func(mlx_key_data_t keydata, void *param)
+void	func(void *param)
 {
 	t_win	*win;
 
 	win = (t_win *)param;
-	if (keydata.key == MLX_KEY_W)
+	if (mlx_is_key_down(win->mlx, MLX_KEY_W))
 		ft_mov_press(win, 1);
-	else if (keydata.key == MLX_KEY_S)
+	else if (mlx_is_key_down(win->mlx, MLX_KEY_S))
 		ft_mov_press(win, 2);
-	else if (keydata.key == MLX_KEY_A)
+	else if (mlx_is_key_down(win->mlx, MLX_KEY_A))
 	{
 		ft_mov_press(win, 3);
 	}
-	else if (keydata.key == MLX_KEY_D)
+	else if (mlx_is_key_down(win->mlx, MLX_KEY_D))
 	{
 		ft_mov_press(win, 4);
 	}
-	if (keydata.key == MLX_KEY_RIGHT)
+	if (mlx_is_key_down(win->mlx, MLX_KEY_RIGHT))
 	{
-		ft_clear_img(win, win->img_3d);
-		ft_clear_img(win, win->img_player);
-		ft_rotation(win, 1, 0.1);
-		ft_movement(win, 1);
+		ft_rotation(win, 1, 0.04);
 	}
-	else if (keydata.key == MLX_KEY_LEFT)
+	else if (mlx_is_key_down(win->mlx, MLX_KEY_LEFT))
 	{
-		ft_clear_img(win, win->img_3d);
-		ft_clear_img(win, win->img_player);
-		ft_rotation(win, 2, 0.1);
-		ft_movement(win, 1);
+		ft_rotation(win, 2, 0.04);
 	}
-	if (keydata.key == MLX_KEY_ESCAPE)
+	if (mlx_is_key_down(win->mlx, MLX_KEY_ESCAPE))
+	{
 		mlx_close_window(win->mlx);
+		return ;
+	}
+	ft_movement(win, 1);
 }
 
 void	mouse_handle(double xpos, double ypos, void *param)
@@ -96,16 +94,14 @@ void	mouse_handle(double xpos, double ypos, void *param)
 	win = (t_win *)param;
 	x_center = win->width/2;
 	y_center = win->height/2;
-	ft_clear_img(win, win->img_3d);
-	ft_clear_img(win, win->img_player);
 	if ((x_center - (int)xpos) > 0)
 	{
-		ft_rotation(win, 2, 0.1);
+		ft_rotation(win, 2, 0.04);
 		ft_movement(win, 1);
 	}
 	else
 	{
-		ft_rotation(win, 1, 0.1);
+		ft_rotation(win, 1, 0.04);
 		ft_movement(win, 1);
 	}
 	mlx_set_mouse_pos(win->mlx, win->width/2, win->height/2);
@@ -115,6 +111,7 @@ int	ft_move_player(char **arr, t_win *win)
 {
 	// mlx_set_cursor_mode(win->mlx, MLX_MOUSE_DISABLED);
 	mlx_cursor_hook(win->mlx, mouse_handle, (void *)win);
-	mlx_key_hook(win->mlx, func, win);
+	mlx_loop_hook(win->mlx, func, win);
+	// mlx_key_hook(win->mlx, func, win);
 	return (0);
 }

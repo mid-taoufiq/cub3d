@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 11:40:58 by tibarike          #+#    #+#             */
-/*   Updated: 2025/10/27 10:24:20 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/10/31 15:19:13 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,23 @@ int	check_extansion(char *line, char *extansion, int option)
 // 	return (0);
 // }
 
+void key_press(mlx_key_data_t keydata, void *param)
+{
+	t_win *win;
+	win = param;
+
+	if (keydata.key == MLX_KEY_W)
+		win->key_pressed = MLX_KEY_W;
+	else if (keydata.key == MLX_KEY_S)
+		win->key_pressed = MLX_KEY_S;
+	else if (keydata.key == MLX_KEY_RIGHT)
+		win->key_pressed = MLX_KEY_RIGHT;
+	else if (keydata.key == MLX_KEY_LEFT)
+		win->key_pressed = MLX_KEY_LEFT;
+	else if (keydata.key == MLX_KEY_SPACE)
+		win->key_pressed = MLX_KEY_SPACE;
+}
+
 void	ft_calculate_lent(t_win *win)
 {
 	int	i;
@@ -123,6 +140,14 @@ void	ft_calculate_lent(t_win *win)
 		i++;
 	}
 }
+
+// int	ft_move_player(char **arr, t_win *win)
+// {
+// 	mlx_key_hook(win->mlx, key_press, win);
+// 	mlx_cursor_hook(win->mlx, mouse_handle, (void *)win);
+// 	mlx_loop_hook(win->mlx, func, win);
+// 	return (0);
+// }
 
 char	*ft_strdupo(char *s1)
 {
@@ -153,6 +178,7 @@ int	main(int argc, char **argv)
 	char		*line;
 	t_garbage	*garbage;
 	t_win		win;
+	double		frames_now;
 
 	win.tile = 32;
 	win.column = 0;
@@ -179,7 +205,7 @@ int	main(int argc, char **argv)
 	win.mlx = mlx_init(win.width, win.height, "my_mlx", true);
 	if (!win.mlx)
 		exit (1);
-	win.img = mlx_new_image(win.mlx, win.width, win.height);
+	win.img = mlx_new_image(win.mlx, win.tile*9, win.tile*9);
 	if (!win.img)
 	{
 		mlx_terminate(win.mlx);
@@ -191,7 +217,7 @@ int	main(int argc, char **argv)
 		mlx_terminate(win.mlx);
 		exit (1);
 	}
-	win.img_player = mlx_new_image(win.mlx, win.width, win.height);
+	win.img_player = mlx_new_image(win.mlx, win.tile*9, win.tile*9);
 	if (!win.img_player)
 	{
 		mlx_terminate(win.mlx);
@@ -221,5 +247,7 @@ int	main(int argc, char **argv)
 	}
 	mlx_loop(win.mlx);
 	mlx_terminate(win.mlx);
+	close(fd);
+	ft_lstclear(&garbage);
 	return (0);
 }

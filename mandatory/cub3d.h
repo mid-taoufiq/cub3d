@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 11:35:29 by tibarike          #+#    #+#             */
-/*   Updated: 2025/10/31 11:56:32 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/10/31 14:45:29 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@
 #  define BUFFER_SIZE 42
 # endif
 
-#define WIDTH 1400
-#define HEIGHT 1000
+#define WIDTH 1920
+#define HEIGHT 1080
 
 typedef struct s_garbage
 {
@@ -101,6 +101,7 @@ typedef struct s_win
 	double		right_vecy;
 	double		left_vecx;
 	double		left_vecy;
+	int			key_pressed;
 }	t_win;
 
 void	*ft_malloc(int size, t_garbage **garbage);
@@ -131,7 +132,6 @@ void	struct_init(t_wall *wall_dim);
 int		parsing(char *line, int fd, t_wall *wall_dim, t_garbage **garbage);
 int		check_extansion(char *line, char *extansion, int option);
 int		ft_check_player(char c);
-void	ft_clear_img(t_win *win, mlx_image_t *img);
 int		ft_color(int r, int g, int b, int a);
 void	ft_put_img(char **arr, t_win *win, int check);
 void	ft_player(int x, int y, int color, t_win win);
@@ -141,13 +141,14 @@ void	ft_recast(t_win *win, char c, int check);
 void	ft_recast_helper(t_win *win);
 int		ft_move_player(char **arr, t_win *win);
 void	ft_calculate_lent(t_win *win);
-void	func(mlx_key_data_t keydata, void *param);
-void	ft_clear_img(t_win *win, mlx_image_t *img);
+void	func(void *param);
 void	ft_two_d_map(t_win *win, double ray_Dirx, double ray_Diry, int check);
 int		ft_color(int r, int g, int b, int a);
 void	ft_rotation(t_win *win, int check, double angle);
 void	ft_movement(t_win *win, int check);
 int		ft_check_player(char c);
 void	ft_mov_press(t_win *win, int check);
+void	mouse_handle(double xpos, double ypos, void *param);
+void	ft_clear_img(t_win *win, mlx_image_t *img);
 
 #endif
