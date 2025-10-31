@@ -6,7 +6,7 @@
 /*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 11:40:58 by tibarike          #+#    #+#             */
-/*   Updated: 2025/10/26 18:36:18 by tibarike         ###   ########.fr       */
+/*   Updated: 2025/10/31 14:11:25 by tibarike         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -323,25 +323,6 @@ void	ft_movement(t_win *win, int check)
 	}
 }
 
-void	ft_clear_img(t_win *win, mlx_image_t *img)
-{
-	int	x;
-	int	y;
-	
-	x = 0;
-	y = 0;
-	while (y < win->height)
-	{
-		x = 0;
-		while (x < win->width)
-		{
-			mlx_put_pixel(img, x, y, ft_color(0,0,0,0));
-			x++;
-		}
-		y++;
-	}
-}
-
 void	ft_rotation(t_win *win, int check)
 {
 	double store_x;
@@ -355,19 +336,19 @@ void	ft_rotation(t_win *win, int check)
 	store_planey = win->plane_diry;
 	if (check == 1)
 	{
-		win->player_dirx = store_x * cos(0.1) + store_y * sin(0.1);
-		win->player_diry = -store_x * sin(0.1) + store_y * cos(0.1);
-		win->plane_dirx = store_planex * cos(0.1) + store_planey * sin(0.1);
-		win->plane_diry = -store_planex * sin(0.1) + store_planey * cos(0.1);
+		win->player_dirx = store_x * cos(0.04) + store_y * sin(0.04);
+		win->player_diry = -store_x * sin(0.04) + store_y * cos(0.04);
+		win->plane_dirx = store_planex * cos(0.04) + store_planey * sin(0.04);
+		win->plane_diry = -store_planex * sin(0.04) + store_planey * cos(0.04);
 		win->start_posx = win->player_x/win->tile;
 		win->start_posy = win->player_y/win->tile;
 	}
 	else if (check == 2)
 	{
-		win->player_dirx = store_x * cos(0.1) - store_y * sin(0.1);
-		win->player_diry = store_x * sin(0.1) + store_y * cos(0.1);
-		win->plane_dirx = store_planex * cos(0.1) - store_planey * sin(0.1);
-		win->plane_diry = store_planex * sin(0.1) + store_planey * cos(0.1);
+		win->player_dirx = store_x * cos(0.04) - store_y * sin(0.04);
+		win->player_diry = store_x * sin(0.04) + store_y * cos(0.04);
+		win->plane_dirx = store_planex * cos(0.04) - store_planey * sin(0.04);
+		win->plane_diry = store_planex * sin(0.04) + store_planey * cos(0.04);
 		win->start_posx = win->player_x/win->tile;
 		win->start_posy = win->player_y/win->tile;
 	}
@@ -386,41 +367,24 @@ void	ft_mov_press(t_win *win, int check)
 		my_max = (int)(win->player_x + win->player_dirx * 5)/win->tile;
 		my_may = (int)(win->player_y/win->tile);
 		if (win->arr[my_may][my_max] != '1')
-			win->player_x += win->player_dirx * 5;
+			win->player_x += win->player_dirx * 2;
 		my_may = (int)(win->player_y + win->player_diry * 5)/win->tile;
 		if (win->arr[my_may][my_max] != '1')
-			win->player_y += win->player_diry * 5;
+			win->player_y += win->player_diry * 2;
 	}
 	else if (check == 2)
 	{
 		my_max = (int)(win->player_x - win->player_dirx * 5)/win->tile;
 		my_may = (int)(win->player_y/win->tile);
 		if (win->arr[my_may][my_max] != '1')
-			win->player_x -= win->player_dirx * 5;
+			win->player_x -= win->player_dirx * 2;
 		my_may = (int)(win->player_y - win->player_diry * 5)/win->tile;
 		if (win->arr[my_may][my_max] != '1')
-			win->player_y -= win->player_diry * 5;
+			win->player_y -= win->player_diry * 2;
 
 	}
 	win->start_posx = win->player_x/win->tile;
 	win->start_posy = win->player_y/win->tile;
-	ft_clear_img(win, win->img);
-	ft_clear_img(win, win->img_player);
-}
-
-void key_press(mlx_key_data_t keydata, void *param)
-{
-	t_win *win;
-	win = param;
-
-	if (keydata.key == MLX_KEY_W)
-		win->key_pressed = MLX_KEY_W;
-	else if (keydata.key == MLX_KEY_S)
-		win->key_pressed = MLX_KEY_S;
-	else if (keydata.key == MLX_KEY_RIGHT)
-		win->key_pressed = MLX_KEY_RIGHT;
-	else if (keydata.key == MLX_KEY_LEFT)
-		win->key_pressed = MLX_KEY_LEFT;
 }
 
 void func(void *param)
@@ -428,26 +392,19 @@ void func(void *param)
 	t_win	*win;
 
 	win = (t_win *)param;
-	if (win->key_pressed == MLX_KEY_W)
+	if (mlx_is_key_down(win->mlx, MLX_KEY_W))
 		ft_mov_press(win, 1);
-	else if (win->key_pressed == MLX_KEY_S)
+	else if (mlx_is_key_down(win->mlx, MLX_KEY_S))
 		ft_mov_press(win, 2);
-	else if (win->key_pressed == MLX_KEY_RIGHT)
-	{
-		ft_clear_img(win, win->img);
+	else if (mlx_is_key_down(win->mlx, MLX_KEY_RIGHT))
 		ft_rotation(win, 1);
-	}
-	else if (win->key_pressed == MLX_KEY_LEFT)
-	{
-		ft_clear_img(win, win->img);
+	else if (mlx_is_key_down(win->mlx, MLX_KEY_LEFT))
 		ft_rotation(win, 2);
-	}
 	ft_movement(win, 1);
 }
 
 int	ft_move_player(char **arr, t_win *win)
 {
-	mlx_key_hook(win->mlx, key_press, win);
 	mlx_loop_hook(win->mlx, func, win);
 	return (0);
 }
