@@ -6,7 +6,7 @@
 /*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/29 13:37:44 by tibarike          #+#    #+#             */
-/*   Updated: 2025/10/26 18:16:17 by tibarike         ###   ########.fr       */
+/*   Updated: 2025/11/02 14:25:19 by tibarike         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	check_remaining(int fd, char *line, t_wall *wall, t_garbage **garbage)
 {
 	if (!check_options(wall, 1))
-		return (write(2, "Error\narguments error3\n", 23), 0);
+		return (write(2, "Error\narguments error\n", 23), 0);
 	line = get_next_line(fd, garbage);
 	while (line)
 	{
@@ -25,7 +25,7 @@ int	check_remaining(int fd, char *line, t_wall *wall, t_garbage **garbage)
 			continue ;
 		}
 		else
-			return (write(2, "Error\narguments error4\n", 23), 0);
+			return (write(2, "Error\narguments error\n", 23), 0);
 		free(line);
 		line = get_next_line(fd, garbage);
 	}
@@ -56,9 +56,9 @@ void	struct_init(t_wall *wall_dim)
 int	parsing2(char *line, int fd, t_wall *wall_dim, t_garbage **garbage)
 {
 	if (!add_to_map(line, wall_dim, garbage, fd))
-		return (write(2, "Error\narguments error6\n", 23), 0);
+		return (write(2, "Error\narguments error\n", 23), 0);
 	if (!check_options(wall_dim, 1))
-		return (write(2, "Error\narguments error7\n", 23), 0);
+		return (write(2, "Error\narguments error\n", 23), 0);
 	return (1);
 }
 
