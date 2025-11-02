@@ -6,7 +6,7 @@
 /*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 11:40:58 by tibarike          #+#    #+#             */
-/*   Updated: 2025/10/31 18:04:23 by tibarike         ###   ########.fr       */
+/*   Updated: 2025/11/02 13:51:11 by tibarike         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -270,14 +270,27 @@ void	ft_recast_helper(t_win *win)
 				my += sy;
 				way = 1;
 			}
-			if (win->arr[my][mx] == '\0')
-				printf("%d and mx %d\n", my, mx);
-			if (win->arr[my][mx] == '1')
-				was_hit = 1;
-			else if (win->arr[my][mx] == 'D')
+			if (win->arr[my][mx] == 'O')
+			{
+				if (x == (win->width / 2))
+				{
+					win->door.x = mx;
+					win->door.y = my;
+				}
+				continue ;
+			}
+			else if (win->arr[my][mx] == '1' || win->arr[my][mx] == 'D')
 			{
 				was_hit = 1;
-				is_door = 1;
+				if (win->arr[my][mx] == 'D')
+				{
+					is_door = 1;
+					if (x == (win->width / 2))
+					{
+						win->door.x = mx;
+						win->door.y = my;
+					}
+				}
 			}
 		}
 		if (!way)
@@ -476,32 +489,22 @@ void	ft_movement(t_win *win, int check)
 
 void	handle_doors(t_win *win)
 {
-	double player_x = win->start_posx;
-	double player_y = win->start_posy;
-	double step = 0.1;
-	double reach = 1.5;
-	double dist = 0.0;
-	int map_x;
-	int map_y;
+	int	px;
+	int	py;
 
-	while (dist < reach)
+	px = (int)win->start_posx;
+	py = (int)win->start_posy;
+	if (win->arr[win->door.y][win->door.x] == 'D')
 	{
-		player_x += win->player_dirx * step;
-		player_y += win->player_diry * step;
-		map_x = (int)player_x;
-		map_y = (int)player_y;
-		if (win->arr[map_y][map_x] == 'D')
-		{
-			win->arr[map_y][map_x] = 'O';
-			return;
-		}
-		else if (win->arr[map_y][map_x] == 'O')
-		{
-			win->arr[map_y][map_x] = 'D';
-			return;
-		}
-
-		dist += step;
+		if ((abs(px - win->door.x) <= 1 && win->door.y == py)
+			|| (abs(py - win->door.y) <= 1 && win->door.x == px))
+			win->arr[win->door.y][win->door.x] = 'O';
+	}
+	else if (win->arr[win->door.y][win->door.x] == 'O')
+	{
+		if ((abs(px - win->door.x) <= 1 && win->door.y == py)
+			|| (abs(py - win->door.y) <= 1 && win->door.x == px))
+			win->arr[win->door.y][win->door.x] = 'D';
 	}
 }
 
