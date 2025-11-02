@@ -122,11 +122,13 @@ void	ft_mov_press(t_win *win, int check)
 	my_may = 0;
 	if (check == 1)
 	{
-		my_max = (int)(win->player_x + win->player_dirx * 3)/win->tile;
+		my_max = (int)(win->player_x + win->player_dirx * 4)/win->tile;
 		my_may = (int)(win->player_y/win->tile);
 		if (win->arr[my_may][my_max] != '1')
 			win->player_x += win->player_dirx * 2;
-		my_may = (int)(win->player_y + win->player_diry * 3)/win->tile;
+		else
+			my_max = (int)(win->player_x)/win->tile;
+		my_may = (int)(win->player_y + win->player_diry * 4)/win->tile;
 		if (win->arr[my_may][my_max] != '1')
 			win->player_y += win->player_diry * 2;
 		win->start_posx = win->player_x/win->tile;
@@ -134,11 +136,13 @@ void	ft_mov_press(t_win *win, int check)
 	}
 	else if (check == 2)
 	{
-		my_max = (int)(win->player_x - win->player_dirx * 3)/win->tile;
+		my_max = (int)(win->player_x - win->player_dirx * 4)/win->tile;
 		my_may = (int)(win->player_y/win->tile);
 		if (win->arr[my_may][my_max] != '1')
 			win->player_x -= win->player_dirx * 2;
-		my_may = (int)(win->player_y - win->player_diry * 3)/win->tile;
+		else
+			my_max = (int)(win->player_x)/win->tile;
+		my_may = (int)(win->player_y - win->player_diry * 4)/win->tile;
 		if (win->arr[my_may][my_max] != '1')
 			win->player_y -= win->player_diry * 2;
 		win->start_posx = win->player_x/win->tile;
@@ -146,25 +150,29 @@ void	ft_mov_press(t_win *win, int check)
 	}
 	else if (check == 3)
 	{
-		my_max = (int)(win->player_x + win->right_vecx * 3)/win->tile;
+		my_max = (int)(win->player_x + win->left_vecx * 4)/win->tile;
 		my_may = (int)(win->player_y/win->tile);
 		if (win->arr[my_may][my_max] != '1')
-			win->player_x += win->right_vecx * 3;
-		my_may = (int)(win->player_y + win->right_vecy * 3)/win->tile;
+			win->player_x += win->left_vecx * 2;
+		else
+			my_max = (int)(win->player_x)/win->tile;
+		my_may = (int)(win->player_y + win->left_vecy * 4)/win->tile;
 		if (win->arr[my_may][my_max] != '1')
-			win->player_y += win->right_vecy * 3;
+			win->player_y += win->left_vecy * 2;
 		win->start_posx = win->player_x/win->tile;
 		win->start_posy = win->player_y/win->tile;
 	}
 	else if (check == 4)
 	{
-		my_max = (int)(win->player_x + win->left_vecx * 3)/win->tile;
+		my_max = (int)(win->player_x + win->right_vecx * 4)/win->tile;
 		my_may = (int)(win->player_y/win->tile);
 		if (win->arr[my_may][my_max] != '1')
-			win->player_x += win->left_vecx * 3;
-		my_may = (int)(win->player_y + win->left_vecy * 3)/win->tile;
+			win->player_x += win->right_vecx * 2;
+		else
+			my_max = (int)(win->player_x)/win->tile;
+		my_may = (int)(win->player_y + win->right_vecy * 4)/win->tile;
 		if (win->arr[my_may][my_max] != '1')
-			win->player_y += win->left_vecy * 3;
+			win->player_y += win->right_vecy * 2;
 		win->start_posx = win->player_x/win->tile;
 		win->start_posy = win->player_y/win->tile;
 	}
