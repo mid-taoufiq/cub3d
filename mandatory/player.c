@@ -89,27 +89,25 @@ void	mouse_handle(double xpos, double ypos, void *param)
 {
 	t_win *win;
 	int		x_center;
-	int		y_center;
+	double	r;
 
 	win = (t_win *)param;
 	x_center = win->width/2;
-	y_center = win->height/2;
-	if ((x_center - (int)xpos) > 0)
-	{
-		ft_rotation(win, 2, 0.04);
-		ft_movement(win, 1);
-	}
+	r = (xpos - x_center) * 0.001;
+	printf("this is r %f\n", r);
+	if (r > 0)
+		ft_rotation(win, 1, r);
 	else
 	{
-		ft_rotation(win, 1, 0.04);
-		ft_movement(win, 1);
+		r = -r;
+		ft_rotation(win, 2, r);
 	}
 	mlx_set_mouse_pos(win->mlx, win->width/2, win->height/2);
 }
 
 int	ft_move_player(char **arr, t_win *win)
 {
-	// mlx_set_cursor_mode(win->mlx, MLX_MOUSE_DISABLED);
+	mlx_set_cursor_mode(win->mlx, MLX_MOUSE_DISABLED);
 	mlx_cursor_hook(win->mlx, mouse_handle, (void *)win);
 	mlx_loop_hook(win->mlx, func, win);
 	// mlx_key_hook(win->mlx, func, win);
