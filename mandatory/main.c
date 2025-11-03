@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 11:40:58 by tibarike          #+#    #+#             */
-/*   Updated: 2025/10/31 15:19:13 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/11/03 16:03:40 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,74 +34,6 @@ int	check_extansion(char *line, char *extansion, int option)
 	}
 	return (1);
 }
-
-// void	ft_mov_press(t_win *win, int check)
-// {
-// 	int	my_max;
-// 	int	my_may;
-
-// 	my_max = 0;
-// 	my_may = 0;
-// 	if (check == 1)
-// 	{
-// 		my_max = (int)(win->player_x + win->player_dirx * 5)/win->tile;
-// 		my_may = (int)(win->player_y/win->tile);
-// 		if (win->arr[my_may][my_max] != '1')
-// 			win->player_x += win->player_dirx * 5;
-// 		my_may = (int)(win->player_y + win->player_diry * 5)/win->tile;
-// 		if (win->arr[my_may][my_max] != '1')
-// 			win->player_y += win->player_diry * 5;
-// 		win->start_posx = win->player_x/win->tile;
-// 		win->start_posy = win->player_y/win->tile;
-// 		ft_clear_img(win, win->img);
-// 		ft_clear_img(win, win->img_player);
-// 		ft_movement(win, 1);
-// 	}
-// 	else if (check == 2)
-// 	{
-// 		my_max = (int)(win->player_x - win->player_dirx * 5)/win->tile;
-// 		my_may = (int)(win->player_y/win->tile);
-// 		if (win->arr[my_may][my_max] != '1')
-// 			win->player_x -= win->player_dirx * 5;
-// 		my_may = (int)(win->player_y - win->player_diry * 5)/win->tile;
-// 		if (win->arr[my_may][my_max] != '1')
-// 			win->player_y -= win->player_diry * 5;
-// 		win->start_posx = win->player_x/win->tile;
-// 		win->start_posy = win->player_y/win->tile;
-// 		ft_clear_img(win, win->img);
-// 		ft_clear_img(win, win->img_player);
-// 		ft_movement(win, 1);
-// 	}
-// }
-
-// void func(mlx_key_data_t keydata, void *param)
-// {
-// 	t_win	*win;
-
-// 	win = (t_win *)param;
-// 	if (keydata.key == MLX_KEY_W)
-// 		ft_mov_press(win, 1);
-// 	else if (keydata.key == MLX_KEY_S)
-// 		ft_mov_press(win, 2);
-// 	if (keydata.key == MLX_KEY_RIGHT)
-// 	{
-// 		ft_clear_img(win, win->img);
-// 		ft_rotation(win, 1);
-// 		ft_movement(win, 1);
-// 	}
-// 	else if (keydata.key == MLX_KEY_LEFT)
-// 	{
-// 		ft_clear_img(win, win->img);
-// 		ft_rotation(win, 2);
-// 		ft_movement(win, 1);
-// 	}
-// }
-
-// int	ft_move_player(char **arr, t_win *win)
-// {
-// 	mlx_key_hook(win->mlx, func, win);
-// 	return (0);
-// }
 
 void key_press(mlx_key_data_t keydata, void *param)
 {

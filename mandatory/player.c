@@ -94,7 +94,6 @@ void	mouse_handle(double xpos, double ypos, void *param)
 	win = (t_win *)param;
 	x_center = win->width/2;
 	r = (xpos - x_center) * 0.001;
-	printf("this is r %f\n", r);
 	if (r > 0)
 		ft_rotation(win, 1, r);
 	else
