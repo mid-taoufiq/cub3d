@@ -6,7 +6,7 @@
 /*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 11:40:58 by tibarike          #+#    #+#             */
-/*   Updated: 2025/11/02 13:51:11 by tibarike         ###   ########.fr       */
+/*   Updated: 2025/11/06 14:56:26 by tibarike         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -220,6 +220,8 @@ void	ft_recast_helper(t_win *win)
 	wall = 0.0;
 	distance = 0.0;
 	is_door = 0;
+	win->door.x = -1;
+	win->door.y = -1;
 	while (x < win->width)
 	{
 		camera = 2 * x / (double)win->width - 1;
@@ -270,14 +272,10 @@ void	ft_recast_helper(t_win *win)
 				my += sy;
 				way = 1;
 			}
-			if (win->arr[my][mx] == 'O')
+			if (win->arr[my][mx] == 'O' && x == (win->width / 2))
 			{
-				if (x == (win->width / 2))
-				{
-					win->door.x = mx;
-					win->door.y = my;
-				}
-				continue ;
+				win->door.x = mx;
+				win->door.y = my;
 			}
 			else if (win->arr[my][mx] == '1' || win->arr[my][mx] == 'D')
 			{
@@ -354,21 +352,14 @@ void	ft_recast(t_win *win, int check)
 	double	camera;
 	double	ray_Dirx;
 	double	ray_Diry;
-	double draw_x;
-	double draw_y;
 	int		mx;
 	int		my;
-	double	deltax;
-	double	deltay;
 	double	distance;
 	int		sx;
 	int		sy;
 	int		was_hit;
 	int		way;
 	double	wall;
-	double new_rayx = 0.0;
-	double new_rayy = 0.0;
-	double frames_now;
 
 	now = 0;
 	was_hit = 0;
@@ -382,7 +373,6 @@ void	ft_recast(t_win *win, int check)
 	camera = 0;
 	ray_Dirx = 0;
 	ray_Diry = 0;
-	double y = 0;
 	mx = (int)win->start_posx;
 	my = (int)win->start_posy;
 	if (win->wall_dim->player_direction == 'W')
@@ -494,17 +484,20 @@ void	handle_doors(t_win *win)
 
 	px = (int)win->start_posx;
 	py = (int)win->start_posy;
-	if (win->arr[win->door.y][win->door.x] == 'D')
+	if (win->door.x != -1 && win->door.y != -1)
 	{
-		if ((abs(px - win->door.x) <= 1 && win->door.y == py)
-			|| (abs(py - win->door.y) <= 1 && win->door.x == px))
-			win->arr[win->door.y][win->door.x] = 'O';
-	}
-	else if (win->arr[win->door.y][win->door.x] == 'O')
-	{
-		if ((abs(px - win->door.x) <= 1 && win->door.y == py)
-			|| (abs(py - win->door.y) <= 1 && win->door.x == px))
-			win->arr[win->door.y][win->door.x] = 'D';
+		if (win->arr[win->door.y][win->door.x] == 'D')
+		{
+			if ((abs(px - win->door.x) <= 1 && win->door.y == py)
+				|| (abs(py - win->door.y) <= 1 && win->door.x == px))
+				win->arr[win->door.y][win->door.x] = 'O';
+		}
+		else if (win->arr[win->door.y][win->door.x] == 'O')
+		{
+			if ((abs(px - win->door.x) <= 1 && win->door.y == py)
+				|| (abs(py - win->door.y) <= 1 && win->door.x == px))
+				win->arr[win->door.y][win->door.x] = 'D';
+		}
 	}
 }
 
@@ -585,8 +578,8 @@ void func(void *param)
             e_pressing = true;
         }
     }
-    else
-        e_pressing = false;
+	else
+		e_pressing = false;
 	if (mlx_is_key_down(win->mlx, MLX_KEY_W))
 		ft_mov_press(win, 1);
 	else if (mlx_is_key_down(win->mlx, MLX_KEY_S))
@@ -686,6 +679,7 @@ int	init_frames(t_win *win)
 	win->frames.current_frame = 0;
 	win->frames.frames_number = 6;
 	win->frames.timer = mlx_get_time();
+	return (0);
 }
 
 int	main(int argc, char **argv)
@@ -695,7 +689,6 @@ int	main(int argc, char **argv)
 	char		*line;
 	t_garbage	*garbage;
 	t_win		win;
-	double		frames_now;
 
 	win.tile = 64;
 	struct_init(&wall_dim);
