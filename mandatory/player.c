@@ -59,24 +59,16 @@ void	func(void *param)
 	win = (t_win *)param;
 	if (mlx_is_key_down(win->mlx, MLX_KEY_W))
 		ft_mov_press(win, 1);
-	else if (mlx_is_key_down(win->mlx, MLX_KEY_S))
+	if (mlx_is_key_down(win->mlx, MLX_KEY_S))
 		ft_mov_press(win, 2);
-	else if (mlx_is_key_down(win->mlx, MLX_KEY_A))
-	{
+	if (mlx_is_key_down(win->mlx, MLX_KEY_A))
 		ft_mov_press(win, 3);
-	}
-	else if (mlx_is_key_down(win->mlx, MLX_KEY_D))
-	{
+	if (mlx_is_key_down(win->mlx, MLX_KEY_D))
 		ft_mov_press(win, 4);
-	}
 	if (mlx_is_key_down(win->mlx, MLX_KEY_RIGHT))
-	{
 		ft_rotation(win, 1, 0.04);
-	}
-	else if (mlx_is_key_down(win->mlx, MLX_KEY_LEFT))
-	{
+	if (mlx_is_key_down(win->mlx, MLX_KEY_LEFT))
 		ft_rotation(win, 2, 0.04);
-	}
 	if (mlx_is_key_down(win->mlx, MLX_KEY_ESCAPE))
 	{
 		mlx_close_window(win->mlx);
