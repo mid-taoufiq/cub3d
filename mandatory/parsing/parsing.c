@@ -6,7 +6,7 @@
 /*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/29 13:37:44 by tibarike          #+#    #+#             */
-/*   Updated: 2025/10/25 17:13:17 by tibarike         ###   ########.fr       */
+/*   Updated: 2025/11/02 14:25:19 by tibarike         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ void	struct_init(t_wall *wall_dim)
 	wall_dim->ea = NULL;
 	wall_dim->so = NULL;
 	wall_dim->map = NULL;
+	wall_dim->d = NULL;
 	wall_dim->player_direction = 0;
 	wall_dim->ceiling = 0;
 	wall_dim->floor = 0;
@@ -48,18 +49,15 @@ void	struct_init(t_wall *wall_dim)
 	wall_dim->so_filled = 0;
 	wall_dim->c_filled = 0;
 	wall_dim->f_filled = 0;
+	wall_dim->door_filled = 0;
 	wall_dim->map_filled = 0;
-	
 }
 
 int	parsing2(char *line, int fd, t_wall *wall_dim, t_garbage **garbage)
 {
-	int	return_value;
-
 	if (!add_to_map(line, wall_dim, garbage, fd))
 		return (write(2, "Error\narguments error\n", 23), 0);
-	return_value = check_options(wall_dim, 1);
-	if (return_value == 0)
+	if (!check_options(wall_dim, 1))
 		return (write(2, "Error\narguments error\n", 23), 0);
 	return (1);
 }

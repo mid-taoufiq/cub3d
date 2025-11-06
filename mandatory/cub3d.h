@@ -6,7 +6,7 @@
 /*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 11:35:29 by tibarike          #+#    #+#             */
-/*   Updated: 2025/10/31 14:22:08 by tibarike         ###   ########.fr       */
+/*   Updated: 2025/11/02 13:24:51 by tibarike         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,30 @@ typedef struct s_garbage
 	struct s_garbage	*next;
 }	t_garbage;
 
+typedef struct s_door
+{
+	int	x;
+	int	y;
+}	t_door;
+
+typedef struct s_frames
+{
+	xpm_t		*frames[15];
+	int			current_frame;
+	int			frames_number;
+	int			x;
+	int			y;
+	double		timer;
+	mlx_image_t	*img;
+}	t_frames;
+
 typedef struct s_tex
 {
-	xpm_t *north;
-	xpm_t *west;
-	xpm_t *east;
-	xpm_t *south;
+	xpm_t	*north;
+	xpm_t	*west;
+	xpm_t	*east;
+	xpm_t	*south;
+	xpm_t	*door;
 }	t_tex;
 
 typedef struct s_wall
@@ -49,6 +67,7 @@ typedef struct s_wall
 	char	*so;
 	char	*we;
 	char	*ea;
+	char	*d;
 	char	**map;
 	char	player_direction;
 	int		floor;
@@ -60,6 +79,7 @@ typedef struct s_wall
 	int		f_filled;
 	int		c_filled;
 	int		map_filled;
+	int		door_filled;
 	t_tex	tex;
 }	t_wall;
 
@@ -73,8 +93,8 @@ typedef struct s_win
 	int			width;
 	int			height;
 	char		**arr;
-	double			player_x;
-	double			player_y;
+	double		player_x;
+	double		player_y;
 	double		player_dirx;
 	double		player_diry;
 	double		plane_dirx;
@@ -86,7 +106,17 @@ typedef struct s_win
 	double		distance;
 	int			past_posx;
 	int			past_posy;
+	int			column;
+	int			row;
+	int			middle_x;
+	int			middle_y;
+	int			map_startx;
+	int			map_starty;
+	int			map_endx;
+	int			map_endy;
 	t_wall		*wall_dim;
+	t_frames	frames;
+	t_door		door;
 }	t_win;
 
 void	*ft_malloc(int size, t_garbage **garbage);
@@ -108,6 +138,7 @@ int		ft_strsearch(char *str, char *search);
 int		ft_strsearch2(char *str, char *search);
 int		arg_counter(char **arr);
 int		add_dimensions(t_wall *wall_dim, char *line, t_garbage **garbage);
+int		add_door(char *line, t_wall *wall_dim, t_garbage **garbage);
 void	ft_lstclear(t_garbage **lst);
 int		add_to_map(char *line, t_wall *wall_dim, t_garbage **garbage, int fd);
 int		check_options(t_wall *wall, int option);
