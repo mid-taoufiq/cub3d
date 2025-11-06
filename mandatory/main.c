@@ -6,7 +6,7 @@
 /*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 11:40:58 by tibarike          #+#    #+#             */
-/*   Updated: 2025/11/06 15:25:06 by tibarike         ###   ########.fr       */
+/*   Updated: 2025/11/06 15:29:20 by tibarike         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -678,7 +678,6 @@ int	init_frames(t_win *win)
 	win->frames.frames[5] = mlx_load_xpm42("./textures/frame_5.xpm42");
 	win->frames.current_frame = 0;
 	win->frames.frames_number = 6;
-	win->frames.timer = mlx_get_time();
 	return (0);
 }
 

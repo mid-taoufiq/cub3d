@@ -6,7 +6,7 @@
 /*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 11:35:29 by tibarike          #+#    #+#             */
-/*   Updated: 2025/11/02 13:24:51 by tibarike         ###   ########.fr       */
+/*   Updated: 2025/11/06 15:30:03 by tibarike         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,12 +43,11 @@ typedef struct s_door
 
 typedef struct s_frames
 {
-	xpm_t		*frames[15];
+	xpm_t		*frames[6];
 	int			current_frame;
 	int			frames_number;
 	int			x;
 	int			y;
-	double		timer;
 	mlx_image_t	*img;
 }	t_frames;
 
