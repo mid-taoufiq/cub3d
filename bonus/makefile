@@ -1,4 +1,4 @@
-NAME = cub3d_bonus
+NAME = cub3D
 
 FLAGS = -Wall #-Werror -Wextra
 

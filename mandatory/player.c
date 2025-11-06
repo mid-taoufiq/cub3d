@@ -55,8 +55,19 @@ void	ft_two_d_map(t_win *win, double ray_Dirx, double ray_Diry, int check)
 void	func(void *param)
 {
 	t_win	*win;
+	static bool e_pressing = false;
 
 	win = (t_win *)param;
+    if (mlx_is_key_down(win->mlx, MLX_KEY_E))
+    {
+        if (!e_pressing)
+        {
+            handle_doors(win);
+            e_pressing = true;
+        }
+    }
+	else
+		e_pressing = false;
 	if (mlx_is_key_down(win->mlx, MLX_KEY_W))
 		ft_mov_press(win, 1);
 	if (mlx_is_key_down(win->mlx, MLX_KEY_S))
@@ -67,7 +78,7 @@ void	func(void *param)
 		ft_mov_press(win, 4);
 	if (mlx_is_key_down(win->mlx, MLX_KEY_RIGHT))
 		ft_rotation(win, 1, 0.04);
-	if (mlx_is_key_down(win->mlx, MLX_KEY_LEFT))
+	else if (mlx_is_key_down(win->mlx, MLX_KEY_LEFT))
 		ft_rotation(win, 2, 0.04);
 	if (mlx_is_key_down(win->mlx, MLX_KEY_ESCAPE))
 	{

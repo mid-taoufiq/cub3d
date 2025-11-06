@@ -113,6 +113,30 @@ void	ft_rotation(t_win *win, int check, double angle)
 	}
 }
 
+void	handle_doors(t_win *win)
+{
+	int	px;
+	int	py;
+
+	px = (int)win->start_posx;
+	py = (int)win->start_posy;
+	if (win->door.y != -1 && win->door.x != 1)
+	{
+		if (win->arr[win->door.y][win->door.x] == 'D')
+		{
+			if ((abs(px - win->door.x) <= 1 && win->door.y == py)
+				|| (abs(py - win->door.y) <= 1 && win->door.x == px))
+				win->arr[win->door.y][win->door.x] = 'O';
+		}
+		else if (win->arr[win->door.y][win->door.x] == 'O')
+		{
+			if ((abs(px - win->door.x) <= 1 && win->door.y == py)
+				|| (abs(py - win->door.y) <= 1 && win->door.x == px))
+				win->arr[win->door.y][win->door.x] = 'D';
+		}
+	}
+}
+
 void	ft_mov_press(t_win *win, int check)
 {
 	int	my_max;
@@ -124,12 +148,12 @@ void	ft_mov_press(t_win *win, int check)
 	{
 		my_max = (int)(win->player_x + win->player_dirx * 4)/win->tile;
 		my_may = (int)(win->player_y/win->tile);
-		if (win->arr[my_may][my_max] != '1')
+		if (win->arr[my_may][my_max] != '1' && win->arr[my_may][my_max] != 'D')
 			win->player_x += win->player_dirx * 2;
 		else
 			my_max = (int)(win->player_x)/win->tile;
 		my_may = (int)(win->player_y + win->player_diry * 4)/win->tile;
-		if (win->arr[my_may][my_max] != '1')
+		if (win->arr[my_may][my_max] != '1' && win->arr[my_may][my_max] != 'D')
 			win->player_y += win->player_diry * 2;
 		win->start_posx = win->player_x/win->tile;
 		win->start_posy = win->player_y/win->tile;
@@ -138,12 +162,12 @@ void	ft_mov_press(t_win *win, int check)
 	{
 		my_max = (int)(win->player_x - win->player_dirx * 4)/win->tile;
 		my_may = (int)(win->player_y/win->tile);
-		if (win->arr[my_may][my_max] != '1')
+		if (win->arr[my_may][my_max] != '1' && win->arr[my_may][my_max] != 'D')
 			win->player_x -= win->player_dirx * 2;
 		else
 			my_max = (int)(win->player_x)/win->tile;
 		my_may = (int)(win->player_y - win->player_diry * 4)/win->tile;
-		if (win->arr[my_may][my_max] != '1')
+		if (win->arr[my_may][my_max] != '1' && win->arr[my_may][my_max] != 'D')
 			win->player_y -= win->player_diry * 2;
 		win->start_posx = win->player_x/win->tile;
 		win->start_posy = win->player_y/win->tile;
@@ -152,12 +176,12 @@ void	ft_mov_press(t_win *win, int check)
 	{
 		my_max = (int)(win->player_x + win->left_vecx * 4)/win->tile;
 		my_may = (int)(win->player_y/win->tile);
-		if (win->arr[my_may][my_max] != '1')
+		if (win->arr[my_may][my_max] != '1' && win->arr[my_may][my_max] != 'D')
 			win->player_x += win->left_vecx * 2;
 		else
 			my_max = (int)(win->player_x)/win->tile;
 		my_may = (int)(win->player_y + win->left_vecy * 4)/win->tile;
-		if (win->arr[my_may][my_max] != '1')
+		if (win->arr[my_may][my_max] != '1' && win->arr[my_may][my_max] != 'D')
 			win->player_y += win->left_vecy * 2;
 		win->start_posx = win->player_x/win->tile;
 		win->start_posy = win->player_y/win->tile;
@@ -166,15 +190,43 @@ void	ft_mov_press(t_win *win, int check)
 	{
 		my_max = (int)(win->player_x + win->right_vecx * 4)/win->tile;
 		my_may = (int)(win->player_y/win->tile);
-		if (win->arr[my_may][my_max] != '1')
+		if (win->arr[my_may][my_max] != '1' && win->arr[my_may][my_max] != 'D')
 			win->player_x += win->right_vecx * 2;
 		else
 			my_max = (int)(win->player_x)/win->tile;
 		my_may = (int)(win->player_y + win->right_vecy * 4)/win->tile;
-		if (win->arr[my_may][my_max] != '1')
+		if (win->arr[my_may][my_max] != '1' && win->arr[my_may][my_max] != 'D')
 			win->player_y += win->right_vecy * 2;
 		win->start_posx = win->player_x/win->tile;
 		win->start_posy = win->player_y/win->tile;
 	}
+	// else if (check == 3)
+	// {
+	// 	my_max = (int)(win->player_x + win->left_vecx * 4)/win->tile;
+	// 	my_may = (int)(win->player_y/win->tile);
+	// 	if (win->arr[my_may][my_max] != '1' && win->arr[my_may][my_max] != 'D')
+	// 		win->player_x += win->left_vecx * 2;
+	// 	else
+	// 		my_max = (int)(win->player_x)/win->tile;
+	// 	my_may = (int)(win->player_y + win->left_vecy * 4)/win->tile;
+	// 	if (win->arr[my_may][my_max] != '1' && win->arr[my_may][my_max] != 'D')
+	// 		win->player_y += win->left_vecy * 2;
+	// 	win->start_posx = win->player_x/win->tile;
+	// 	win->start_posy = win->player_y/win->tile;
+	// }
+	// else if (check == 4)
+	// {
+	// 	my_max = (int)(win->player_x + win->right_vecx * 4)/win->tile;
+	// 	my_may = (int)(win->player_y/win->tile);
+	// 	if (win->arr[my_may][my_max] != '1' && win->arr[my_may][my_max] != 'D')
+	// 		win->player_x += win->right_vecx * 2;
+	// 	else
+	// 		my_max = (int)(win->player_x)/win->tile;
+	// 	my_may = (int)(win->player_y + win->right_vecy * 4)/win->tile;
+	// 	if (win->arr[my_may][my_max] != '1' && win->arr[my_may][my_max] != 'D')
+	// 		win->player_y += win->right_vecy * 2;
+	// 	win->start_posx = win->player_x/win->tile;
+	// 	win->start_posy = win->player_y/win->tile;
+	// }
 }
 

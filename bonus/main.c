@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 11:40:58 by tibarike          #+#    #+#             */
-/*   Updated: 2025/10/31 14:26:59 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/11/06 16:18:38 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -270,12 +270,27 @@ void	ft_recast_helper(t_win *win)
 				my += sy;
 				way = 1;
 			}
-			if (win->arr[my][mx] == '1')
-				was_hit = 1;
-			else if (win->arr[my][mx] == 'D')
+			if (win->arr[my][mx] == 'O')
+			{
+				if (x == (win->width / 2))
+				{
+					win->door.x = mx;
+					win->door.y = my;
+				}
+				continue ;
+			}
+			else if (win->arr[my][mx] == '1' || win->arr[my][mx] == 'D')
 			{
 				was_hit = 1;
-				is_door = 1;
+				if (win->arr[my][mx] == 'D')
+				{
+					is_door = 1;
+					if (x == (win->width / 2))
+					{
+						win->door.x = mx;
+						win->door.y = my;
+					}
+				}
 			}
 		}
 		if (!way)
@@ -414,14 +429,11 @@ void	ft_recast(t_win *win, int check)
 		}
 		ft_recast_helper(win);
 	}
-	frames_now = mlx_get_time();
-	if ((frames_now - win->frames.timer) > 3)
-	{
 		if (win->frames.img != NULL)
 			mlx_delete_image(win->mlx, win->frames.img);
 		win->frames.img = mlx_texture_to_image(win->mlx, &win->frames.frames[win->frames.current_frame]->texture);
-		win->frames.x = win->frames.img->width - 600;
-		win->frames.y = win->frames.img->height - 600;
+		win->frames.x = win->frames.img->width - 250;
+		win->frames.y = win->frames.img->height - 200;
 		win->frames.current_frame++;
 		if (win->frames.current_frame == win->frames.frames_number)
 			win->frames.current_frame = 0;
@@ -430,7 +442,6 @@ void	ft_recast(t_win *win, int check)
 			mlx_terminate(win->mlx);
 			exit (1);
 		}
-	}
 }
 
 void	ft_movement(t_win *win, int check)
@@ -465,7 +476,7 @@ void	ft_movement(t_win *win, int check)
 					win->past_posy = (int)win->start_posy;
 				}
 				if (!one)
-					ft_recast(win, check);
+					ft_recast(win, win->arr[j][i], check);
 				one = 1;
 			}
 			x += 1;
@@ -476,37 +487,58 @@ void	ft_movement(t_win *win, int check)
 	}
 }
 
-// void	ft_rotation(t_win *win, int check)
-// {
-// 	double store_x;
-// 	double store_y;
-// 	double store_planex;
-// 	double store_planey;
+void	handle_doors(t_win *win)
+{
+	int	px;
+	int	py;
 
-// 	store_x = win->player_dirx;
-// 	store_y = win->player_diry;
-// 	store_planex = win->plane_dirx;
-// 	store_planey = win->plane_diry;
-// 	if (check == 1)
-// 	{
-// 		win->player_dirx = store_x * cos(0.1) + store_y * sin(0.1);
-// 		win->player_diry = -store_x * sin(0.1) + store_y * cos(0.1);
-// 		win->plane_dirx = store_planex * cos(0.1) + store_planey * sin(0.1);
-// 		win->plane_diry = -store_planex * sin(0.1) + store_planey * cos(0.1);
-// 		win->start_posx = win->player_x/win->tile;
-// 		win->start_posy = win->player_y/win->tile;
-// 	}
-// 	else if (check == 2)
-// 	{
-// 		win->player_dirx = store_x * cos(0.1) - store_y * sin(0.1);
-// 		win->player_diry = store_x * sin(0.1) + store_y * cos(0.1);
-// 		win->plane_dirx = store_planex * cos(0.1) - store_planey * sin(0.1);
-// 		win->plane_diry = store_planex * sin(0.1) + store_planey * cos(0.1);
-// 		win->start_posx = win->player_x/win->tile;
-// 		win->start_posy = win->player_y/win->tile;
-// 	}
+	px = (int)win->start_posx;
+	py = (int)win->start_posy;
+	if (win->arr[win->door.y][win->door.x] == 'D')
+	{
+		if ((abs(px - win->door.x) <= 1 && win->door.y == py)
+			|| (abs(py - win->door.y) <= 1 && win->door.x == px))
+			win->arr[win->door.y][win->door.x] = 'O';
+	}
+	else if (win->arr[win->door.y][win->door.x] == 'O')
+	{
+		if ((abs(px - win->door.x) <= 1 && win->door.y == py)
+			|| (abs(py - win->door.y) <= 1 && win->door.x == px))
+			win->arr[win->door.y][win->door.x] = 'D';
+	}
+}
+
+void	ft_rotation(t_win *win, int check)
+{
+	double store_x;
+	double store_y;
+	double store_planex;
+	double store_planey;
+
+	store_x = win->player_dirx;
+	store_y = win->player_diry;
+	store_planex = win->plane_dirx;
+	store_planey = win->plane_diry;
+	if (check == 1)
+	{
+		win->player_dirx = store_x * cos(0.04) + store_y * sin(0.04);
+		win->player_diry = -store_x * sin(0.04) + store_y * cos(0.04);
+		win->plane_dirx = store_planex * cos(0.04) + store_planey * sin(0.04);
+		win->plane_diry = -store_planex * sin(0.04) + store_planey * cos(0.04);
+		win->start_posx = win->player_x/win->tile;
+		win->start_posy = win->player_y/win->tile;
+	}
+	else if (check == 2)
+	{
+		win->player_dirx = store_x * cos(0.04) - store_y * sin(0.04);
+		win->player_diry = store_x * sin(0.04) + store_y * cos(0.04);
+		win->plane_dirx = store_planex * cos(0.04) - store_planey * sin(0.04);
+		win->plane_diry = store_planex * sin(0.04) + store_planey * cos(0.04);
+		win->start_posx = win->player_x/win->tile;
+		win->start_posy = win->player_y/win->tile;
+	}
 	
-// }
+}
 
 void	ft_mov_press(t_win *win, int check)
 {
@@ -520,101 +552,57 @@ void	ft_mov_press(t_win *win, int check)
 		my_max = (int)(win->player_x + win->player_dirx * 5)/win->tile;
 		my_may = (int)(win->player_y/win->tile);
 		if (win->arr[my_may][my_max] != '1' && win->arr[my_may][my_max] != 'D')
-			win->player_x += win->player_dirx * 5;
+			win->player_x += win->player_dirx * 2;
 		my_may = (int)(win->player_y + win->player_diry * 5)/win->tile;
 		if (win->arr[my_may][my_max] != '1' && win->arr[my_may][my_max] != 'D')
-			win->player_y += win->player_diry * 5;
+			win->player_y += win->player_diry * 2;
 	}
 	else if (check == 2)
 	{
 		my_max = (int)(win->player_x - win->player_dirx * 5)/win->tile;
 		my_may = (int)(win->player_y/win->tile);
 		if (win->arr[my_may][my_max] != '1' && win->arr[my_may][my_max] != 'D')
-			win->player_x -= win->player_dirx * 5;
+			win->player_x -= win->player_dirx * 2;
 		my_may = (int)(win->player_y - win->player_diry * 5)/win->tile;
 		if (win->arr[my_may][my_max] != '1' && win->arr[my_may][my_max] != 'D')
-			win->player_y -= win->player_diry * 5;
+			win->player_y -= win->player_diry * 2;
 
 	}
 	win->start_posx = win->player_x/win->tile;
 	win->start_posy = win->player_y/win->tile;
-	ft_clear_img(win, win->img);
-	ft_clear_img(win, win->img_player);
-}
-
-void	handle_doors(t_win *win)
-{
-	int front_x;
-	int front_y;
-	int	i;
-	
-	i = 0;
-	front_x = (int)(win->start_posx + win->plane_dirx);
-	front_y = (int)(win->start_posy + win->plane_diry);
-	if (win->arr[front_y][front_x] == 'D')
-	{
-		while (i < win->doors_count)
-		{
-			if (win->doors[i].x == front_x && win->doors[i].y == front_y)
-			{
-				if (win->arr[front_y][front_x] == '0')
-					win->arr[front_y][front_x] = 'D';
-				else
-					win->arr[front_y][front_x] = '0';
-				break;
-			}
-			i++;
-		}
-	}
-}
-
-void key_press(mlx_key_data_t keydata, void *param)
-{
-	t_win *win;
-	win = param;
-
-	if (keydata.key == MLX_KEY_W)
-		win->key_pressed = MLX_KEY_W;
-	else if (keydata.key == MLX_KEY_S)
-		win->key_pressed = MLX_KEY_S;
-	else if (keydata.key == MLX_KEY_RIGHT)
-		win->key_pressed = MLX_KEY_RIGHT;
-	else if (keydata.key == MLX_KEY_LEFT)
-		win->key_pressed = MLX_KEY_LEFT;
-	else if (keydata.key == MLX_KEY_SPACE)
-		win->key_pressed = MLX_KEY_SPACE;
 }
 
 void func(void *param)
 {
-	t_win	*win;
+    static bool e_pressing = false;
+    t_win *win = param;
 
-	win = (t_win *)param;
-	if (win->key_pressed == MLX_KEY_W)
+    if (mlx_is_key_down(win->mlx, MLX_KEY_E))
+    {
+        if (!e_pressing)
+        {
+            handle_doors(win);
+            e_pressing = true;
+        }
+    }
+    else
+        e_pressing = false;
+	if (mlx_is_key_down(win->mlx, MLX_KEY_W))
 		ft_mov_press(win, 1);
-	else if (win->key_pressed == MLX_KEY_S)
+	else if (mlx_is_key_down(win->mlx, MLX_KEY_S))
 		ft_mov_press(win, 2);
-	else if (win->key_pressed == MLX_KEY_RIGHT)
-	{
-		ft_clear_img(win, win->img);
+	else if (mlx_is_key_down(win->mlx, MLX_KEY_RIGHT))
 		ft_rotation(win, 1);
-	}
-	else if (win->key_pressed == MLX_KEY_LEFT)
-	{
-		ft_clear_img(win, win->img);
+	else if (mlx_is_key_down(win->mlx, MLX_KEY_LEFT))
 		ft_rotation(win, 2);
-	}
-	else if (win->key_pressed == MLX_KEY_SPACE)
-		handle_doors(win);
 	ft_movement(win, 1);
 }
 
-// int	ft_move_player(char **arr, t_win *win)
-// {
-// 	mlx_key_hook(win->mlx, key_press, win);
-// 	mlx_loop_hook(win->mlx, func, win);
-// 	return (0);
-// }
+int	ft_move_player(char **arr, t_win *win)
+{
+	mlx_loop_hook(win->mlx, func, win);
+	return (0);
+}
 
 char	*ft_strdupo(char *s1)
 {
@@ -651,60 +639,6 @@ int	init_frames(t_win *win)
 	win->frames.timer = mlx_get_time();
 }
 
-int	doors_counter(t_win *win)
-{
-	int	i;
-	int	j;
-	int counter;
-
-	counter = 0;
-	i = 0;
-	while (win->wall_dim->map[i])
-	{
-		j = 0;
-		while (win->wall_dim->map[i][j])
-		{
-			if (win->wall_dim->map[i][j] == 'D')
-				counter++;
-			j++;
-		}
-		i++;
-	}
-	return (counter);
-}
-
-void	get_door_x_y(t_win *win)
-{
-	int	i;
-	int	j;
-	int door_index;
-
-	door_index = 0;
-	i = 0;
-	while (win->wall_dim->map[i])
-	{
-		j = 0;
-		while (win->wall_dim->map[i][j])
-		{
-			if (win->wall_dim->map[i][j] == 'D')
-			{
-				win->doors[door_index].x = i;
-				win->doors[door_index].y = j;
-				door_index++;
-			}
-			j++;
-		}
-		i++;
-	}
-}
-
-int parse_doors(t_win *win, t_garbage **garbage)
-{
-	win->doors_count = doors_counter(win);
-	win->doors = ft_malloc(sizeof(t_door) * win->doors_count + 1, garbage);
-	get_door_x_y(win);
-}
-
 int	main(int argc, char **argv)
 {
 	t_wall		wall_dim;
@@ -736,8 +670,6 @@ int	main(int argc, char **argv)
 	win.width = WIDTH;
 	win.height = HEIGHT;
 	win.wall_dim = &wall_dim;
-	if (!parse_doors(&win, &garbage))
-		return (close(fd), ft_lstclear(&garbage), 1);
 	win.mlx = mlx_init(win.width, win.height, "my_mlx", true);
 	if (!win.mlx)
 		exit (1);
@@ -763,6 +695,7 @@ int	main(int argc, char **argv)
 	wall_dim.tex.north = mlx_load_xpm42(wall_dim.no);
 	wall_dim.tex.west = mlx_load_xpm42(wall_dim.we);
 	wall_dim.tex.south = mlx_load_xpm42(wall_dim.so);
+	wall_dim.tex.door = mlx_load_xpm42(wall_dim.d);
 	if (!wall_dim.tex.east || !wall_dim.tex.north || !wall_dim.tex.west
 		|| !wall_dim.tex.south)
 		return (1);

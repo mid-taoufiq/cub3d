@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 11:32:50 by tibarike          #+#    #+#             */
-/*   Updated: 2025/10/06 17:13:16 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/11/02 14:27:44 by tibarike         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,12 +64,7 @@ int	ft_strlen(char *str)
 
 int	check_empty_line(char *line)
 {
-	int	i;
-
-	i = 0;
-	while (line[i] == ' ')
-		i++;
-	if (line[i] == '\0')
+	if (line[0] == '\0')
 		return (1);
 	return (0);
 }

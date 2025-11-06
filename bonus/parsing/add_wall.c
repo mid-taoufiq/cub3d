@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 12:00:54 by tibarike          #+#    #+#             */
-/*   Updated: 2025/10/31 14:24:26 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/11/06 15:39:41 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,10 @@ static char	*add_path(char *line, t_garbage **garbage, char *option)
 	if (!path)
 		return (NULL);
 	if (path[0] == '\0' || !check_extansion(path, ".xpm42", 1))
-		return (write(2, "Error\narguments error1\n", 23), NULL);
+		return (write(2, "Error\narguments error\n", 23), NULL);
 	fd = open(path, O_RDONLY);
 	if (fd < 0)
-		return (close(fd), write(2, "Error\narguments error2\n", 23), NULL);
+		return (close(fd), write(2, "Error\narguments error\n", 23), NULL);
 	close(fd);
 	return (path);
 }

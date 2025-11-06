@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 11:35:29 by tibarike          #+#    #+#             */
-/*   Updated: 2025/10/31 14:45:29 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/11/06 16:42:58 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,11 @@ typedef struct s_garbage
 
 typedef struct s_tex
 {
-	xpm_t *north;
-	xpm_t *west;
-	xpm_t *east;
-	xpm_t *south;
+	xpm_t	*north;
+	xpm_t	*west;
+	xpm_t	*east;
+	xpm_t	*south;
+	xpm_t	*door;
 }	t_tex;
 
 typedef struct s_wall
@@ -49,6 +50,7 @@ typedef struct s_wall
 	char	*so;
 	char	*we;
 	char	*ea;
+	char	*d;
 	char	**map;
 	char	player_direction;
 	int		floor;
@@ -59,9 +61,26 @@ typedef struct s_wall
 	int		so_filled;
 	int		f_filled;
 	int		c_filled;
+	int		door_filled;
 	int		map_filled;
 	t_tex	tex;
 }	t_wall;
+
+typedef struct s_door
+{
+	int	x;
+	int	y;
+}	t_door;
+
+typedef struct s_frames
+{
+	xpm_t		*frames[6];
+	int			current_frame;
+	int			frames_number;
+	int			x;
+	int			y;
+	mlx_image_t	*img;
+}	t_frames;
 
 
 typedef struct s_win
@@ -101,7 +120,8 @@ typedef struct s_win
 	double		right_vecy;
 	double		left_vecx;
 	double		left_vecy;
-	int			key_pressed;
+	t_frames	frames;
+	t_door		door;
 }	t_win;
 
 void	*ft_malloc(int size, t_garbage **garbage);
@@ -137,8 +157,8 @@ void	ft_put_img(char **arr, t_win *win, int check);
 void	ft_player(int x, int y, int color, t_win win);
 void	ft_recto_player(int x, int y, int color, t_win win);
 void	ft_recto(int x, int y, int color, t_win win);
-void	ft_recast(t_win *win, char c, int check);
 void	ft_recast_helper(t_win *win);
+void	ft_recast(t_win *win, char c, int check);
 int		ft_move_player(char **arr, t_win *win);
 void	ft_calculate_lent(t_win *win);
 void	func(void *param);
@@ -150,5 +170,6 @@ int		ft_check_player(char c);
 void	ft_mov_press(t_win *win, int check);
 void	mouse_handle(double xpos, double ypos, void *param);
 void	ft_clear_img(t_win *win, mlx_image_t *img);
+void	handle_doors(t_win *win);
 
 #endif

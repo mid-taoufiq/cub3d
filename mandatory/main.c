@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 11:40:58 by tibarike          #+#    #+#             */
-/*   Updated: 2025/11/03 16:03:40 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/11/06 16:21:42 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,22 +35,53 @@ int	check_extansion(char *line, char *extansion, int option)
 	return (1);
 }
 
-void key_press(mlx_key_data_t keydata, void *param)
-{
-	t_win *win;
-	win = param;
+// void key_press(mlx_key_data_t keydata, void *param)
+// {
+// 	t_win *win;
+// 	win = param;
 
-	if (keydata.key == MLX_KEY_W)
-		win->key_pressed = MLX_KEY_W;
-	else if (keydata.key == MLX_KEY_S)
-		win->key_pressed = MLX_KEY_S;
-	else if (keydata.key == MLX_KEY_RIGHT)
-		win->key_pressed = MLX_KEY_RIGHT;
-	else if (keydata.key == MLX_KEY_LEFT)
-		win->key_pressed = MLX_KEY_LEFT;
-	else if (keydata.key == MLX_KEY_SPACE)
-		win->key_pressed = MLX_KEY_SPACE;
-}
+// 	if (keydata.key == MLX_KEY_W)
+// 		win->key_pressed = MLX_KEY_W;
+// 	else if (keydata.key == MLX_KEY_S)
+// 		win->key_pressed = MLX_KEY_S;
+// 	else if (keydata.key == MLX_KEY_RIGHT)
+// 		win->key_pressed = MLX_KEY_RIGHT;
+// 	else if (keydata.key == MLX_KEY_LEFT)
+// 		win->key_pressed = MLX_KEY_LEFT;
+// 	else if (keydata.key == MLX_KEY_SPACE)
+// 		win->key_pressed = MLX_KEY_SPACE;
+// }
+
+// void	ft_rotation(t_win *win, int check)
+// {
+// 	double store_x;
+// 	double store_y;
+// 	double store_planex;
+// 	double store_planey;
+
+// 	store_x = win->player_dirx;
+// 	store_y = win->player_diry;
+// 	store_planex = win->plane_dirx;
+// 	store_planey = win->plane_diry;
+// 	if (check == 1)
+// 	{
+// 		win->player_dirx = store_x * cos(0.04) + store_y * sin(0.04);
+// 		win->player_diry = -store_x * sin(0.04) + store_y * cos(0.04);
+// 		win->plane_dirx = store_planex * cos(0.04) + store_planey * sin(0.04);
+// 		win->plane_diry = -store_planex * sin(0.04) + store_planey * cos(0.04);
+// 		win->start_posx = win->player_x/win->tile;
+// 		win->start_posy = win->player_y/win->tile;
+// 	}
+// 	else if (check == 2)
+// 	{
+// 		win->player_dirx = store_x * cos(0.04) - store_y * sin(0.04);
+// 		win->player_diry = store_x * sin(0.04) + store_y * cos(0.04);
+// 		win->plane_dirx = store_planex * cos(0.04) - store_planey * sin(0.04);
+// 		win->plane_diry = store_planex * sin(0.04) + store_planey * cos(0.04);
+// 		win->start_posx = win->player_x/win->tile;
+// 		win->start_posy = win->player_y/win->tile;
+// 	}
+// }
 
 void	ft_calculate_lent(t_win *win)
 {
@@ -80,6 +111,20 @@ void	ft_calculate_lent(t_win *win)
 // 	mlx_loop_hook(win->mlx, func, win);
 // 	return (0);
 // }
+// 	t_win	*win;
+
+// 	win = (t_win *)param;
+// 	if (mlx_is_key_down(win->mlx, MLX_KEY_W))
+// 		ft_mov_press(win, 1);
+// 	else if (mlx_is_key_down(win->mlx, MLX_KEY_S))
+// 		ft_mov_press(win, 2);
+// 	else if (mlx_is_key_down(win->mlx, MLX_KEY_RIGHT))
+// 		ft_rotation(win, 1);
+// 	else if (mlx_is_key_down(win->mlx, MLX_KEY_LEFT))
+// 		ft_rotation(win, 2);
+// 	ft_movement(win, 1);
+// }
+
 
 char	*ft_strdupo(char *s1)
 {
@@ -103,6 +148,19 @@ char	*ft_strdupo(char *s1)
 	return (dup);
 }
 
+int	init_frames(t_win *win)
+{
+	win->frames.frames[0] = mlx_load_xpm42("./textures/frame_0.xpm42");
+	win->frames.frames[1] = mlx_load_xpm42("./textures/frame_1.xpm42");
+	win->frames.frames[2] = mlx_load_xpm42("./textures/frame_2.xpm42");
+	win->frames.frames[3] = mlx_load_xpm42("./textures/frame_3.xpm42");
+	win->frames.frames[4] = mlx_load_xpm42("./textures/frame_4.xpm42");
+	win->frames.frames[5] = mlx_load_xpm42("./textures/frame_5.xpm42");	
+	win->frames.current_frame = 0;
+	win->frames.frames_number = 6;
+	return (0);
+}
+
 int	main(int argc, char **argv)
 {
 	t_wall		wall_dim;
@@ -110,7 +168,6 @@ int	main(int argc, char **argv)
 	char		*line;
 	t_garbage	*garbage;
 	t_win		win;
-	double		frames_now;
 
 	win.tile = 32;
 	win.column = 0;
@@ -159,9 +216,12 @@ int	main(int argc, char **argv)
 	wall_dim.tex.north = mlx_load_xpm42(wall_dim.no);
 	wall_dim.tex.west = mlx_load_xpm42(wall_dim.we);
 	wall_dim.tex.south = mlx_load_xpm42(wall_dim.so);
+	wall_dim.tex.door = mlx_load_xpm42(wall_dim.d);
 	if (!wall_dim.tex.east || !wall_dim.tex.north || !wall_dim.tex.west
 		|| !wall_dim.tex.south)
 		return (1);
+	if (init_frames(&win))
+		return (0);
 	ft_movement(&win, 0);
 	ft_move_player(win.arr, &win);
 	// mlx_terminate(win.mlx);
@@ -178,7 +238,7 @@ int	main(int argc, char **argv)
 		mlx_close_window(win.mlx);
 	}
 	mlx_loop(win.mlx);
-	mlx_terminate(win.mlx);
+	// mlx_terminate(win.mlx);
 	close(fd);
 	ft_lstclear(&garbage);
 	return (0);
