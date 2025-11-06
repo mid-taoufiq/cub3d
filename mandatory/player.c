@@ -95,6 +95,7 @@ void	mouse_handle(double xpos, double ypos, void *param)
 	double	r;
 
 	win = (t_win *)param;
+	mlx_set_mouse_pos(win->mlx, win->width/2, win->height/2);
 	x_center = win->width/2;
 	r = (xpos - x_center) * 0.001;
 	if (r > 0)
@@ -104,7 +105,6 @@ void	mouse_handle(double xpos, double ypos, void *param)
 		r = -r;
 		ft_rotation(win, 2, r);
 	}
-	mlx_set_mouse_pos(win->mlx, win->width/2, win->height/2);
 }
 
 int	ft_move_player(char **arr, t_win *win)

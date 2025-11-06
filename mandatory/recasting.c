@@ -378,18 +378,18 @@ void	ft_player_dir(t_win *win, int check)
 		win->player_dirx = -1;
 		win->player_diry = 0;
 		win->right_vecx = 0;
-		win->right_vecy = -1;
+		win->right_vecy = 1;
 		win->left_vecx = 0;
-		win->left_vecy = 1;
+		win->left_vecy = -1;
 	}
 	else if (check == 2)
 	{
 		win->player_dirx = 1;
 		win->player_diry = 0;
 		win->right_vecx = 0;
-		win->right_vecy = 1;
+		win->right_vecy = -1;
 		win->left_vecx = 0;
-		win->left_vecy = -1;
+		win->left_vecy = 1;
 	}
 	else if (check == 3)
 	{
