@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 11:40:58 by tibarike          #+#    #+#             */
-/*   Updated: 2025/11/07 10:22:06 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/11/08 11:44:07 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	ft_calculate_lent(t_win *win)
 {
 	int	i;
 	int	j;
-	
+
 	i = 0;
 	j = 0;
 	while (win->arr[i])
@@ -85,7 +85,7 @@ int	init_frames(t_win *win)
 	win->frames.frames[2] = mlx_load_xpm42("./textures/frame_2.xpm42");
 	win->frames.frames[3] = mlx_load_xpm42("./textures/frame_3.xpm42");
 	win->frames.frames[4] = mlx_load_xpm42("./textures/frame_4.xpm42");
-	win->frames.frames[5] = mlx_load_xpm42("./textures/frame_5.xpm42");	
+	win->frames.frames[5] = mlx_load_xpm42("./textures/frame_5.xpm42");
 	win->frames.current_frame = 0;
 	win->frames.frames_number = 6;
 	return (0);
@@ -124,7 +124,7 @@ int	main(int argc, char **argv)
 	win.mlx = mlx_init(win.width, win.height, "my_mlx", true);
 	if (!win.mlx)
 		exit (1);
-	win.img = mlx_new_image(win.mlx, win.tile*9, win.tile*9);
+	win.img = mlx_new_image(win.mlx, win.tile * 9, win.tile * 9);
 	if (!win.img)
 	{
 		mlx_terminate(win.mlx);
@@ -136,7 +136,7 @@ int	main(int argc, char **argv)
 		mlx_terminate(win.mlx);
 		exit (1);
 	}
-	win.img_player = mlx_new_image(win.mlx, win.tile*9, win.tile*9);
+	win.img_player = mlx_new_image(win.mlx, win.tile * 9, win.tile * 9);
 	if (!win.img_player)
 	{
 		mlx_terminate(win.mlx);
@@ -154,7 +154,6 @@ int	main(int argc, char **argv)
 		return (0);
 	ft_movement(&win, 0);
 	ft_move_player(win.arr, &win);
-	// mlx_terminate(win.mlx);
 	if (mlx_image_to_window(win.mlx, win.img_3d, 0, 0) == -1)
 	{
 		mlx_close_window(win.mlx);
@@ -168,8 +167,8 @@ int	main(int argc, char **argv)
 		mlx_close_window(win.mlx);
 	}
 	mlx_loop(win.mlx);
-	// mlx_terminate(win.mlx);
 	close(fd);
 	ft_lstclear(&garbage);
+	mlx_terminate(win.mlx);
 	return (0);
 }
