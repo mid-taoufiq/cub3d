@@ -1,28 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   player.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/07 10:16:49 by aakroud           #+#    #+#             */
+/*   Updated: 2025/11/08 10:23:54 by aakroud          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3d.h"
 
 int	ft_color(int r, int g, int b, int a)
 {
 	return (r << 24 | g << 16 | b << 8 | a);
 }
-
-// void	ft_clear_img(t_win *win, mlx_image_t *img)
-// {
-// 	int	x;
-// 	int	y;
-
-// 	x = 0;
-// 	y = 0;
-// 	while (y < 64)
-// 	{
-// 		x = 0;
-// 		while (x < 64)
-// 		{
-// 			mlx_put_pixel(img, x, y, ft_color(0, 0, 0, 0));
-// 			x++;
-// 		}
-// 		y++;
-// 	}
-// }
 
 void	ft_two_d_map(t_win *win, double ray_Dirx, double ray_Diry, int check)
 {
@@ -90,14 +83,14 @@ void	func(void *param)
 
 void	mouse_handle(double xpos, double ypos, void *param)
 {
-	t_win *win;
+	t_win	*win;
 	int		x_center;
 	double	r;
 
 	win = (t_win *)param;
-	mlx_set_mouse_pos(win->mlx, win->width/2, win->height/2);
-	x_center = win->width/2;
+	x_center = win->width / 2;
 	r = (xpos - x_center) * 0.001;
+	mlx_set_mouse_pos(win->mlx, x_center, win->height / 2);
 	if (r > 0)
 		ft_rotation(win, 1, r);
 	else
@@ -112,6 +105,5 @@ int	ft_move_player(char **arr, t_win *win)
 	mlx_set_cursor_mode(win->mlx, MLX_MOUSE_DISABLED);
 	mlx_cursor_hook(win->mlx, mouse_handle, (void *)win);
 	mlx_loop_hook(win->mlx, func, win);
-	// mlx_key_hook(win->mlx, func, win);
 	return (0);
 }
