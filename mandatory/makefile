@@ -28,10 +28,10 @@ MLX_FLAG = -L/mnt/homes/tibarike/homebrew/opt/glfw/lib -lglfw -framework Cocoa -
 all: ${NAME}
 
 ${NAME}: ${OBJ} ${LIB_MLX}
-	cc ${FLAGS} ${MLX_FLAG} -fsanitize=address -g ${OBJ} ${LIB_MLX} -o $@
+	cc ${FLAGS} ${MLX_FLAG} ${OBJ} ${LIB_MLX} -o $@
 
 %.o: %.c cub3d.h
-	cc ${FLAGS} -fsanitize=address -g -c $< -o $@
+	cc ${FLAGS} -c $< -o $@
 
 clean:
 	rm -rf ${OBJ}

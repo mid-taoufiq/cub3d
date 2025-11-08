@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   parse_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/26 15:11:37 by tibarike          #+#    #+#             */
-/*   Updated: 2025/11/06 16:36:01 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/11/08 13:17:13 by tibarike         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
-int	player_match(char c)
+int	isplayer(char c)
 {
 	if (c == 'N' || c == 'W' || c == 'E' || c == 'S')
 		return (1);
@@ -21,10 +21,10 @@ int	player_match(char c)
 
 int	is_valid(char c)
 {
-	return (c == '0' || c == '1' || c == 'D' || player_match(c));
+	return (c == '0' || c == '1' || c == 'D' || isplayer(c));
 }
 
-int	parse_palyer_0_D(char **map, int i, int j)
+int	parse_palyer_0_d(char **map, int i, int j)
 {
 	if (i == 0 || j >= ft_strlen(map[i - 1]) || !is_valid(map[i - 1][j]))
 		return (0);
@@ -41,12 +41,12 @@ int	handle_p(t_wall *wall, int i, int j, int *cplayer)
 {
 	(*cplayer)++;
 	wall->player_direction = wall->map[i][j];
-	if (!parse_palyer_0_D(wall->map, i, j))
+	if (!parse_palyer_0_d(wall->map, i, j))
 		return (0);
 	return (1);
 }
 
-int	parse_map(t_wall *wall, int cplayer)
+int	parse_map(t_wall *wall, int cp)
 {
 	int	i;
 	int	j;
@@ -58,19 +58,19 @@ int	parse_map(t_wall *wall, int cplayer)
 		while (wall->map[i][j])
 		{
 			if ((wall->map[i][j] == '0' || wall->map[i][j] == 'D')
-				&& !parse_palyer_0_D(wall->map, i, j))
-				return (write(2, "Error\nzero/door position not correct\n", 38), 0);
-			else if (player_match(wall->map[i][j]) && !handle_p(wall, i, j, &cplayer))
-				return (write(2, "Error\nplayer position not correct\n", 35), 0);
+				&& !parse_palyer_0_d(wall->map, i, j))
+				return (write(2, "Error\nzero/door not correct\n", 38), 0);
+			else if (isplayer(wall->map[i][j]) && !handle_p(wall, i, j, &cp))
+				return (write(2, "Error\nplayer not correct\n", 35), 0);
 			else if (wall->map[i][j] != '1' && wall->map[i][j] != ' '
 				&& wall->map[i][j] != '0' && wall->map[i][j] != 'D'
-				&& !player_match(wall->map[i][j]))
+				&& !isplayer(wall->map[i][j]))
 				return (write(2, "Error\nunallowed character\n", 27), 0);
 			j++;
 		}
 		i++;
 	}
-	if (cplayer != 1)
+	if (cp != 1)
 		return (write(2, "Error\nplayer not correct\n", 26), 0);
 	return (1);
 }

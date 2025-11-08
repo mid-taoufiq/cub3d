@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   movement.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/07 10:16:43 by aakroud           #+#    #+#             */
-/*   Updated: 2025/11/08 10:21:13 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/11/08 13:23:31 by tibarike         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,7 +142,7 @@ void	handle_doors(t_win *win)
 
 	px = (int)win->start_posx;
 	py = (int)win->start_posy;
-	if (win->door.y != -1 && win->door.x != 1)
+	if (win->door.y != -1 && win->door.x != -1)
 	{
 		if (win->arr[win->door.y][win->door.x] == 'D')
 		{

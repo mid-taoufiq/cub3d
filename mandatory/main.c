@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 11:40:58 by tibarike          #+#    #+#             */
-/*   Updated: 2025/11/08 11:44:07 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/11/08 13:22:29 by tibarike         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,7 @@ int	init_frames(t_win *win)
 	win->frames.frames[5] = mlx_load_xpm42("./textures/frame_5.xpm42");
 	win->frames.current_frame = 0;
 	win->frames.frames_number = 6;
+	win->frames.timer = mlx_get_time();
 	return (0);
 }
 

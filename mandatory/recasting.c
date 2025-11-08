@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   recasting.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/07 10:16:57 by aakroud           #+#    #+#             */
-/*   Updated: 2025/11/08 11:39:12 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/11/08 13:26:56 by tibarike         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ double	ft_recast_loop(t_win *win, int x)
 		}
 		if (win->arr[win->my][win->mx] == 'O')
 		{
-			if (x == (win->width / 2))
+			if (x == (win->width / 2) && win->door.x == -1 && win->door.y == -1)
 			{
 				win->door.x = win->mx;
 				win->door.y = win->my;
@@ -45,7 +45,7 @@ double	ft_recast_loop(t_win *win, int x)
 			if (win->arr[win->my][win->mx] == 'D')
 			{
 				win->is_door = 1;
-				if (x == (win->width / 2))
+				if (x == (win->width / 2) && win->door.x == -1 && win->door.y == -1)
 				{
 					win->door.x = win->mx;
 					win->door.y = win->my;
@@ -173,10 +173,10 @@ void	ft_recast_helper(t_win *win)
 		wall_x -= floor(wall_x);
 		tex_x = (int)(wall_x * tex->texture.width);
 		line = (int)(win->height / wall);
-		step = 1.0 * tex->texture.height / line;
 		ps = -line / 2 + win->height / 2;
 		if (ps < 0)
 			ps = 0;
+		step = (double)tex->texture.height / line;
 		tex_pos = (ps - win->height / 2 + line / 2) * step;
 		pe = line / 2 + win->height / 2;
 		if (pe >= win->height)
@@ -189,7 +189,7 @@ void	ft_recast_helper(t_win *win)
 		}
 		while (draw <= pe)
 		{
-			tex_y = (int)tex_pos % (tex->texture.height - 1);
+			tex_y = (int)tex_pos % tex->texture.height;
 			tex_pos += step;
 			pixel = &tex->texture.pixels[(tex_y * tex->texture.width + tex_x) * 4];
 			mlx_put_pixel(win->img_3d, x, draw, ft_color(pixel[0], pixel[1], pixel[2], pixel[3]));
@@ -290,6 +290,35 @@ void	ft_recast_check(t_win *win, char c)
 	}
 }
 
+void	handle_frames(t_win *win)
+{
+	double frame_timer;
+
+	frame_timer = mlx_get_time();
+	if (win->frames.img != NULL)
+		mlx_delete_image(win->mlx, win->frames.img);
+	win->frames.img = mlx_texture_to_image(win->mlx, &win->frames.frames[win->frames.current_frame]->texture);
+	if (!win->frames.img)
+	{
+		mlx_terminate(win->mlx);
+		exit (1);
+	}
+	win->frames.x = win->frames.img->width - 250;
+	win->frames.y = win->frames.img->height - 200;
+	if (mlx_image_to_window(win->mlx, win->frames.img, win->frames.x, win->frames.y) == -1)
+	{
+		mlx_terminate(win->mlx);
+		exit (1);
+	}
+	if (frame_timer - win->frames.timer > 0.05)
+	{
+		win->frames.timer = frame_timer;
+		win->frames.current_frame++;
+		if (win->frames.current_frame == win->frames.frames_number)
+			win->frames.current_frame = 0;
+	}
+}
+
 void	ft_recast(t_win *win, char c, int check)
 {
 	if (c == 'W')
@@ -316,17 +345,5 @@ void	ft_recast(t_win *win, char c, int check)
 			ft_recast_check(win, c);
 		ft_recast_helper(win);
 	}
-	if (win->frames.img != NULL)
-		mlx_delete_image(win->mlx, win->frames.img);
-	win->frames.img = mlx_texture_to_image(win->mlx, &win->frames.frames[win->frames.current_frame]->texture);
-	win->frames.x = win->frames.img->width - 250;
-	win->frames.y = win->frames.img->height - 200;
-	win->frames.current_frame++;
-	if (win->frames.current_frame == win->frames.frames_number)
-		win->frames.current_frame = 0;
-	if (mlx_image_to_window(win->mlx, win->frames.img, win->frames.x, win->frames.y) == -1)
-	{
-		mlx_terminate(win->mlx);
-		exit (1);
-	}
+	handle_frames(win);
 }

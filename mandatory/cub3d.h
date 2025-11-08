@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 11:35:29 by tibarike          #+#    #+#             */
-/*   Updated: 2025/11/08 11:06:57 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/11/08 13:22:07 by tibarike         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ typedef struct s_frames
 	int			x;
 	int			y;
 	mlx_image_t	*img;
+	double		timer;
 }	t_frames;
 
 
@@ -152,7 +153,7 @@ int		add_dimensions(t_wall *wall_dim, char *line, t_garbage **garbage);
 void	ft_lstclear(t_garbage **lst);
 int		add_to_map(char *line, t_wall *wall_dim, t_garbage **garbage, int fd);
 int		check_options(t_wall *wall, int option);
-int		parse_map(t_wall *wall, int cplayer);
+int		parse_map(t_wall *wall, int cp);
 int		check_remaining(int fd, char *line, t_wall *wall, t_garbage **garbage);
 void	struct_init(t_wall *wall_dim);
 int		parsing(char *line, int fd, t_wall *wall_dim, t_garbage **garbage);
