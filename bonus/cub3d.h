@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 11:35:29 by tibarike          #+#    #+#             */
-/*   Updated: 2025/11/02 13:24:51 by tibarike         ###   ########.fr       */
+/*   Updated: 2025/11/06 15:39:46 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ typedef struct s_win
 {
 	mlx_t		*mlx;
 	mlx_image_t	*img;
+	mlx_image_t	*img_3d;
 	mlx_image_t	*img_player;
 	int			tile;
 	double		player_tile;
@@ -151,5 +152,17 @@ int		ft_check_player(char c);
 void	ft_draw_line(char c, t_win *win, int i, int j);
 void	ft_clear_img(t_win *win, mlx_image_t *img);
 int		ft_color(int r, int g, int b, int a);
+int		ft_move_player(char **arr, t_win *win);
+void	ft_calculate_lent(t_win *win);
+void	func(mlx_key_data_t keydata, void *param);
+void	ft_clear_img(t_win *win, mlx_image_t *img);
+void	ft_two_d_map(t_win *win, double ray_Dirx, double ray_Diry, int check);
+int		ft_color(int r, int g, int b, int a);
+void	ft_rotation(t_win *win, int check);
+void	ft_movement(t_win *win, int check);
+int		ft_check_player(char c);
+void	ft_mov_press(t_win *win, int check);
+void	ft_put_img(char **arr, t_win *win, int check);
+void	ft_recast(t_win *win, char c, int check);
 
 #endif

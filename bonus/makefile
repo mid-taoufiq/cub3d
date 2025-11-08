@@ -4,6 +4,10 @@ FLAGS = -Wall #-Werror -Wextra
 
 SRC = main.c\
 	garbage.c\
+	player.c\
+	recasting.c\
+	movement.c\
+	draw.c\
 	./parsing/parsing.c\
 	./parsing/add_colors.c\
 	./parsing/add_to_map.c\
