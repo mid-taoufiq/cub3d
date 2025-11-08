@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 11:35:29 by tibarike          #+#    #+#             */
-/*   Updated: 2025/11/06 15:39:46 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/11/08 10:38:14 by tibarike         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,23 +35,6 @@ typedef struct s_garbage
 	struct s_garbage	*next;
 }	t_garbage;
 
-typedef struct s_door
-{
-	int	x;
-	int	y;
-}	t_door;
-
-typedef struct s_frames
-{
-	xpm_t		*frames[15];
-	int			current_frame;
-	int			frames_number;
-	int			x;
-	int			y;
-	double		timer;
-	mlx_image_t	*img;
-}	t_frames;
-
 typedef struct s_tex
 {
 	xpm_t	*north;
@@ -78,24 +61,41 @@ typedef struct s_wall
 	int		so_filled;
 	int		f_filled;
 	int		c_filled;
-	int		map_filled;
 	int		door_filled;
+	int		map_filled;
 	t_tex	tex;
 }	t_wall;
+
+typedef struct s_door
+{
+	int	x;
+	int	y;
+}	t_door;
+
+typedef struct s_frames
+{
+	xpm_t		*frames[6];
+	int			current_frame;
+	int			frames_number;
+	int			x;
+	int			y;
+	mlx_image_t	*img;
+	double		timer;
+}	t_frames;
+
 
 typedef struct s_win
 {
 	mlx_t		*mlx;
 	mlx_image_t	*img;
-	mlx_image_t	*img_3d;
 	mlx_image_t	*img_player;
 	int			tile;
 	double		player_tile;
 	int			width;
 	int			height;
 	char		**arr;
-	double		player_x;
-	double		player_y;
+	double			player_x;
+	double			player_y;
 	double		player_dirx;
 	double		player_diry;
 	double		plane_dirx;
@@ -107,15 +107,20 @@ typedef struct s_win
 	double		distance;
 	int			past_posx;
 	int			past_posy;
+	t_wall		*wall_dim;
 	int			column;
 	int			row;
 	int			middle_x;
 	int			middle_y;
+	mlx_image_t	*img_3d;
 	int			map_startx;
 	int			map_starty;
 	int			map_endx;
 	int			map_endy;
-	t_wall		*wall_dim;
+	double		right_vecx;
+	double		right_vecy;
+	double		left_vecx;
+	double		left_vecy;
 	t_frames	frames;
 	t_door		door;
 }	t_win;
@@ -139,7 +144,6 @@ int		ft_strsearch(char *str, char *search);
 int		ft_strsearch2(char *str, char *search);
 int		arg_counter(char **arr);
 int		add_dimensions(t_wall *wall_dim, char *line, t_garbage **garbage);
-int		add_door(char *line, t_wall *wall_dim, t_garbage **garbage);
 void	ft_lstclear(t_garbage **lst);
 int		add_to_map(char *line, t_wall *wall_dim, t_garbage **garbage, int fd);
 int		check_options(t_wall *wall, int option);
@@ -149,20 +153,24 @@ void	struct_init(t_wall *wall_dim);
 int		parsing(char *line, int fd, t_wall *wall_dim, t_garbage **garbage);
 int		check_extansion(char *line, char *extansion, int option);
 int		ft_check_player(char c);
-void	ft_draw_line(char c, t_win *win, int i, int j);
-void	ft_clear_img(t_win *win, mlx_image_t *img);
 int		ft_color(int r, int g, int b, int a);
+void	ft_put_img(char **arr, t_win *win, int check);
+void	ft_player(int x, int y, int color, t_win win);
+void	ft_recto_player(int x, int y, int color, t_win win);
+void	ft_recto(int x, int y, int color, t_win win);
+void	ft_recast_helper(t_win *win);
+void	ft_recast(t_win *win, char c, int check);
 int		ft_move_player(char **arr, t_win *win);
 void	ft_calculate_lent(t_win *win);
-void	func(mlx_key_data_t keydata, void *param);
-void	ft_clear_img(t_win *win, mlx_image_t *img);
+void	func(void *param);
 void	ft_two_d_map(t_win *win, double ray_Dirx, double ray_Diry, int check);
 int		ft_color(int r, int g, int b, int a);
-void	ft_rotation(t_win *win, int check);
+void	ft_rotation(t_win *win, int check, double angle);
 void	ft_movement(t_win *win, int check);
 int		ft_check_player(char c);
 void	ft_mov_press(t_win *win, int check);
-void	ft_put_img(char **arr, t_win *win, int check);
-void	ft_recast(t_win *win, char c, int check);
+void	mouse_handle(double xpos, double ypos, void *param);
+void	ft_clear_img(t_win *win, mlx_image_t *img);
+void	handle_doors(t_win *win);
 
 #endif

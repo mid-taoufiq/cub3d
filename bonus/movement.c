@@ -74,25 +74,159 @@ void	ft_rotation(t_win *win, int check, double angle)
 	double	store_y;
 	double	store_planex;
 	double	store_planey;
+	double	store_rvecx;
+	double	store_rvecy;
+	double	store_lvecx;
+	double	store_lvecy;
 
 	store_x = win->player_dirx;
 	store_y = win->player_diry;
 	store_planex = win->plane_dirx;
 	store_planey = win->plane_diry;
+	store_rvecx = win->right_vecx;
+	store_rvecy = win->right_vecy;
+	store_lvecx = win->left_vecx;
+	store_lvecy = win->left_vecy;
 	if (check == 1)
 	{
-		win->player_dirx = store_x * cos(0.1) + store_y * sin(0.1);
-		win->player_diry = -store_x * sin(0.1) + store_y * cos(0.1);
-		win->plane_dirx = store_planex * cos(0.1) + store_planey * sin(0.1);
-		win->plane_diry = -store_planex * sin(0.1) + store_planey * cos(0.1);
+		win->player_dirx = store_x * cos(angle) + store_y * sin(angle);
+		win->player_diry = -store_x * sin(angle) + store_y * cos(angle);
+		win->plane_dirx = store_planex * cos(angle) + store_planey * sin(angle);
+		win->plane_diry = -store_planex * sin(angle) + store_planey * cos(angle);
+		win->right_vecx = store_rvecx * cos(angle) + store_rvecy * sin(angle);
+		win->right_vecy = -store_rvecx * sin(angle) + store_rvecy * cos(angle);
+		win->left_vecx = store_lvecx * cos(angle) + store_lvecy * sin(angle);
+		win->left_vecy = -store_lvecx * sin(angle) + store_lvecy * cos(angle);
 		ft_rotate_helper(win);
 	}
 	else if (check == 2)
 	{
-		win->player_dirx = store_x * cos(0.1) - store_y * sin(0.1);
-		win->player_diry = store_x * sin(0.1) + store_y * cos(0.1);
-		win->plane_dirx = store_planex * cos(0.1) - store_planey * sin(0.1);
-		win->plane_diry = store_planex * sin(0.1) + store_planey * cos(0.1);
+		win->player_dirx = store_x * cos(angle) - store_y * sin(angle);
+		win->player_diry = store_x * sin(angle) + store_y * cos(angle);
+		win->plane_dirx = store_planex * cos(angle) - store_planey * sin(angle);
+		win->plane_diry = store_planex * sin(angle) + store_planey * cos(angle);
+		win->right_vecx = store_rvecx * cos(angle) - store_rvecy * sin(angle);
+		win->right_vecy = store_rvecx * sin(angle) + store_rvecy * cos(angle);
+		win->left_vecx = store_lvecx * cos(angle) - store_lvecy * sin(angle);
+		win->left_vecy = store_lvecx * sin(angle) + store_lvecy * cos(angle);
 		ft_rotate_helper(win);
 	}
 }
+
+void	handle_doors(t_win *win)
+{
+	int	px;
+	int	py;
+
+	px = (int)win->start_posx;
+	py = (int)win->start_posy;
+	if (win->door.y != -1 && win->door.x != -1)
+	{
+		if (win->arr[win->door.y][win->door.x] == 'D')
+		{
+			if ((abs(px - win->door.x) <= 1 && win->door.y == py)
+				|| (abs(py - win->door.y) <= 1 && win->door.x == px))
+				win->arr[win->door.y][win->door.x] = 'O';
+		}
+		else if (win->arr[win->door.y][win->door.x] == 'O')
+		{
+			if ((abs(px - win->door.x) <= 1 && win->door.y == py)
+				|| (abs(py - win->door.y) <= 1 && win->door.x == px))
+				win->arr[win->door.y][win->door.x] = 'D';
+		}
+	}
+}
+
+void	ft_mov_press(t_win *win, int check)
+{
+	int	my_max;
+	int	my_may;
+
+	my_max = 0;
+	my_may = 0;
+	if (check == 1)
+	{
+		my_max = (int)(win->player_x + win->player_dirx * 4)/win->tile;
+		my_may = (int)(win->player_y/win->tile);
+		if (win->arr[my_may][my_max] != '1' && win->arr[my_may][my_max] != 'D')
+			win->player_x += win->player_dirx * 2;
+		else
+			my_max = (int)(win->player_x)/win->tile;
+		my_may = (int)(win->player_y + win->player_diry * 4)/win->tile;
+		if (win->arr[my_may][my_max] != '1' && win->arr[my_may][my_max] != 'D')
+			win->player_y += win->player_diry * 2;
+		win->start_posx = win->player_x/win->tile;
+		win->start_posy = win->player_y/win->tile;
+	}
+	else if (check == 2)
+	{
+		my_max = (int)(win->player_x - win->player_dirx * 4)/win->tile;
+		my_may = (int)(win->player_y/win->tile);
+		if (win->arr[my_may][my_max] != '1' && win->arr[my_may][my_max] != 'D')
+			win->player_x -= win->player_dirx * 2;
+		else
+			my_max = (int)(win->player_x)/win->tile;
+		my_may = (int)(win->player_y - win->player_diry * 4)/win->tile;
+		if (win->arr[my_may][my_max] != '1' && win->arr[my_may][my_max] != 'D')
+			win->player_y -= win->player_diry * 2;
+		win->start_posx = win->player_x/win->tile;
+		win->start_posy = win->player_y/win->tile;
+	}
+	else if (check == 3)
+	{
+		my_max = (int)(win->player_x + win->left_vecx * 4)/win->tile;
+		my_may = (int)(win->player_y/win->tile);
+		if (win->arr[my_may][my_max] != '1' && win->arr[my_may][my_max] != 'D')
+			win->player_x += win->left_vecx * 2;
+		else
+			my_max = (int)(win->player_x)/win->tile;
+		my_may = (int)(win->player_y + win->left_vecy * 4)/win->tile;
+		if (win->arr[my_may][my_max] != '1' && win->arr[my_may][my_max] != 'D')
+			win->player_y += win->left_vecy * 2;
+		win->start_posx = win->player_x/win->tile;
+		win->start_posy = win->player_y/win->tile;
+	}
+	else if (check == 4)
+	{
+		my_max = (int)(win->player_x + win->right_vecx * 4)/win->tile;
+		my_may = (int)(win->player_y/win->tile);
+		if (win->arr[my_may][my_max] != '1' && win->arr[my_may][my_max] != 'D')
+			win->player_x += win->right_vecx * 2;
+		else
+			my_max = (int)(win->player_x)/win->tile;
+		my_may = (int)(win->player_y + win->right_vecy * 4)/win->tile;
+		if (win->arr[my_may][my_max] != '1' && win->arr[my_may][my_max] != 'D')
+			win->player_y += win->right_vecy * 2;
+		win->start_posx = win->player_x/win->tile;
+		win->start_posy = win->player_y/win->tile;
+	}
+	// else if (check == 3)
+	// {
+	// 	my_max = (int)(win->player_x + win->left_vecx * 4)/win->tile;
+	// 	my_may = (int)(win->player_y/win->tile);
+	// 	if (win->arr[my_may][my_max] != '1' && win->arr[my_may][my_max] != 'D')
+	// 		win->player_x += win->left_vecx * 2;
+	// 	else
+	// 		my_max = (int)(win->player_x)/win->tile;
+	// 	my_may = (int)(win->player_y + win->left_vecy * 4)/win->tile;
+	// 	if (win->arr[my_may][my_max] != '1' && win->arr[my_may][my_max] != 'D')
+	// 		win->player_y += win->left_vecy * 2;
+	// 	win->start_posx = win->player_x/win->tile;
+	// 	win->start_posy = win->player_y/win->tile;
+	// }
+	// else if (check == 4)
+	// {
+	// 	my_max = (int)(win->player_x + win->right_vecx * 4)/win->tile;
+	// 	my_may = (int)(win->player_y/win->tile);
+	// 	if (win->arr[my_may][my_max] != '1' && win->arr[my_may][my_max] != 'D')
+	// 		win->player_x += win->right_vecx * 2;
+	// 	else
+	// 		my_max = (int)(win->player_x)/win->tile;
+	// 	my_may = (int)(win->player_y + win->right_vecy * 4)/win->tile;
+	// 	if (win->arr[my_may][my_max] != '1' && win->arr[my_may][my_max] != 'D')
+	// 		win->player_y += win->right_vecy * 2;
+	// 	win->start_posx = win->player_x/win->tile;
+	// 	win->start_posy = win->player_y/win->tile;
+	// }
+}
+

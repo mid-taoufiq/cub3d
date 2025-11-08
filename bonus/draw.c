@@ -68,6 +68,7 @@ void	ft_player(int x, int y, int color, t_win win)
 // 	posy = (int)win->start_posy;
 // 	if (win->map_startx >= 0 && win->map_starty >= 0 && win->map_startx < win->column && win->map_starty < win->row)
 // 	{
+// 		printf("entered here\n");
 // 		if (win->map_startx == posx && win->map_starty == posy)
 // 		{
 // 			ft_recto(x * win->tile, y * win->tile, ft_color(255, 255, 0, 255), *win);
@@ -79,7 +80,7 @@ void	ft_player(int x, int y, int color, t_win win)
 // 			ft_recto(x * win->tile, y * win->tile, ft_color(0, 0, 255, 255), *win);
 // 		else
 // 			ft_recto(x * win->tile, y * win->tile, ft_color(255, 255, 0, 255), *win);
-// 		}
+// 	}
 // 	else
 // 		ft_recto(x * win->tile, y * win->tile, ft_color(0, 0, 0, 255), *win);
 // }
@@ -113,13 +114,20 @@ void	ft_put_img(char **arr, t_win *win, int check)
 			{
 				if (win->map_startx == posx && win->map_starty == posy)
 				{
-					ft_recto(x * win->tile, y * win->tile, ft_color(255, 255, 0, 255), *win);
+					if (win->arr[win->map_starty][win->map_startx] == 'O')
+						ft_recto(x * win->tile, y * win->tile, ft_color(0, 255, 0, 255), *win);
+					else
+						ft_recto(x * win->tile, y * win->tile, ft_color(255, 255, 0, 255), *win);
 					ft_recto_player(win->middle_x-win->player_tile/2, win->middle_y-win->player_tile/2, ft_color(255, 0, 0, 255), *win);
 					if (win->player_x >= 0 && win->player_y >= 0)
 						mlx_put_pixel(win->img_player, win->middle_x, win->middle_y, ft_color(0, 0, 0, 255));
 				}
 				else if (win->arr[win->map_starty][win->map_startx] == '1')
 					ft_recto(x * win->tile, y * win->tile, ft_color(0, 0, 255, 255), *win);
+				else if (win->arr[win->map_starty][win->map_startx] == 'D')
+					ft_recto(x * win->tile, y * win->tile, ft_color(128, 128, 128, 255), *win);
+				else if (win->arr[win->map_starty][win->map_startx] == 'O')
+					ft_recto(x * win->tile, y * win->tile, ft_color(0, 255, 0, 255), *win);
 				else
 					ft_recto(x * win->tile, y * win->tile, ft_color(255, 255, 0, 255), *win);
 			}
