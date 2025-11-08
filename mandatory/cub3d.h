@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 11:35:29 by tibarike          #+#    #+#             */
-/*   Updated: 2025/11/07 11:22:20 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/11/08 11:06:57 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,6 +120,14 @@ typedef struct s_win
 	double		left_vecy;
 	t_frames	frames;
 	t_door		door;
+	int			mx;
+	int			my;
+	double		deltax;
+	double		deltay;
+	int			sx;
+	int			sy;
+	int			is_door;
+	int			way;
 }	t_win;
 
 void	*ft_malloc(int size, t_garbage **garbage);

@@ -6,11 +6,124 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/07 10:16:57 by aakroud           #+#    #+#             */
-/*   Updated: 2025/11/08 10:25:53 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/11/08 11:39:12 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
+double	ft_recast_loop(t_win *win, int x)
+{
+	int		was_hit;
+
+	was_hit = 0;
+	while (!was_hit)
+	{
+		if (win->distx < win->disty)
+		{
+			win->distx += win->deltax;
+			win->mx += win->sx;
+			win->way = 0;
+		}
+		else 
+		{
+			win->disty += win->deltay;
+			win->my += win->sy;
+			win->way = 1;
+		}
+		if (win->arr[win->my][win->mx] == 'O')
+		{
+			if (x == (win->width / 2))
+			{
+				win->door.x = win->mx;
+				win->door.y = win->my;
+			}
+		}
+		else if (win->arr[win->my][win->mx] == '1' || win->arr[win->my][win->mx] == 'D')
+		{
+			was_hit = 1;
+			if (win->arr[win->my][win->mx] == 'D')
+			{
+				win->is_door = 1;
+				if (x == (win->width / 2))
+				{
+					win->door.x = win->mx;
+					win->door.y = win->my;
+				}
+			}
+		}
+	}
+	if (!win->way)
+		return (win->distx - win->deltax);
+	else
+		return (win->disty - win->deltay);
+	return (0.0);
+}
+
+void	ft_recast_ray(t_win *win, double ray_Dirx, double ray_Diry)
+{
+	if (ray_Dirx == 0)
+		win->deltax = 999999999999999;
+	else
+		win->deltax = fabs(1 / ray_Dirx);
+	if (ray_Diry == 0)
+		win->deltay = 999999999999999;
+	else
+		win->deltay = fabs(1 / ray_Diry);
+	if (ray_Dirx < 0)
+	{
+		win->sx = -1;
+		win->distx = (win->start_posx - win->mx) * win->deltax;
+	}
+	else
+	{
+		win->sx = 1;
+		win->distx = (win->mx + 1 - win->start_posx) * win->deltax;
+	}
+	if (ray_Diry < 0)
+	{
+		win->sy = -1;
+		win->disty = (win->start_posy - win->my) * win->deltay;
+	}
+	else
+	{
+		win->sy = 1;
+		win->disty = (win->my + 1 - win->start_posy) * win->deltay;
+	}
+}
+
+void	ft_recast_text(t_win *win, xpm_t **tex, double ray_Dirx, double ray_Diry)
+{
+	if (win->is_door)
+		*tex = win->wall_dim->tex.door;
+	else if (!win->way && ray_Dirx > 0)
+		*tex = win->wall_dim->tex.east;
+	else if (!win->way && ray_Dirx < 0)
+		*tex = win->wall_dim->tex.west;
+	else if (win->way && ray_Diry > 0)
+		*tex = win->wall_dim->tex.north;
+	else if (win->way && ray_Diry < 0)
+		*tex = win->wall_dim->tex.south;
+}
+
+// void	ft_recast_draw()
+// {
+
+// }
+
+void	ft_recast_init(t_win *win)
+{
+	win->mx = 0;
+	win->my = 0;
+	win->deltax = 0.0;
+	win->deltay = 0.0;
+	win->sx = 0;
+	win->sy = 0;
+	win->way = 0;
+	win->door.x = -1;
+	win->door.y = -1;
+	win->is_door = 0;
+}
 
 void	ft_recast_helper(t_win *win)
 {
@@ -18,15 +131,6 @@ void	ft_recast_helper(t_win *win)
 	double	camera;
 	double	ray_Dirx;
 	double	ray_Diry;
-	int		mx;
-	int		my;
-	double	deltax;
-	double	deltay;
-	double	distance;
-	int		sx;
-	int		sy;
-	int		was_hit;
-	int		way;
 	double	wall;
 	int	line;
 	int ps;
@@ -39,10 +143,7 @@ void	ft_recast_helper(t_win *win)
 	double	tex_pos;
 	int		tex_y;
 	uint8_t *pixel;
-	int		is_door;
 
-	win->door.x = -1;
-	win->door.y = -1;
 	x = 0;
 	line = 0;
 	ps = 0;
@@ -51,105 +152,21 @@ void	ft_recast_helper(t_win *win)
 	camera = 0.0;
 	ray_Dirx = 0.0;
 	ray_Diry = 0.0;
-	mx = 0;
-	my = 0;
-	deltax = 0.0;
-	deltay = 0.0;
-	sx = 0;
-	sy = 0;
-	was_hit = 0;
-	way = 0;
 	wall = 0.0;
-	distance = 0.0;
-	is_door = 0;
+	step = 0.0;
+	ft_recast_init(win);
 	while (x < win->width)
 	{
 		camera = 2 * x / (double)win->width - 1;
-		mx = (int)win->start_posx;
-		my = (int)win->start_posy;
+		win->mx = (int)win->start_posx;
+		win->my = (int)win->start_posy;
 		ray_Dirx = win->player_dirx + win->plane_dirx * camera;
 		ray_Diry = win->player_diry + win->plane_diry * camera;
-		if (ray_Dirx == 0)
-			deltax = 999999999999999;
-		else
-			deltax = fabs(1 / ray_Dirx);
-		if (ray_Diry == 0)
-			deltay = 999999999999999;
-		else
-			deltay = fabs(1 / ray_Diry);
-		if (ray_Dirx < 0)
-		{
-			sx = -1;
-			win->distx = (win->start_posx - mx) * deltax;
-		}
-		else
-		{
-			sx = 1;
-			win->distx = (mx + 1 - win->start_posx) * deltax;
-		}
-		if (ray_Diry < 0)
-		{
-			sy = -1;
-			win->disty = (win->start_posy - my) * deltay;
-		}
-		else
-		{
-			sy = 1;
-			win->disty = (my + 1 - win->start_posy) * deltay;
-		}
-		was_hit = 0;
-		while (!was_hit)
-		{
-			if (win->distx < win->disty)
-			{
-				win->distx += deltax;
-				mx += sx;
-				way = 0;
-			}
-			else 
-			{
-				win->disty += deltay;
-				my += sy;
-				way = 1;
-			}
-			if (win->arr[my][mx] == 'O')
-			{
-				if (x == (win->width / 2))
-				{
-					win->door.x = mx;
-					win->door.y = my;
-				}
-			}
-			else if (win->arr[my][mx] == '1' || win->arr[my][mx] == 'D')
-			{
-				was_hit = 1;
-				if (win->arr[my][mx] == 'D')
-				{
-					is_door = 1;
-					if (x == (win->width / 2))
-					{
-						win->door.x = mx;
-						win->door.y = my;
-					}
-				}
-			}
-		}
-		if (!way)
-			wall = win->distx - deltax;
-		else
-			wall = win->disty - deltay;
+		ft_recast_ray(win, ray_Dirx, ray_Diry);
+		wall = ft_recast_loop(win, x);
 		ft_two_d_map(win, ray_Dirx, ray_Diry, x);
-		if (is_door)
-			tex = win->wall_dim->tex.door;
-		else if (!way && ray_Dirx > 0)
-			tex = win->wall_dim->tex.east;
-		else if (!way && ray_Dirx < 0)
-			tex = win->wall_dim->tex.west;
-		else if (way && ray_Diry > 0)
-			tex = win->wall_dim->tex.north;
-		else if (way && ray_Diry < 0)
-			tex = win->wall_dim->tex.south;
-		if (!way)
+		ft_recast_text(win, &tex, ray_Dirx, ray_Diry);
+		if (!win->way)
 			wall_x = win->start_posy + wall * ray_Diry;
 		else
 			wall_x = win->start_posx + wall * ray_Dirx;
@@ -183,8 +200,36 @@ void	ft_recast_helper(t_win *win)
 			mlx_put_pixel(win->img_3d, x, draw, win->wall_dim->floor);
 			draw += 1;
 		}
-		is_door = 0;
+		win->is_door = 0;
 		x++;
+	}
+}
+
+void	ft_player_dir_helper(t_win *win, int check)
+{
+	if (check == 1)
+	{
+		win->left_vecx = 0;
+		win->left_vecy = -1;
+		win->right_vecx = 0;
+	}
+	else if (check == 2)
+	{
+		win->left_vecx = 0;
+		win->left_vecy = 1;
+		win->right_vecx = 0;
+	}
+	else if (check == 3)
+	{
+		win->left_vecx = 1;
+		win->left_vecy = 0;
+		win->right_vecx = -1;
+	}
+	else if (check == 4)
+	{
+		win->left_vecx = -1;
+		win->left_vecy = 0;
+		win->right_vecx = 1;
 	}
 }
 
@@ -194,38 +239,27 @@ void	ft_player_dir(t_win *win, int check)
 	{
 		win->player_dirx = -1;
 		win->player_diry = 0;
-		win->right_vecx = 0;
 		win->right_vecy = 1;
-		win->left_vecx = 0;
-		win->left_vecy = -1;
 	}
 	else if (check == 2)
 	{
 		win->player_dirx = 1;
 		win->player_diry = 0;
-		win->right_vecx = 0;
 		win->right_vecy = -1;
-		win->left_vecx = 0;
-		win->left_vecy = 1;
 	}
 	else if (check == 3)
 	{
 		win->player_dirx = 0;
 		win->player_diry = -1;
-		win->right_vecx = -1;
 		win->right_vecy = 0;
-		win->left_vecx = 1;
-		win->left_vecy = 0;
 	}
 	else if (check == 4)
 	{
 		win->player_dirx = 0;
 		win->player_diry = 1;
-		win->right_vecx = 1;
 		win->right_vecy = 0;
-		win->left_vecx = -1;
-		win->left_vecy = 0;
 	}
+	ft_player_dir_helper(win, check);
 }
 
 void	ft_recast_check(t_win *win, char c)
