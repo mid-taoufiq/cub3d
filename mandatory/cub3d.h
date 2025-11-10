@@ -6,7 +6,7 @@
 /*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 11:35:29 by tibarike          #+#    #+#             */
-/*   Updated: 2025/11/08 13:22:07 by tibarike         ###   ########.fr       */
+/*   Updated: 2025/11/10 11:07:06 by tibarike         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,7 +156,7 @@ int		check_options(t_wall *wall, int option);
 int		parse_map(t_wall *wall, int cp);
 int		check_remaining(int fd, char *line, t_wall *wall, t_garbage **garbage);
 void	struct_init(t_wall *wall_dim);
-int		parsing(char *line, int fd, t_wall *wall_dim, t_garbage **garbage);
+int		parsing_loop(char *line, int fd, t_wall *wall_dim, t_garbage **garbage);
 int		check_extansion(char *line, char *extansion, int option);
 int		ft_check_player(char c);
 int		ft_color(int r, int g, int b, int a);
@@ -176,7 +176,8 @@ void	ft_movement(t_win *win, int check);
 int		ft_check_player(char c);
 void	ft_mov_press(t_win *win, int check);
 void	mouse_handle(double xpos, double ypos, void *param);
-void	ft_clear_img(t_win *win, mlx_image_t *img);
+int		init_frames(t_win *win);
+int		init_walltex(t_win *win);
 void	handle_doors(t_win *win);
 
 #endif

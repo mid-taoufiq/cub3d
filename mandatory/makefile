@@ -8,6 +8,7 @@ SRC = main.c\
 	recasting.c\
 	player.c\
 	movement.c\
+	load_xpm42.c\
 	./parsing/parsing.c\
 	./parsing/add_colors.c\
 	./parsing/add_to_map.c\
