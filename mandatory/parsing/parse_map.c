@@ -6,7 +6,7 @@
 /*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/26 15:11:37 by tibarike          #+#    #+#             */
-/*   Updated: 2025/11/08 13:17:13 by tibarike         ###   ########.fr       */
+/*   Updated: 2025/11/10 11:00:41 by tibarike         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,9 @@ int	parse_map(t_wall *wall, int cp)
 		{
 			if ((wall->map[i][j] == '0' || wall->map[i][j] == 'D')
 				&& !parse_palyer_0_d(wall->map, i, j))
-				return (write(2, "Error\nzero/door not correct\n", 38), 0);
+				return (write(2, "Error\nzero/door not correct\n", 29), 0);
 			else if (isplayer(wall->map[i][j]) && !handle_p(wall, i, j, &cp))
-				return (write(2, "Error\nplayer not correct\n", 35), 0);
+				return (write(2, "Error\nplayer not correct\n", 26), 0);
 			else if (wall->map[i][j] != '1' && wall->map[i][j] != ' '
 				&& wall->map[i][j] != '0' && wall->map[i][j] != 'D'
 				&& !isplayer(wall->map[i][j]))
