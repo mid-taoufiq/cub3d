@@ -6,7 +6,7 @@
 /*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 11:35:29 by tibarike          #+#    #+#             */
-/*   Updated: 2025/11/10 11:07:06 by tibarike         ###   ########.fr       */
+/*   Updated: 2025/11/10 16:13:10 by tibarike         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,6 +178,7 @@ void	ft_mov_press(t_win *win, int check);
 void	mouse_handle(double xpos, double ypos, void *param);
 int		init_frames(t_win *win);
 int		init_walltex(t_win *win);
+void	free_frames(t_win *win);
 void	handle_doors(t_win *win);
 
 #endif

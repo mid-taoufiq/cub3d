@@ -6,7 +6,7 @@
 /*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 11:40:58 by tibarike          #+#    #+#             */
-/*   Updated: 2025/11/10 11:06:23 by tibarike         ###   ########.fr       */
+/*   Updated: 2025/11/10 16:13:29 by tibarike         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,8 +115,10 @@ int	main(int argc, char **argv)
 	win.width = WIDTH;
 	win.height = HEIGHT;
 	win.wall_dim = &wall_dim;
-	if (init_frames(&win) || init_walltex(&win))
+	if (init_frames(&win))
 		return (close(fd), ft_lstclear(&garbage), 1);
+	if (init_walltex(&win))
+		return (free_frames(&win), close(fd), ft_lstclear(&garbage), 1);
 	ft_calculate_lent(&win);
 	win.mlx = mlx_init(win.width, win.height, "my_mlx", true);
 	if (!win.mlx)

@@ -6,11 +6,21 @@
 /*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/10 11:05:25 by tibarike          #+#    #+#             */
-/*   Updated: 2025/11/10 11:06:35 by tibarike         ###   ########.fr       */
+/*   Updated: 2025/11/10 16:12:41 by tibarike         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
+void	free_frames(t_win *win)
+{
+	mlx_delete_xpm42(win->frames.frames[0]);
+	mlx_delete_xpm42(win->frames.frames[1]);
+	mlx_delete_xpm42(win->frames.frames[2]);
+	mlx_delete_xpm42(win->frames.frames[3]);
+	mlx_delete_xpm42(win->frames.frames[4]);
+	mlx_delete_xpm42(win->frames.frames[5]);
+}
 
 int	init_frames2(t_win *win)
 {
