@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/29 13:37:44 by tibarike          #+#    #+#             */
-/*   Updated: 2025/11/06 16:11:20 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/11/10 10:36:24 by tibarike         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int	parsing2(char *line, int fd, t_wall *wall_dim, t_garbage **garbage)
 	return (1);
 }
 
-int	parsing(char *line, int fd, t_wall *wall_dim, t_garbage **garbage)
+int	parsing_loop(char *line, int fd, t_wall *wall_dim, t_garbage **garbage)
 {
 	int	return_value;
 

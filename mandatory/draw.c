@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/07 10:17:05 by aakroud           #+#    #+#             */
-/*   Updated: 2025/11/07 10:56:12 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/11/10 16:47:39 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ void	ft_draw_case(t_win *win, int x, int y)
 		if (win->arr[win->map_starty][win->map_startx] == 'O')
 			ft_recto_helper(win, x, y, ft_color(0, 255, 0, 255));
 		else
-			ft_recto_helper(win, x, y, ft_color(255, 255, 0, 255));
+			ft_recto_helper(win, x, y, ft_color(30, 144, 255, 255));
 		ft_recto_player(win->middle_x - win->player_tile / 2,
 			win->middle_y - win->player_tile / 2,
 			ft_color(255, 0, 0, 255), *win);
@@ -92,13 +92,13 @@ void	ft_draw_case(t_win *win, int x, int y)
 				ft_color(0, 0, 0, 255));
 	}
 	else if (win->arr[win->map_starty][win->map_startx] == '1')
-		ft_recto_helper(win, x, y, ft_color(0, 0, 255, 255));
+		ft_recto_helper(win, x, y, ft_color(58, 58, 58, 255));
 	else if (win->arr[win->map_starty][win->map_startx] == 'D')
 		ft_recto_helper(win, x, y, ft_color(128, 128, 128, 255));
 	else if (win->arr[win->map_starty][win->map_startx] == 'O')
 		ft_recto_helper(win, x, y, ft_color(0, 255, 0, 255));
 	else
-		ft_recto_helper(win, x, y, ft_color(255, 255, 0, 255));
+		ft_recto_helper(win, x, y, ft_color(30, 144, 255, 255));
 }
 
 void	ft_put_img_init(t_win *win)
@@ -131,7 +131,7 @@ void	ft_put_img(char **arr, t_win *win, int check)
 				&& win->map_startx < win->column && win->map_starty < win->row)
 				ft_draw_case(win, x, y);
 			else
-				ft_recto_helper(win, x, y, ft_color(0, 0, 0, 255));
+				ft_recto_helper(win, x, y, ft_color(58, 58, 58, 255));
 			x++;
 			win->map_startx++;
 		}
