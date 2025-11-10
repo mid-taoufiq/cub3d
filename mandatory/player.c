@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   player.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/07 10:16:49 by aakroud           #+#    #+#             */
-/*   Updated: 2025/11/10 10:28:00 by tibarike         ###   ########.fr       */
+/*   Updated: 2025/11/10 17:28:52 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,12 +60,10 @@ void	ft_two_d_map(t_win *win, double ray_Dirx, double ray_Diry, int check)
 	}
 }
 
-void	func(void *param)
+void	handle_e(t_win *win)
 {
-	t_win	*win;
-	static bool e_pressing = false;
+	static bool	e_pressing = false;
 
-	win = (t_win *)param;
     if (mlx_is_key_down(win->mlx, MLX_KEY_E))
     {
         if (!e_pressing)
@@ -76,6 +74,14 @@ void	func(void *param)
     }
 	else
 		e_pressing = false;
+}
+
+void	func(void *param)
+{
+	t_win	*win;
+
+	win = (t_win *)param;
+	handle_e(win);
 	if (mlx_is_key_down(win->mlx, MLX_KEY_W))
 		ft_mov_press(win, 1);
 	if (mlx_is_key_down(win->mlx, MLX_KEY_S))
@@ -89,11 +95,7 @@ void	func(void *param)
 	else if (mlx_is_key_down(win->mlx, MLX_KEY_LEFT))
 		ft_rotation(win, 2, 0.04);
 	if (mlx_is_key_down(win->mlx, MLX_KEY_ESCAPE))
-	{
-		free_window(win);
-		mlx_close_window(win->mlx);
-		return ;
-	}
+		return (free_window(win), mlx_close_window(win->mlx));
 	ft_movement(win, 1);
 }
 

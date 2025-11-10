@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 11:35:29 by tibarike          #+#    #+#             */
-/*   Updated: 2025/11/10 16:13:10 by tibarike         ###   ########.fr       */
+/*   Updated: 2025/11/10 19:31:58 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@
 #  define BUFFER_SIZE 42
 # endif
 
-#define WIDTH 1920
-#define HEIGHT 1080
+# define WIDTH 1920
+# define HEIGHT 1080
 
 typedef struct s_garbage
 {
@@ -83,7 +83,6 @@ typedef struct s_frames
 	double		timer;
 }	t_frames;
 
-
 typedef struct s_win
 {
 	mlx_t		*mlx;
@@ -94,8 +93,8 @@ typedef struct s_win
 	int			width;
 	int			height;
 	char		**arr;
-	double			player_x;
-	double			player_y;
+	double		player_x;
+	double		player_y;
 	double		player_dirx;
 	double		player_diry;
 	double		plane_dirx;
@@ -129,6 +128,15 @@ typedef struct s_win
 	int			sy;
 	int			is_door;
 	int			way;
+	int			ps;
+	int			pe;
+	double		wall_x;
+	int			tex_x;
+	xpm_t		*tex;
+	double		step;
+	double		tex_pos;
+	int			tex_y;
+	uint8_t		*pixel;
 }	t_win;
 
 void	*ft_malloc(int size, t_garbage **garbage);
@@ -180,5 +188,14 @@ int		init_frames(t_win *win);
 int		init_walltex(t_win *win);
 void	free_frames(t_win *win);
 void	handle_doors(t_win *win);
+void	ft_recast_text(t_win *win, xpm_t **tex,
+			double ray_Dirx, double ray_Diry);
+void	ft_recast_ray(t_win *win, double ray_dirx, double ray_diry);
+void	ft_recast_ray_helper(t_win *win, double ray_dirx, double ray_diry);
+double	ft_recast_loop(t_win *win, int x);
+void	ft_recast_loop_helper(t_win *win, int x, int check);
+void	ft_movement_helper(t_win *win, int x, int y, int check);
+void	ft_recto_helper(t_win *win, int x, int y, int color);
+void	ft_draw_case(t_win *win, int x, int y);
 
 #endif

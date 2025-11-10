@@ -8,6 +8,11 @@ SRC = main.c\
 	recasting.c\
 	player.c\
 	movement.c\
+	ft_recast_one.c\
+	ft_recast_two.c\
+	rotation.c\
+	ft_utils.c\
+	draw_img.c\
 	load_xpm42.c\
 	./parsing/parsing.c\
 	./parsing/add_colors.c\
