@@ -6,14 +6,17 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/07 10:16:49 by aakroud           #+#    #+#             */
-/*   Updated: 2025/11/10 17:28:52 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/11/12 10:29:21 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	free_window(t_win *win)
+void	free_window(void *param)
 {
+	t_win	*win;
+
+	win = (t_win *)param;
 	mlx_delete_xpm42(win->wall_dim->tex.east);
 	mlx_delete_xpm42(win->wall_dim->tex.north);
 	mlx_delete_xpm42(win->wall_dim->tex.west);
@@ -95,7 +98,7 @@ void	func(void *param)
 	else if (mlx_is_key_down(win->mlx, MLX_KEY_LEFT))
 		ft_rotation(win, 2, 0.04);
 	if (mlx_is_key_down(win->mlx, MLX_KEY_ESCAPE))
-		return (free_window(win), mlx_close_window(win->mlx));
+		return (free_window((void *)win), mlx_close_window(win->mlx));
 	ft_movement(win, 1);
 }
 
@@ -123,5 +126,6 @@ int	ft_move_player(char **arr, t_win *win)
 	mlx_set_cursor_mode(win->mlx, MLX_MOUSE_DISABLED);
 	mlx_cursor_hook(win->mlx, mouse_handle, (void *)win);
 	mlx_loop_hook(win->mlx, func, win);
+	mlx_close_hook(win->mlx, free_window, win);
 	return (0);
 }

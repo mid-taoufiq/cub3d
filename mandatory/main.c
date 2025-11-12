@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 11:40:58 by tibarike          #+#    #+#             */
-/*   Updated: 2025/11/10 17:55:07 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/11/12 10:24:58 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,11 @@ int	parsing(int fd, t_garbage **garbage, t_wall *wall_dim)
 	return (0);
 }
 
+void	f()
+{
+	system("leaks cub3D");
+}
+
 int	main(int argc, char **argv)
 {
 	t_wall		wall_dim;
@@ -102,6 +107,7 @@ int	main(int argc, char **argv)
 	win.tile = 32;
 	win.column = 0;
 	win.row = 0;
+	atexit(f);
 	struct_init(&wall_dim);
 	if (argc != 2 || !check_extansion(argv[1], ".cub", 0))
 		return (write(2, "Error\nnot valid arguments\n", 27), 1);
@@ -125,39 +131,19 @@ int	main(int argc, char **argv)
 		exit (1);
 	win.img = mlx_new_image(win.mlx, win.tile * 9, win.tile * 9);
 	if (!win.img)
-	{
-		mlx_terminate(win.mlx);
-		exit (1);
-	}
+		return (mlx_terminate(win.mlx), 1);
 	win.img_3d = mlx_new_image(win.mlx, win.width, win.height);
 	if (!win.img_3d)
-	{
-		mlx_terminate(win.mlx);
-		exit (1);
-	}
+		return (mlx_terminate(win.mlx), 1);
 	win.img_player = mlx_new_image(win.mlx, win.tile * 9, win.tile * 9);
 	if (!win.img_player)
-	{
-		mlx_terminate(win.mlx);
-		exit (1);
-	}
+		return (mlx_terminate(win.mlx), 1);
 	ft_movement(&win, 0);
 	ft_move_player(win.arr, &win);
-	if (mlx_image_to_window(win.mlx, win.img_3d, 0, 0) == -1)
-	{
+	if (mlx_image_to_window(win.mlx, win.img_3d, 0, 0) == -1
+		|| mlx_image_to_window(win.mlx, win.img, 0, 0) == -1
+		|| mlx_image_to_window(win.mlx, win.img_player, 0, 0) == -1)
 		mlx_close_window(win.mlx);
-	}
-	if (mlx_image_to_window(win.mlx, win.img, 0, 0) == -1)
-	{
-		mlx_close_window(win.mlx);
-	}
-	if (mlx_image_to_window(win.mlx, win.img_player, 0, 0) == -1)
-	{
-		mlx_close_window(win.mlx);
-	}
 	mlx_loop(win.mlx);
-	close(fd);
-	ft_lstclear(&garbage);
-	mlx_terminate(win.mlx);
-	return (0);
+	return (close(fd), ft_lstclear(&garbage), mlx_terminate(win.mlx), 0);
 }
