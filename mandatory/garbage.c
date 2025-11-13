@@ -72,7 +72,7 @@ void	*ft_malloc(int size, t_garbage **garbage)
 
 	ptr = malloc(size);
 	if (!ptr)
-		return (free(ptr), perror("malloc"), NULL);
+		return (free(ptr), perror("malloc"), NULL);//remove free
 	ft_lstadd_back(garbage, ft_new_gb(ptr));
 	return (ptr);
 }
