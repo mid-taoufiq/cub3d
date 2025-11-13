@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   load_xpm42.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/10 11:05:25 by tibarike          #+#    #+#             */
-/*   Updated: 2025/11/13 12:17:58 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/11/13 13:32:28 by tibarike         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void	free_textures(t_win *win)
 	mlx_delete_xpm42(win->wall_dim->tex.north);
 	mlx_delete_xpm42(win->wall_dim->tex.west);
 	mlx_delete_xpm42(win->wall_dim->tex.south);
+	mlx_delete_xpm42(win->wall_dim->tex.door);
 }
 
 void	free_frames(t_win *win)

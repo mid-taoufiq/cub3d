@@ -6,7 +6,7 @@
 /*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/29 13:37:44 by tibarike          #+#    #+#             */
-/*   Updated: 2025/11/10 10:36:24 by tibarike         ###   ########.fr       */
+/*   Updated: 2025/11/13 15:40:39 by tibarike         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,4 +92,18 @@ int	parsing_loop(char *line, int fd, t_wall *wall_dim, t_garbage **garbage)
 			return (1);
 	}
 	return (1);
+}
+
+int	parsing(int fd, t_garbage **garbage, t_wall *wall_dim)
+{
+	char	*line;
+
+	line = NULL;
+	if (!parsing_loop(line, fd, wall_dim, garbage))
+		return (1);
+	if (!check_remaining(fd, line, wall_dim, garbage))
+		return (1);
+	if (!parse_map(wall_dim, 0))
+		return (1);
+	return (0);
 }

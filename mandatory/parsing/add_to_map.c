@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   add_to_map.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/21 15:10:48 by tibarike          #+#    #+#             */
-/*   Updated: 2025/10/06 17:13:01 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/11/13 15:16:23 by tibarike         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ char	**ft_darrayjoin(char **old_darray, char *line, t_garbage **garbage)
 
 	i = arg_counter(old_darray);
 	new_darray = ft_malloc(sizeof(char *) * (i + 2), garbage);
+	if (!new_darray)
+		return (NULL);
 	i = 0;
 	if (old_darray)
 	{

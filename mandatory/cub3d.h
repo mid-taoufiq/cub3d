@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 11:35:29 by tibarike          #+#    #+#             */
-/*   Updated: 2025/11/13 12:30:44 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/11/13 15:53:09 by tibarike         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,6 +165,7 @@ int		parse_map(t_wall *wall, int cp);
 int		check_remaining(int fd, char *line, t_wall *wall, t_garbage **garbage);
 void	struct_init(t_wall *wall_dim);
 int		parsing_loop(char *line, int fd, t_wall *wall_dim, t_garbage **garbage);
+int		parsing(int fd, t_garbage **garbage, t_wall *wall_dim);
 int		check_extansion(char *line, char *extansion, int option);
 int		ft_check_player(char c);
 int		ft_color(int r, int g, int b, int a);
@@ -198,5 +199,6 @@ void	ft_recast_loop_helper(t_win *win, int x, int check);
 void	ft_movement_helper(t_win *win, int x, int y, int check);
 void	ft_recto_helper(t_win *win, int x, int y, int color);
 void	ft_draw_case(t_win *win, int x, int y);
+void	init_window(t_win *win, t_wall *wall_dim);
 
 #endif

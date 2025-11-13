@@ -3,14 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   ft_utils.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/10 18:21:51 by aakroud           #+#    #+#             */
-/*   Updated: 2025/11/10 18:23:11 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/11/13 15:52:58 by tibarike         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
+void	init_window(t_win *win, t_wall *wall_dim)
+{
+	win->arr = wall_dim->map;
+	win->width = WIDTH;
+	win->height = HEIGHT;
+	win->wall_dim = wall_dim;
+}
 
 int	ft_check_player(char c)
 {
@@ -19,14 +27,7 @@ int	ft_check_player(char c)
 	return (0);
 }
 
-// void	ft_movement_helper(t_win *win, int x, int y, int check)
-// {
-// 	if (!check)
-// 	{
-// 		win->player_x = (x * win->tile + win->tile / 2);
-// 		win->player_y = (y * win->tile + win->tile / 2);
-// 		win->start_posx = win->player_x / win->tile;
-// 		win->start_posy = win->player_y / win->tile;
-// 	}
-// 	ft_put_img(win->arr, win, 1);
-// }
+int	ft_color(int r, int g, int b, int a)
+{
+	return (r << 24 | g << 16 | b << 8 | a);
+}

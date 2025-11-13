@@ -1,6 +1,6 @@
 NAME = cub3D
 
-FLAGS = -Wall #-Werror -Wextra
+FLAGS = -Wall #-g -fsanitize=address #-Werror -Wextra 
 
 SRC = main.c\
 	garbage.c\
@@ -29,12 +29,12 @@ OBJ = $(SRC:.c=.o)
 
 LIB_MLX = libmlx42.a
 
-MLX_FLAG = -L/mnt/homes/aakroud/.brew/opt/glfw -lglfw -framework Cocoa -framework OpenGL -framework IOKit
+MLX_FLAG = -L/mnt/homes/tibarike/homebrew/opt/glfw/lib -lglfw -framework Cocoa -framework OpenGL -framework IOKit
 
 all: ${NAME}
 
 ${NAME}: ${OBJ} ${LIB_MLX}
-	cc ${FLAGS} ${MLX_FLAG} ${OBJ} ${LIB_MLX} -o $@
+	cc ${FLAGS} ${MLX_FLAG}  ${OBJ} ${LIB_MLX} -o $@
 
 %.o: %.c cub3d.h
 	cc ${FLAGS} -c $< -o $@

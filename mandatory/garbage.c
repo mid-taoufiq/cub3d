@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   garbage.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 10:20:33 by tibarike          #+#    #+#             */
-/*   Updated: 2025/11/13 12:25:50 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/11/13 15:14:01 by tibarike         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void	*ft_malloc(int size, t_garbage **garbage)
 
 	ptr = malloc(size);
 	if (!ptr)
-		return (perror("malloc"), NULL);
+		return (free(ptr), perror("malloc"), NULL);
 	ft_lstadd_back(garbage, ft_new_gb(ptr));
 	return (ptr);
 }

@@ -3,14 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 11:40:58 by tibarike          #+#    #+#             */
-/*   Updated: 2025/11/13 12:24:44 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/11/13 15:52:52 by tibarike         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
+void	free_window(t_win *win, t_garbage **garbage, int fd)
+{
+	if (win->mlx)
+		mlx_terminate(win->mlx);
+	free_textures(win);
+	free_frames(win);
+	close(fd);
+	ft_lstclear(garbage);
+}
 
 int	check_extansion(char *line, char *extansion, int option)
 {
@@ -56,45 +66,29 @@ void	ft_calculate_lent(t_win *win)
 	}
 }
 
-char	*ft_strdupo(char *s1)
+int	raycasting(t_win *win)
 {
-	int		i;
-	char	*dup;
-
-	i = 0;
-	dup = NULL;
-	while (s1[i] != '\0')
-		i++;
-	dup = (char *)malloc(i + 1);
-	if (dup == NULL)
-		return (NULL);
-	i = 0;
-	while (s1[i] != '\0')
-	{
-		dup[i] = s1[i];
-		i++;
-	}
-	dup[i] = '\0';
-	return (dup);
-}
-
-int	parsing(int fd, t_garbage **garbage, t_wall *wall_dim)
-{
-	char	*line;
-
-	line = NULL;
-	if (!parsing_loop(line, fd, wall_dim, garbage))
+	ft_calculate_lent(win);
+	win->mlx = mlx_init(win->width, win->height, "my_mlx", true);
+	if (!win->mlx)
 		return (1);
-	if (!check_remaining(fd, line, wall_dim, garbage))
+	win->img = mlx_new_image(win->mlx, win->tile * 9, win->tile * 9);
+	if (!win->img)
 		return (1);
-	if (!parse_map(wall_dim, 0))
+	win->img_3d = mlx_new_image(win->mlx, win->width, win->height);
+	if (!win->img_3d)
 		return (1);
+	win->img_player = mlx_new_image(win->mlx, win->tile * 9, win->tile * 9);
+	if (!win->img_player)
+		return (1);
+	ft_movement(win, 0);
+	ft_move_player(win->arr, win);
+	if (mlx_image_to_window(win->mlx, win->img_3d, 0, 0) == -1
+		|| mlx_image_to_window(win->mlx, win->img, 0, 0) == -1
+		|| mlx_image_to_window(win->mlx, win->img_player, 0, 0) == -1)
+		mlx_close_window(win->mlx);
+	mlx_loop(win->mlx);
 	return (0);
-}
-
-void	f()
-{
-	system("leaks cub3D");
 }
 
 int	main(int argc, char **argv)
@@ -107,7 +101,6 @@ int	main(int argc, char **argv)
 	win.tile = 32;
 	win.column = 0;
 	win.row = 0;
-	atexit(f);
 	struct_init(&wall_dim);
 	if (argc != 2 || !check_extansion(argv[1], ".cub", 0))
 		return (write(2, "Error\nnot valid arguments\n", 27), 1);
@@ -117,33 +110,12 @@ int	main(int argc, char **argv)
 		return (perror(argv[1]), 1);
 	if (parsing(fd, &garbage, &wall_dim))
 		return (close(fd), ft_lstclear(&garbage), 1);
-	win.arr = wall_dim.map;
-	win.width = WIDTH;
-	win.height = HEIGHT;
-	win.wall_dim = &wall_dim;
-	if (init_frames(&win))
-		return (close(fd), ft_lstclear(&garbage), 1);
+	init_window(&win, &wall_dim);
 	if (init_walltex(&win))
-		return (free_frames(&win), close(fd), ft_lstclear(&garbage), 1);
-	ft_calculate_lent(&win);
-	win.mlx = mlx_init(win.width, win.height, "my_mlx", true);
-	if (!win.mlx)
-		return (free_textures(&win), free_frames(&win), close(fd), ft_lstclear(&garbage), 1);//leak
-	win.img = mlx_new_image(win.mlx, win.tile * 9, win.tile * 9);
-	if (!win.img)
-		return (mlx_terminate(win.mlx), free_textures(&win), free_frames(&win), close(fd), ft_lstclear(&garbage), 1);//leak
-	win.img_3d = mlx_new_image(win.mlx, win.width, win.height);
-	if (!win.img_3d)
-		return (mlx_terminate(win.mlx), free_textures(&win), free_frames(&win), close(fd), ft_lstclear(&garbage), 1);//leak
-	win.img_player = mlx_new_image(win.mlx, win.tile * 9, win.tile * 9);
-	if (!win.img_player)
-		return (mlx_terminate(win.mlx), free_textures(&win), free_frames(&win), close(fd), ft_lstclear(&garbage), 1);//leak
-	ft_movement(&win, 0);
-	ft_move_player(win.arr, &win);
-	if (mlx_image_to_window(win.mlx, win.img_3d, 0, 0) == -1
-		|| mlx_image_to_window(win.mlx, win.img, 0, 0) == -1
-		|| mlx_image_to_window(win.mlx, win.img_player, 0, 0) == -1)
-		mlx_close_window(win.mlx);
-	mlx_loop(win.mlx);
-	return (close(fd), ft_lstclear(&garbage), free_textures(&win), free_frames(&win), mlx_terminate(win.mlx), 0);//leak
+		return (close(fd), ft_lstclear(&garbage), 1);
+	if (init_frames(&win))
+		return (free_textures(&win), close(fd), ft_lstclear(&garbage), 1);
+	if (raycasting(&win))
+		return (free_window(&win, &garbage, fd), 1);
+	return (free_window(&win, &garbage, fd), 0);
 }
