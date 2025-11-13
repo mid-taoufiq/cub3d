@@ -26,7 +26,7 @@ int	check_remaining(int fd, char *line, t_wall *wall, t_garbage **garbage)
 		}
 		else
 			return (write(2, "Error\narguments error\n", 23), 0);
-		free(line);
+		free(line);//check remove
 		line = get_next_line(fd, garbage);
 	}
 	return (1);
