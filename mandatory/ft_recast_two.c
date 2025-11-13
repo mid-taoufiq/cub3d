@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/10 18:16:02 by aakroud           #+#    #+#             */
-/*   Updated: 2025/11/10 18:16:20 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/11/12 12:19:09 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void	ft_recast_ray_helper(t_win *win, double ray_dirx, double ray_diry)
 	if (ray_diry == 0)
 		win->deltay = 999999999999999;
 	else
-		win->deltay = fabs(1 / ray_diry);
+		win->deltay = fabs (1 / ray_diry);
 }
 
 void	ft_recast_ray(t_win *win, double ray_dirx, double ray_diry)

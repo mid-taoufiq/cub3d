@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 11:35:29 by tibarike          #+#    #+#             */
-/*   Updated: 2025/11/10 19:31:58 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/11/13 12:30:44 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 # include <limits.h>
 # include <stdio.h>
 # include <fcntl.h>
-# include "MLX42.h"
+# include ".MLX42.h"
 # include <math.h>
 
 # ifndef BUFFER_SIZE
@@ -191,6 +191,7 @@ void	handle_doors(t_win *win);
 void	ft_recast_text(t_win *win, xpm_t **tex,
 			double ray_Dirx, double ray_Diry);
 void	ft_recast_ray(t_win *win, double ray_dirx, double ray_diry);
+void	free_textures(t_win *win);
 void	ft_recast_ray_helper(t_win *win, double ray_dirx, double ray_diry);
 double	ft_recast_loop(t_win *win, int x);
 void	ft_recast_loop_helper(t_win *win, int x, int check);

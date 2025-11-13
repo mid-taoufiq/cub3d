@@ -3,14 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   load_xpm42.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/10 11:05:25 by tibarike          #+#    #+#             */
-/*   Updated: 2025/11/10 16:12:41 by tibarike         ###   ########.fr       */
+/*   Updated: 2025/11/13 12:17:58 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
+void	free_textures(t_win *win)
+{
+	mlx_delete_xpm42(win->wall_dim->tex.east);
+	mlx_delete_xpm42(win->wall_dim->tex.north);
+	mlx_delete_xpm42(win->wall_dim->tex.west);
+	mlx_delete_xpm42(win->wall_dim->tex.south);
+}
 
 void	free_frames(t_win *win)
 {
@@ -60,7 +68,7 @@ int	init_frames(t_win *win)
 		return (mlx_delete_xpm42(win->frames.frames[0]),
 			mlx_delete_xpm42(win->frames.frames[1]),
 			mlx_delete_xpm42(win->frames.frames[2]), 1);
-	return (0);
+	return (init_frames2(win));
 }
 
 int	init_walltex(t_win *win)
@@ -86,5 +94,5 @@ int	init_walltex(t_win *win)
 			mlx_delete_xpm42(win->wall_dim->tex.north),
 			mlx_delete_xpm42(win->wall_dim->tex.west),
 			mlx_delete_xpm42(win->wall_dim->tex.south), 1);
-	return (init_frames2(win));
+	return (0);
 }

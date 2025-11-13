@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 11:40:58 by tibarike          #+#    #+#             */
-/*   Updated: 2025/11/12 10:24:58 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/11/13 12:24:44 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,16 +128,16 @@ int	main(int argc, char **argv)
 	ft_calculate_lent(&win);
 	win.mlx = mlx_init(win.width, win.height, "my_mlx", true);
 	if (!win.mlx)
-		exit (1);
+		return (free_textures(&win), free_frames(&win), close(fd), ft_lstclear(&garbage), 1);//leak
 	win.img = mlx_new_image(win.mlx, win.tile * 9, win.tile * 9);
 	if (!win.img)
-		return (mlx_terminate(win.mlx), 1);
+		return (mlx_terminate(win.mlx), free_textures(&win), free_frames(&win), close(fd), ft_lstclear(&garbage), 1);//leak
 	win.img_3d = mlx_new_image(win.mlx, win.width, win.height);
 	if (!win.img_3d)
-		return (mlx_terminate(win.mlx), 1);
+		return (mlx_terminate(win.mlx), free_textures(&win), free_frames(&win), close(fd), ft_lstclear(&garbage), 1);//leak
 	win.img_player = mlx_new_image(win.mlx, win.tile * 9, win.tile * 9);
 	if (!win.img_player)
-		return (mlx_terminate(win.mlx), 1);
+		return (mlx_terminate(win.mlx), free_textures(&win), free_frames(&win), close(fd), ft_lstclear(&garbage), 1);//leak
 	ft_movement(&win, 0);
 	ft_move_player(win.arr, &win);
 	if (mlx_image_to_window(win.mlx, win.img_3d, 0, 0) == -1
@@ -145,5 +145,5 @@ int	main(int argc, char **argv)
 		|| mlx_image_to_window(win.mlx, win.img_player, 0, 0) == -1)
 		mlx_close_window(win.mlx);
 	mlx_loop(win.mlx);
-	return (close(fd), ft_lstclear(&garbage), mlx_terminate(win.mlx), 0);
+	return (close(fd), ft_lstclear(&garbage), free_textures(&win), free_frames(&win), mlx_terminate(win.mlx), 0);//leak
 }
