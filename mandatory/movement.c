@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/07 10:16:43 by aakroud           #+#    #+#             */
-/*   Updated: 2025/11/10 18:24:31 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/11/15 11:09:36 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,22 +57,22 @@ int	ft_mov_check(t_win *win, int my_max, int my_may, int check)
 {
 	if (check == 1)
 	{
-		if (win->arr[my_may][my_max] != '1' && win->arr[my_may][my_max] != 'D')
+		if (win->arr[my_may][my_max] != '1')
 			return (win->player_x += win->player_dirx * 2, 0);
 	}
 	else if (check == 2)
 	{
-		if (win->arr[my_may][my_max] != '1' && win->arr[my_may][my_max] != 'D')
+		if (win->arr[my_may][my_max] != '1')
 			return (win->player_x -= win->player_dirx * 2, 0);
 	}
 	else if (check == 3)
 	{
-		if (win->arr[my_may][my_max] != '1' && win->arr[my_may][my_max] != 'D')
+		if (win->arr[my_may][my_max] != '1')
 			return (win->player_x += win->left_vecx * 2, 0);
 	}
 	else if (check == 4)
 	{
-		if (win->arr[my_may][my_max] != '1' && win->arr[my_may][my_max] != 'D')
+		if (win->arr[my_may][my_max] != '1')
 			return (win->player_x += win->right_vecx * 2, 0);
 	}
 	return (1);
@@ -89,7 +89,7 @@ void	ft_mov_press_helper(t_win *win, int check)
 	{
 		if (ft_mov_check(win, my_max, (int)(win->player_y / win->tile), check))
 			my_max = (int)(win->player_x) / win->tile;
-		if (win->arr[my_may][my_max] != '1' && win->arr[my_may][my_max] != 'D')
+		if (win->arr[my_may][my_max] != '1')
 			win->player_y += win->left_vecy * 2;
 	}
 	else if (check == 4)
@@ -98,7 +98,7 @@ void	ft_mov_press_helper(t_win *win, int check)
 		my_may = (int)(win->player_y + win->right_vecy * 4) / win->tile;
 		if (ft_mov_check(win, my_max, (int)(win->player_y / win->tile), check))
 			my_max = (int)(win->player_x) / win->tile;
-		if (win->arr[my_may][my_max] != '1' && win->arr[my_may][my_max] != 'D')
+		if (win->arr[my_may][my_max] != '1')
 			win->player_y += win->right_vecy * 2;
 	}
 }
@@ -114,7 +114,7 @@ void	ft_mov_press(t_win *win, int check)
 	{
 		if (ft_mov_check(win, my_max, (int)(win->player_y / win->tile), check))
 			my_max = (int)(win->player_x) / win->tile;
-		if (win->arr[my_may][my_max] != '1' && win->arr[my_may][my_max] != 'D')
+		if (win->arr[my_may][my_max] != '1')
 			win->player_y += win->player_diry * 2;
 	}
 	else if (check == 2)
@@ -123,7 +123,7 @@ void	ft_mov_press(t_win *win, int check)
 		my_may = (int)(win->player_y - win->player_diry * 4) / win->tile;
 		if (ft_mov_check(win, my_max, (int)(win->player_y / win->tile), check))
 			my_max = (int)(win->player_x) / win->tile;
-		if (win->arr[my_may][my_max] != '1' && win->arr[my_may][my_max] != 'D')
+		if (win->arr[my_may][my_max] != '1')
 			win->player_y -= win->player_diry * 2;
 	}
 	else

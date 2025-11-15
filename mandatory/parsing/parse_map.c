@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/26 15:11:37 by tibarike          #+#    #+#             */
-/*   Updated: 2025/11/10 11:00:41 by tibarike         ###   ########.fr       */
+/*   Updated: 2025/11/15 11:26:28 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,10 @@ int	isplayer(char c)
 
 int	is_valid(char c)
 {
-	return (c == '0' || c == '1' || c == 'D' || isplayer(c));
+	return (c == '0' || c == '1' || isplayer(c));
 }
 
-int	parse_palyer_0_d(char **map, int i, int j)
+int	parse_palyer_0(char **map, int i, int j)
 {
 	if (i == 0 || j >= ft_strlen(map[i - 1]) || !is_valid(map[i - 1][j]))
 		return (0);
@@ -40,8 +40,7 @@ int	parse_palyer_0_d(char **map, int i, int j)
 int	handle_p(t_wall *wall, int i, int j, int *cplayer)
 {
 	(*cplayer)++;
-	wall->player_direction = wall->map[i][j];
-	if (!parse_palyer_0_d(wall->map, i, j))
+	if (!parse_palyer_0(wall->map, i, j))
 		return (0);
 	return (1);
 }
@@ -57,13 +56,12 @@ int	parse_map(t_wall *wall, int cp)
 		j = 0;
 		while (wall->map[i][j])
 		{
-			if ((wall->map[i][j] == '0' || wall->map[i][j] == 'D')
-				&& !parse_palyer_0_d(wall->map, i, j))
-				return (write(2, "Error\nzero/door not correct\n", 29), 0);
+			if (wall->map[i][j] == '0' && !parse_palyer_0(wall->map, i, j))
+				return (write(2, "Error\nzero not correct\n", 24), 0);
 			else if (isplayer(wall->map[i][j]) && !handle_p(wall, i, j, &cp))
 				return (write(2, "Error\nplayer not correct\n", 26), 0);
 			else if (wall->map[i][j] != '1' && wall->map[i][j] != ' '
-				&& wall->map[i][j] != '0' && wall->map[i][j] != 'D'
+				&& wall->map[i][j] != '0' && wall->map[i][j]
 				&& !isplayer(wall->map[i][j]))
 				return (write(2, "Error\nunallowed character\n", 27), 0);
 			j++;

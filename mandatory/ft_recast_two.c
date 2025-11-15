@@ -6,37 +6,27 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/10 18:16:02 by aakroud           #+#    #+#             */
-/*   Updated: 2025/11/12 12:19:09 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/11/15 11:22:47 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	ft_recast_loop_helper(t_win *win, int x, int check)
+void	ft_recast_loop_helper(t_win *win, int x)
 {
-	if (check == 2)
+	if (win->distx < win->disty)
 	{
-		if (win->distx < win->disty)
-		{
-			win->distx += win->deltax;
-			win->mx += win->sx;
-			win->way = 0;
-		}
-		else
-		{
-			win->disty += win->deltay;
-			win->my += win->sy;
-			win->way = 1;
-		}
-		return ;
+		win->distx += win->deltax;
+		win->mx += win->sx;
+		win->way = 0;
 	}
-	if (check == 1)
-		win->is_door = 1;
-	if (x == (win->width / 2) && win->door.x == -1 && win->door.y == -1)
+	else
 	{
-		win->door.x = win->mx;
-		win->door.y = win->my;
+		win->disty += win->deltay;
+		win->my += win->sy;
+		win->way = 1;
 	}
+	return ;
 }
 
 double	ft_recast_loop(t_win *win, int x)
@@ -46,16 +36,9 @@ double	ft_recast_loop(t_win *win, int x)
 	was_hit = 0;
 	while (!was_hit)
 	{
-		ft_recast_loop_helper(win, x, 2);
-		if (win->arr[win->my][win->mx] == 'O')
-			ft_recast_loop_helper(win, x, 0);
-		else if (win->arr[win->my][win->mx] == '1'
-			|| win->arr[win->my][win->mx] == 'D')
-		{
+		ft_recast_loop_helper(win, x);
+		if (win->arr[win->my][win->mx] == '1')
 			was_hit = 1;
-			if (win->arr[win->my][win->mx] == 'D')
-				ft_recast_loop_helper(win, x, 1);
-		}
 	}
 	if (!win->way)
 		return (win->distx - win->deltax);
@@ -104,9 +87,7 @@ void	ft_recast_ray(t_win *win, double ray_dirx, double ray_diry)
 void	ft_recast_text(t_win *win, xpm_t **tex,
 		double ray_Dirx, double ray_Diry)
 {
-	if (win->is_door)
-		*tex = win->wall_dim->tex.door;
-	else if (!win->way && ray_Dirx > 0)
+	if (!win->way && ray_Dirx > 0)
 		*tex = win->wall_dim->tex.east;
 	else if (!win->way && ray_Dirx < 0)
 		*tex = win->wall_dim->tex.west;

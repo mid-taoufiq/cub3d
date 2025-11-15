@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/20 16:10:25 by tibarike          #+#    #+#             */
-/*   Updated: 2025/11/13 15:20:30 by tibarike         ###   ########.fr       */
+/*   Updated: 2025/11/15 11:15:30 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,15 +17,14 @@ int	check_options(t_wall *wall, int option)
 	if (!option)
 	{
 		if (!wall->no_filled || !wall->we_filled || !wall->ea_filled
-			|| !wall->so_filled || !wall->f_filled || !wall->c_filled
-			|| !wall->door_filled)
+			|| !wall->so_filled || !wall->f_filled || !wall->c_filled)
 			return (0);
 	}
 	else
 	{
 		if (!wall->no_filled || !wall->we_filled || !wall->ea_filled
 			|| !wall->so_filled || !wall->f_filled || !wall->c_filled
-			|| !wall->door_filled || !wall->map_filled)
+			|| !wall->map_filled)
 			return (0);
 	}
 	return (1);

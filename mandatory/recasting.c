@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/07 10:16:57 by aakroud           #+#    #+#             */
-/*   Updated: 2025/11/13 18:45:27 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/11/15 11:00:19 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,9 +57,6 @@ void	ft_recast_init(t_win *win)
 	win->sx = 0;
 	win->sy = 0;
 	win->way = 0;
-	win->door.x = -1;
-	win->door.y = -1;
-	win->is_door = 0;
 	win->ps = 0;
 	win->pe = 0;
 }

@@ -1,0 +1,5 @@
+➜  mandatory git:(recaster) ✗ ./cub3D map.cub
+option repeated must be error\n before
+
+door in mandatory
+space above map

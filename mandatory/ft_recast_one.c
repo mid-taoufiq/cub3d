@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/10 18:12:12 by aakroud           #+#    #+#             */
-/*   Updated: 2025/11/13 12:28:18 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/11/15 10:59:01 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,30 +97,30 @@ void	ft_recast_check(t_win *win, char c)
 	}
 }
 
-void	handle_frames(t_win *win)
-{
-	double	frame_timer;
+// void	handle_frames(t_win *win)
+// {
+// 	double	frame_timer;
 
-	frame_timer = mlx_get_time();
-	if (win->frames.img != NULL)
-		mlx_delete_image(win->mlx, win->frames.img);
-	win->frames.img = mlx_texture_to_image(win->mlx,
-			&win->frames.frames[win->frames.current_frame]->texture);
-	if (!win->frames.img)
-		return (mlx_terminate(win->mlx), exit(1));
-	win->frames.x = win->frames.img->width - 250;
-	win->frames.y = win->frames.img->height - 200;
-	if (mlx_image_to_window(win->mlx, win->frames.img,
-			win->frames.x, win->frames.y) == -1)
-		return (mlx_terminate(win->mlx), exit(1));
-	if (frame_timer - win->frames.timer > 0.05)
-	{
-		win->frames.timer = frame_timer;
-		win->frames.current_frame++;
-		if (win->frames.current_frame == win->frames.frames_number)
-			win->frames.current_frame = 0;
-	}
-}
+// 	frame_timer = mlx_get_time();
+// 	if (win->frames.img != NULL)
+// 		mlx_delete_image(win->mlx, win->frames.img);
+// 	win->frames.img = mlx_texture_to_image(win->mlx,
+// 			&win->frames.frames[win->frames.current_frame]->texture);
+// 	if (!win->frames.img)
+// 		return (mlx_terminate(win->mlx), exit(1));
+// 	win->frames.x = win->frames.img->width - 250;
+// 	win->frames.y = win->frames.img->height - 200;
+// 	if (mlx_image_to_window(win->mlx, win->frames.img,
+// 			win->frames.x, win->frames.y) == -1)
+// 		return (mlx_terminate(win->mlx), exit(1));
+// 	if (frame_timer - win->frames.timer > 0.05)
+// 	{
+// 		win->frames.timer = frame_timer;
+// 		win->frames.current_frame++;
+// 		if (win->frames.current_frame == win->frames.frames_number)
+// 			win->frames.current_frame = 0;
+// 	}
+// }
 
 void	ft_recast(t_win *win, char c, int check)
 {
@@ -148,5 +148,5 @@ void	ft_recast(t_win *win, char c, int check)
 			ft_recast_check(win, c);
 		ft_recast_helper(win);
 	}
-	handle_frames(win);
+	// handle_frames(win);
 }

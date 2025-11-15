@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 11:35:29 by tibarike          #+#    #+#             */
-/*   Updated: 2025/11/13 18:45:05 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/11/15 11:26:31 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 
 # include <stdlib.h>
 # include <unistd.h>
-# include <stdbool.h>
 # include <limits.h>
 # include <stdio.h>
 # include <fcntl.h>
@@ -41,7 +40,6 @@ typedef struct s_tex
 	xpm_t	*west;
 	xpm_t	*east;
 	xpm_t	*south;
-	xpm_t	*door;
 }	t_tex;
 
 typedef struct s_wall
@@ -52,7 +50,6 @@ typedef struct s_wall
 	char	*ea;
 	char	*d;
 	char	**map;
-	char	player_direction;
 	int		floor;
 	int		ceiling;
 	int		no_filled;
@@ -65,23 +62,6 @@ typedef struct s_wall
 	int		map_filled;
 	t_tex	tex;
 }	t_wall;
-
-typedef struct s_door
-{
-	int	x;
-	int	y;
-}	t_door;
-
-typedef struct s_frames
-{
-	xpm_t		*frames[6];
-	int			current_frame;
-	int			frames_number;
-	int			x;
-	int			y;
-	mlx_image_t	*img;
-	double		timer;
-}	t_frames;
 
 typedef struct s_win
 {
@@ -118,8 +98,6 @@ typedef struct s_win
 	double		right_vecy;
 	double		left_vecx;
 	double		left_vecy;
-	t_frames	frames;
-	t_door		door;
 	int			mx;
 	int			my;
 	double		deltax;
@@ -168,8 +146,6 @@ int		parsing_loop(char *line, int fd, t_wall *wall_dim, t_garbage **garbage);
 int		parsing(int fd, t_garbage **garbage, t_wall *wall_dim);
 int		check_extansion(char *line, char *extansion, int option);
 int		ft_check_player(char c);
-int		ft_color(int r, int g, int b, int a);
-void	ft_put_img(char **arr, t_win *win, int check);
 void	ft_player(int x, int y, int color, t_win win);
 void	ft_recto_player(int x, int y, int color, t_win win);
 void	ft_recto(int x, int y, int color, t_win win);
@@ -184,7 +160,6 @@ void	ft_movement(t_win *win, int check);
 int		ft_check_player(char c);
 void	ft_mov_press(t_win *win, int check);
 void	mouse_handle(double xpos, double ypos, void *param);
-int		init_frames(t_win *win);
 int		init_walltex(t_win *win);
 void	free_frames(t_win *win);
 void	handle_doors(t_win *win);
@@ -194,7 +169,7 @@ void	ft_recast_ray(t_win *win, double ray_dirx, double ray_diry);
 void	free_textures(t_win *win);
 void	ft_recast_ray_helper(t_win *win, double ray_dirx, double ray_diry);
 double	ft_recast_loop(t_win *win, int x);
-void	ft_recast_loop_helper(t_win *win, int x, int check);
+void	ft_recast_loop_helper(t_win *win, int x);
 void	ft_movement_helper(t_win *win, int x, int y, int check);
 void	ft_recto_helper(t_win *win, int x, int y, int color);
 void	ft_draw_case(t_win *win, int x, int y);

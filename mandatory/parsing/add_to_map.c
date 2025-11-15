@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   add_to_map.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/21 15:10:48 by tibarike          #+#    #+#             */
-/*   Updated: 2025/11/13 15:16:23 by tibarike         ###   ########.fr       */
+/*   Updated: 2025/11/15 11:30:10 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
+
+int i = 0;
 
 char	**ft_darrayjoin(char **old_darray, char *line, t_garbage **garbage)
 {
@@ -47,6 +49,7 @@ int	add_to_map(char *line, t_wall *wall_dim, t_garbage **garbage, int fd)
 	{
 		while (line && !check_empty_line(line))
 		{
+			printf("%s | %d\n", line, i++);
 			wall_dim->map = ft_darrayjoin(wall_dim->map, line, garbage);
 			if (!wall_dim->map)
 				return (0);
