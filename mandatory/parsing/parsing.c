@@ -6,7 +6,7 @@
 /*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/29 13:37:44 by tibarike          #+#    #+#             */
-/*   Updated: 2025/11/13 15:40:39 by tibarike         ###   ########.fr       */
+/*   Updated: 2025/11/15 10:04:52 by tibarike         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ int	check_remaining(int fd, char *line, t_wall *wall, t_garbage **garbage)
 		}
 		else
 			return (write(2, "Error\narguments error\n", 23), 0);
-		free(line);//check remove
 		line = get_next_line(fd, garbage);
 	}
 	return (1);
