@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/10 19:27:28 by aakroud           #+#    #+#             */
-/*   Updated: 2025/11/15 09:58:41 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/11/15 12:32:21 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	ft_put_img(char **arr, t_win *win, int check)
 				&& win->map_startx < win->column && win->map_starty < win->row)
 				ft_draw_case(win, x, y);
 			else
-				ft_recto_helper(win, x, y, (58, 58, 58, 255));
+				ft_recto_helper(win, x, y, ft_color(58, 58, 58, 255));
 			x++;
 			win->map_startx++;
 		}
