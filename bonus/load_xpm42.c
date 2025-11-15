@@ -6,7 +6,7 @@
 /*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/10 11:05:25 by tibarike          #+#    #+#             */
-/*   Updated: 2025/11/15 14:04:11 by tibarike         ###   ########.fr       */
+/*   Updated: 2025/11/15 17:33:47 by tibarike         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,14 +38,16 @@ static int	init_frames2(t_win *win)
 		return (mlx_delete_xpm42(win->frames.frames[0]),
 			mlx_delete_xpm42(win->frames.frames[1]),
 			mlx_delete_xpm42(win->frames.frames[2]),
-			mlx_delete_xpm42(win->frames.frames[3]), 1);
+			mlx_delete_xpm42(win->frames.frames[3]),
+			write(2, "Error\nframes error\n", 20), 1);
 	win->frames.frames[5] = mlx_load_xpm42("./textures/frame_5.xpm42");
 	if (!win->frames.frames[5])
 		return (mlx_delete_xpm42(win->frames.frames[0]),
 			mlx_delete_xpm42(win->frames.frames[1]),
 			mlx_delete_xpm42(win->frames.frames[2]),
 			mlx_delete_xpm42(win->frames.frames[3]),
-			mlx_delete_xpm42(win->frames.frames[4]), 1);
+			mlx_delete_xpm42(win->frames.frames[4]),
+			write(2, "Error\nframes error\n", 20), 1);
 	win->frames.current_frame = 0;
 	win->frames.frames_number = 6;
 	win->frames.timer = mlx_get_time();
@@ -56,19 +58,22 @@ int	init_frames(t_win *win)
 {
 	win->frames.frames[0] = mlx_load_xpm42("./textures/frame_0.xpm42");
 	if (!win->frames.frames[0])
-		return (1);
+		return (write(2, "Error\nframes error\n", 20), 1);
 	win->frames.frames[1] = mlx_load_xpm42("./textures/frame_1.xpm42");
 	if (!win->frames.frames[1])
-		return (mlx_delete_xpm42(win->frames.frames[0]), 1);
+		return (mlx_delete_xpm42(win->frames.frames[0]),
+			write(2, "Error\nframes error\n", 20), 1);
 	win->frames.frames[2] = mlx_load_xpm42("./textures/frame_2.xpm42");
 	if (!win->frames.frames[2])
 		return (mlx_delete_xpm42(win->frames.frames[0]),
-			mlx_delete_xpm42(win->frames.frames[1]), 1);
+			mlx_delete_xpm42(win->frames.frames[1]),
+			write(2, "Error\nframes error\n", 20), 1);
 	win->frames.frames[3] = mlx_load_xpm42("./textures/frame_3.xpm42");
 	if (!win->frames.frames[3])
 		return (mlx_delete_xpm42(win->frames.frames[0]),
 			mlx_delete_xpm42(win->frames.frames[1]),
-			mlx_delete_xpm42(win->frames.frames[2]), 1);
+			mlx_delete_xpm42(win->frames.frames[2]),
+			write(2, "Error\nframes error\n", 20), 1);
 	return (init_frames2(win));
 }
 
