@@ -6,12 +6,11 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 12:00:54 by tibarike          #+#    #+#             */
-/*   Updated: 2025/11/15 11:27:58 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/11/15 11:41:40 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
-
 
 static char	*add_path(char *line, t_garbage **garbage, char *option)
 {
