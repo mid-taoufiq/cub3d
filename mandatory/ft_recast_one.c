@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_recast_one.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/10 18:12:12 by aakroud           #+#    #+#             */
-/*   Updated: 2025/11/13 12:28:18 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/11/15 10:03:54 by tibarike         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,12 +107,14 @@ void	handle_frames(t_win *win)
 	win->frames.img = mlx_texture_to_image(win->mlx,
 			&win->frames.frames[win->frames.current_frame]->texture);
 	if (!win->frames.img)
-		return (mlx_terminate(win->mlx), exit(1));
+		return (mlx_terminate(win->mlx),
+			free_window(win, &win->garbage, win->fd), exit(1));
 	win->frames.x = win->frames.img->width - 250;
 	win->frames.y = win->frames.img->height - 200;
 	if (mlx_image_to_window(win->mlx, win->frames.img,
 			win->frames.x, win->frames.y) == -1)
-		return (mlx_terminate(win->mlx), exit(1));
+		return (mlx_terminate(win->mlx),
+			free_window(win, &win->garbage, win->fd), exit(1));
 	if (frame_timer - win->frames.timer > 0.05)
 	{
 		win->frames.timer = frame_timer;

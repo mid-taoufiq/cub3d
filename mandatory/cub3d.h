@@ -6,7 +6,7 @@
 /*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 11:35:29 by tibarike          #+#    #+#             */
-/*   Updated: 2025/11/13 15:53:09 by tibarike         ###   ########.fr       */
+/*   Updated: 2025/11/15 10:02:14 by tibarike         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,6 +137,8 @@ typedef struct s_win
 	double		tex_pos;
 	int			tex_y;
 	uint8_t		*pixel;
+	t_garbage	*garbage;
+	int			fd;
 }	t_win;
 
 void	*ft_malloc(int size, t_garbage **garbage);
@@ -200,5 +202,6 @@ void	ft_movement_helper(t_win *win, int x, int y, int check);
 void	ft_recto_helper(t_win *win, int x, int y, int color);
 void	ft_draw_case(t_win *win, int x, int y);
 void	init_window(t_win *win, t_wall *wall_dim);
+void	free_window(t_win *win, t_garbage **garbage, int fd);
 
 #endif
