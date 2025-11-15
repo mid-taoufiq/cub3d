@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 11:35:29 by tibarike          #+#    #+#             */
-/*   Updated: 2025/11/15 12:04:38 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/11/15 12:26:50 by tibarike         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ typedef struct s_wall
 	char	*so;
 	char	*we;
 	char	*ea;
-	char	*d;
 	char	**map;
 	int		floor;
 	int		ceiling;
@@ -58,7 +57,6 @@ typedef struct s_wall
 	int		so_filled;
 	int		f_filled;
 	int		c_filled;
-	int		door_filled;
 	int		map_filled;
 	t_tex	tex;
 }	t_wall;
@@ -104,7 +102,6 @@ typedef struct s_win
 	double		deltay;
 	int			sx;
 	int			sy;
-	int			is_door;
 	int			way;
 	int			ps;
 	int			pe;
@@ -164,7 +161,6 @@ void	ft_mov_press(t_win *win, int check);
 void	mouse_handle(double xpos, double ypos, void *param);
 int		init_walltex(t_win *win);
 void	free_frames(t_win *win);
-void	handle_doors(t_win *win);
 void	ft_recast_text(t_win *win, xpm_t **tex,
 			double ray_Dirx, double ray_Diry);
 void	ft_recast_ray(t_win *win, double ray_dirx, double ray_diry);

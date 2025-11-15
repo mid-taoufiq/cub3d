@@ -6,7 +6,7 @@
 /*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/21 15:10:48 by tibarike          #+#    #+#             */
-/*   Updated: 2025/11/13 15:16:23 by tibarike         ###   ########.fr       */
+/*   Updated: 2025/11/15 12:24:34 by tibarike         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,8 @@ char	**ft_darrayjoin(char **old_darray, char *line, t_garbage **garbage)
 
 int	add_to_map(char *line, t_wall *wall_dim, t_garbage **garbage, int fd)
 {
-	if ((ft_strsearch(line, "1") || ft_strsearch(line, "0"))
-		&& check_options(wall_dim, 0))
+	if ((ft_strsearch(line, "1") || ft_strsearch(line, "0")
+			|| ft_strsearch(line, " ")) && check_options(wall_dim, 0))
 	{
 		while (line && !check_empty_line(line))
 		{

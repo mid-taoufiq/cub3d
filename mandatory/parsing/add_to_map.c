@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   add_to_map.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/21 15:10:48 by tibarike          #+#    #+#             */
-/*   Updated: 2025/11/15 11:41:29 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/11/15 12:25:04 by tibarike         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,8 @@ char	**ft_darrayjoin(char **old_darray, char *line, t_garbage **garbage)
 
 int	add_to_map(char *line, t_wall *wall_dim, t_garbage **garbage, int fd)
 {
-	if ((ft_strsearch(line, "1") || ft_strsearch(line, "0"))
-		&& check_options(wall_dim, 0))
+	if ((ft_strsearch(line, "1") || ft_strsearch(line, "0")
+			|| ft_strsearch(line, " ")) && check_options(wall_dim, 0))
 	{
 		while (line && !check_empty_line(line))
 		{

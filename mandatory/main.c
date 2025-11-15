@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 11:40:58 by tibarike          #+#    #+#             */
-/*   Updated: 2025/11/15 12:04:50 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/11/15 12:15:13 by tibarike         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ int	main(int argc, char **argv)
 		return (close(win.fd), ft_lstclear(&win.garbage), 1);
 	init_window(&win, &wall_dim);
 	if (init_walltex(&win))
-		return (close(fd), ft_lstclear(&garbage), 1);
+		return (close(win.fd), ft_lstclear(&win.garbage), 1);
 	if (raycasting(&win))
 		return (free_window(&win, &win.garbage, win.fd), 1);
 	return (free_window(&win, &win.garbage, win.fd), 0);

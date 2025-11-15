@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   recasting.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/07 10:16:57 by aakroud           #+#    #+#             */
-/*   Updated: 2025/11/15 11:39:44 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/11/15 12:26:33 by tibarike         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,6 @@ void	ft_recast_helper(t_win *win)
 		ft_recast_text(win, &(win->tex), ray_dirx, ray_diry);
 		ft_recast_helper_two(win, wall, ray_dirx, ray_diry);
 		ft_recast_draw(win, x);
-		win->is_door = 0;
 		x++;
 	}
 }

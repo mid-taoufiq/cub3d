@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 11:40:58 by tibarike          #+#    #+#             */
-/*   Updated: 2025/11/15 10:09:11 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/11/15 12:24:08 by tibarike         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,8 +94,6 @@ int	raycasting(t_win *win)
 int	main(int argc, char **argv)
 {
 	t_wall		wall_dim;
-	int			fd;
-	t_garbage	*garbage;
 	t_win		win;
 
 	win.tile = 32;
@@ -104,18 +102,19 @@ int	main(int argc, char **argv)
 	struct_init(&wall_dim);
 	if (argc != 2 || !check_extansion(argv[1], ".cub", 0))
 		return (write(2, "Error\nnot valid arguments\n", 27), 1);
-	garbage = NULL;
-	fd = open(argv[1], O_RDONLY);
-	if (fd < 0)
+	win.garbage = NULL;
+	win.fd = open(argv[1], O_RDONLY);
+	if (win.fd < 0)
 		return (perror(argv[1]), 1);
-	if (parsing(fd, &garbage, &wall_dim))
-		return (close(fd), ft_lstclear(&garbage), 1);
+	if (parsing(win.fd, &win.garbage, &wall_dim))
+		return (close(win.fd), ft_lstclear(&win.garbage), 1);
 	init_window(&win, &wall_dim);
 	if (init_walltex(&win))
-		return (close(fd), ft_lstclear(&garbage), 1);
+		return (close(win.fd), ft_lstclear(&win.garbage), 1);
 	if (init_frames(&win))
-		return (free_textures(&win), close(fd), ft_lstclear(&garbage), 1);
+		return (free_textures(&win), close(win.fd),
+			ft_lstclear(&win.garbage), 1);
 	if (raycasting(&win))
-		return (free_window(&win, &garbage, fd), 1);
-	return (free_window(&win, &garbage, fd), 0);
+		return (free_window(&win, &win.garbage, win.fd), 1);
+	return (free_window(&win, &win.garbage, win.fd), 0);
 }
