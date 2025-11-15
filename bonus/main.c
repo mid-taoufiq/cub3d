@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 11:40:58 by tibarike          #+#    #+#             */
-/*   Updated: 2025/11/13 15:52:52 by tibarike         ###   ########.fr       */
+/*   Updated: 2025/11/15 10:09:11 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ void	ft_calculate_lent(t_win *win)
 int	raycasting(t_win *win)
 {
 	ft_calculate_lent(win);
-	win->mlx = mlx_init(win->width, win->height, "my_mlx", true);
+	win->mlx = mlx_init(win->width, win->height, "my_mlx", false);
 	if (!win->mlx)
 		return (1);
 	win->img = mlx_new_image(win->mlx, win->tile * 9, win->tile * 9);

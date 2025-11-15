@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/10 18:20:00 by aakroud           #+#    #+#             */
-/*   Updated: 2025/11/10 18:23:22 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/11/15 11:02:33 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,30 +75,6 @@ void	ft_rotation(t_win *win, int check, double angle)
 	ft_rotate_calculate(win, check, angle);
 }
 
-void	handle_doors(t_win *win)
-{
-	int	px;
-	int	py;
-
-	px = (int)win->start_posx;
-	py = (int)win->start_posy;
-	if (win->door.y != -1 && win->door.x != -1)
-	{
-		if (win->arr[win->door.y][win->door.x] == 'D')
-		{
-			if ((abs(px - win->door.x) <= 1 && win->door.y == py)
-				|| (abs(py - win->door.y) <= 1 && win->door.x == px))
-				win->arr[win->door.y][win->door.x] = 'O';
-		}
-		else if (win->arr[win->door.y][win->door.x] == 'O')
-		{
-			if ((abs(px - win->door.x) <= 1 && win->door.y == py)
-				|| (abs(py - win->door.y) <= 1 && win->door.x == px))
-				win->arr[win->door.y][win->door.x] = 'D';
-		}
-	}
-}
-
 void	ft_movement_helper(t_win *win, int x, int y, int check)
 {
 	if (!check)
@@ -108,5 +84,4 @@ void	ft_movement_helper(t_win *win, int x, int y, int check)
 		win->start_posx = win->player_x / win->tile;
 		win->start_posy = win->player_y / win->tile;
 	}
-	ft_put_img(win->arr, win, 1);
 }

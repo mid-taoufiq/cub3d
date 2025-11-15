@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 11:40:58 by tibarike          #+#    #+#             */
-/*   Updated: 2025/11/15 10:06:03 by tibarike         ###   ########.fr       */
+/*   Updated: 2025/11/15 12:04:50 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ void	free_window(t_win *win, t_garbage **garbage, int fd)
 	if (win->mlx)
 		mlx_terminate(win->mlx);
 	free_textures(win);
-	free_frames(win);
 	close(fd);
 	ft_lstclear(garbage);
 }
@@ -69,7 +68,7 @@ void	ft_calculate_lent(t_win *win)
 int	raycasting(t_win *win)
 {
 	ft_calculate_lent(win);
-	win->mlx = mlx_init(win->width, win->height, "my_mlx", true);
+	win->mlx = mlx_init(win->width, win->height, "my_mlx", false);
 	if (!win->mlx)
 		return (1);
 	win->img = mlx_new_image(win->mlx, win->tile * 9, win->tile * 9);
@@ -110,10 +109,7 @@ int	main(int argc, char **argv)
 		return (close(win.fd), ft_lstclear(&win.garbage), 1);
 	init_window(&win, &wall_dim);
 	if (init_walltex(&win))
-		return (close(win.fd), ft_lstclear(&win.garbage), 1);
-	if (init_frames(&win))
-		return (free_textures(&win), close(win.fd),
-			ft_lstclear(&win.garbage), 1);
+		return (close(fd), ft_lstclear(&garbage), 1);
 	if (raycasting(&win))
 		return (free_window(&win, &win.garbage, win.fd), 1);
 	return (free_window(&win, &win.garbage, win.fd), 0);

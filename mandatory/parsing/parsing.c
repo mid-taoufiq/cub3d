@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/29 13:37:44 by tibarike          #+#    #+#             */
-/*   Updated: 2025/11/15 10:04:52 by tibarike         ###   ########.fr       */
+/*   Updated: 2025/11/15 12:05:04 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,6 @@ void	struct_init(t_wall *wall_dim)
 	wall_dim->ea = NULL;
 	wall_dim->so = NULL;
 	wall_dim->map = NULL;
-	wall_dim->d = NULL;
-	wall_dim->player_direction = 0;
 	wall_dim->ceiling = 0;
 	wall_dim->floor = 0;
 	wall_dim->no_filled = 0;
@@ -49,7 +47,6 @@ void	struct_init(t_wall *wall_dim)
 	wall_dim->c_filled = 0;
 	wall_dim->f_filled = 0;
 	wall_dim->map_filled = 0;
-	wall_dim->door_filled = 0;
 }
 
 int	parsing2(char *line, int fd, t_wall *wall_dim, t_garbage **garbage)
