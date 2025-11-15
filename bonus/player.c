@@ -3,14 +3,42 @@
 /*                                                        :::      ::::::::   */
 /*   player.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/07 10:16:49 by aakroud           #+#    #+#             */
-/*   Updated: 2025/11/13 18:45:15 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/11/13 15:32:52 by tibarike         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
+void	ft_two_d_map(t_win *win, double ray_Dirx, double ray_Diry, int check)
+{
+	double	draw_x;
+	double	draw_y;
+	int		initial1;
+	int		initial2;
+	int		test;
+
+	draw_x = 0.0;
+	draw_y = 0.0;
+	initial1 = win->middle_x;
+	initial2 = win->middle_y;
+	test = 0;
+	if (ray_Dirx == win->player_dirx && ray_Diry == win->player_diry)
+	{
+		while (test < 8)
+		{
+			draw_x = initial1 + ray_Dirx * test;
+			draw_y = initial2 + ray_Diry * test;
+			if (draw_x < 0 || draw_y < 0)
+				break ;
+			mlx_put_pixel(win->img_player,
+				draw_x, draw_y, ft_color(0, 0, 0, 255));
+			test += 1;
+		}
+	}
+}
 
 void	handle_e(t_win *win)
 {

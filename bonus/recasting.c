@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/07 10:16:57 by aakroud           #+#    #+#             */
-/*   Updated: 2025/11/13 18:45:27 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/11/13 12:30:08 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,7 @@ void	ft_recast_helper(t_win *win)
 		ft_recast_init_two(win, x, &ray_dirx, &ray_diry);
 		ft_recast_ray(win, ray_dirx, ray_diry);
 		wall = ft_recast_loop(win, x);
+		ft_two_d_map(win, ray_dirx, ray_diry, x);
 		ft_recast_text(win, &(win->tex), ray_dirx, ray_diry);
 		ft_recast_helper_two(win, wall, ray_dirx, ray_diry);
 		ft_recast_draw(win, x);

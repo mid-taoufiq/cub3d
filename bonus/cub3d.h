@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 11:35:29 by tibarike          #+#    #+#             */
-/*   Updated: 2025/11/13 18:45:05 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/11/13 15:53:09 by tibarike         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,6 +178,7 @@ void	ft_recast(t_win *win, char c, int check);
 int		ft_move_player(char **arr, t_win *win);
 void	ft_calculate_lent(t_win *win);
 void	func(void *param);
+void	ft_two_d_map(t_win *win, double ray_Dirx, double ray_Diry, int check);
 int		ft_color(int r, int g, int b, int a);
 void	ft_rotation(t_win *win, int check, double angle);
 void	ft_movement(t_win *win, int check);

@@ -1,0 +1,14 @@
+NO ./textures/walls1.xpm42
+WE ./textures/walls2.xpm42
+EA ./textures/walls3.xpm42
+SO ./textures/walls4.xpm42
+D ./textures/door.xpm42
+F 52,105,56
+C 157,204,242
+
+
+111111111111 111111111
+100001000D01 101111011
+1000010100D1 100011111
+1000W00000D1 100000001
+111111111111 111111111
