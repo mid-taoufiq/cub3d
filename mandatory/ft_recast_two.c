@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_recast_two.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/10 18:16:02 by aakroud           #+#    #+#             */
-/*   Updated: 2025/11/15 11:22:47 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/11/15 15:18:22 by tibarike         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	ft_recast_loop_helper(t_win *win, int x)
+static void	ft_recast_loop_helper(t_win *win)
 {
 	if (win->distx < win->disty)
 	{
@@ -29,14 +29,14 @@ void	ft_recast_loop_helper(t_win *win, int x)
 	return ;
 }
 
-double	ft_recast_loop(t_win *win, int x)
+double	ft_recast_loop(t_win *win)
 {
 	int		was_hit;
 
 	was_hit = 0;
 	while (!was_hit)
 	{
-		ft_recast_loop_helper(win, x);
+		ft_recast_loop_helper(win);
 		if (win->arr[win->my][win->mx] == '1')
 			was_hit = 1;
 	}
@@ -47,7 +47,7 @@ double	ft_recast_loop(t_win *win, int x)
 	return (0.0);
 }
 
-void	ft_recast_ray_helper(t_win *win, double ray_dirx, double ray_diry)
+static void	ft_recast_ray_helper(t_win *win, double ray_dirx, double ray_diry)
 {
 	if (ray_dirx == 0)
 		win->deltax = 999999999999999;

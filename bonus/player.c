@@ -6,13 +6,13 @@
 /*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/07 10:16:49 by aakroud           #+#    #+#             */
-/*   Updated: 2025/11/13 15:32:52 by tibarike         ###   ########.fr       */
+/*   Updated: 2025/11/15 13:59:24 by tibarike         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	ft_two_d_map(t_win *win, double ray_Dirx, double ray_Diry, int check)
+void	ft_two_d_map(t_win *win, double ray_Dirx, double ray_Diry)
 {
 	double	draw_x;
 	double	draw_y;
@@ -40,7 +40,7 @@ void	ft_two_d_map(t_win *win, double ray_Dirx, double ray_Diry, int check)
 	}
 }
 
-void	handle_e(t_win *win)
+static void	handle_e(t_win *win)
 {
 	static bool	e_pressing = false;
 
@@ -56,7 +56,7 @@ void	handle_e(t_win *win)
 		e_pressing = false;
 }
 
-void	func(void *param)
+static void	func(void *param)
 {
 	t_win	*win;
 
@@ -79,13 +79,14 @@ void	func(void *param)
 	ft_movement(win, 1);
 }
 
-void	mouse_handle(double xpos, double ypos, void *param)
+static void	mouse_handle(double xpos, double ypos, void *param)
 {
 	t_win	*win;
 	int		x_center;
 	double	r;
 
 	win = (t_win *)param;
+	ypos = 0.0;
 	x_center = win->width / 2;
 	r = (xpos - x_center) * 0.001;
 	mlx_set_mouse_pos(win->mlx, x_center, win->height / 2);
@@ -98,7 +99,7 @@ void	mouse_handle(double xpos, double ypos, void *param)
 	}
 }
 
-int	ft_move_player(char **arr, t_win *win)
+int	ft_move_player(t_win *win)
 {
 	mlx_set_cursor_mode(win->mlx, MLX_MOUSE_DISABLED);
 	mlx_cursor_hook(win->mlx, mouse_handle, (void *)win);

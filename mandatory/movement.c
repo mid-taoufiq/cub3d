@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   movement.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/07 10:16:43 by aakroud           #+#    #+#             */
-/*   Updated: 2025/11/15 11:09:36 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/11/15 15:16:36 by tibarike         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	ft_player_mov(t_win *win, int y, int check, int j)
+static void	ft_player_mov(t_win *win, int y, int check, int j)
 {
 	int	x;
 	int	one;
@@ -53,7 +53,7 @@ void	ft_movement(t_win *win, int check)
 	}
 }
 
-int	ft_mov_check(t_win *win, int my_max, int my_may, int check)
+static int	ft_mov_check(t_win *win, int my_max, int my_may, int check)
 {
 	if (check == 1)
 	{
@@ -78,7 +78,7 @@ int	ft_mov_check(t_win *win, int my_max, int my_may, int check)
 	return (1);
 }
 
-void	ft_mov_press_helper(t_win *win, int check)
+static void	ft_mov_press_helper(t_win *win, int check)
 {
 	int	my_max;
 	int	my_may;

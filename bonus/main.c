@@ -6,7 +6,7 @@
 /*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 11:40:58 by tibarike          #+#    #+#             */
-/*   Updated: 2025/11/15 12:24:08 by tibarike         ###   ########.fr       */
+/*   Updated: 2025/11/15 15:26:14 by tibarike         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	check_extansion(char *line, char *extansion, int option)
 	return (1);
 }
 
-void	ft_calculate_lent(t_win *win)
+static void	ft_calculate_lent(t_win *win)
 {
 	int	i;
 	int	j;
@@ -66,7 +66,7 @@ void	ft_calculate_lent(t_win *win)
 	}
 }
 
-int	raycasting(t_win *win)
+static int	raycasting(t_win *win)
 {
 	ft_calculate_lent(win);
 	win->mlx = mlx_init(win->width, win->height, "my_mlx", false);
@@ -82,7 +82,7 @@ int	raycasting(t_win *win)
 	if (!win->img_player)
 		return (1);
 	ft_movement(win, 0);
-	ft_move_player(win->arr, win);
+	ft_move_player(win);
 	if (mlx_image_to_window(win->mlx, win->img_3d, 0, 0) == -1
 		|| mlx_image_to_window(win->mlx, win->img, 0, 0) == -1
 		|| mlx_image_to_window(win->mlx, win->img_player, 0, 0) == -1)
@@ -99,7 +99,6 @@ int	main(int argc, char **argv)
 	win.tile = 32;
 	win.column = 0;
 	win.row = 0;
-	struct_init(&wall_dim);
 	if (argc != 2 || !check_extansion(argv[1], ".cub", 0))
 		return (write(2, "Error\nnot valid arguments\n", 27), 1);
 	win.garbage = NULL;

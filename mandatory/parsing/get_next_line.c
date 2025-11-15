@@ -6,13 +6,13 @@
 /*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 11:37:59 by tibarike          #+#    #+#             */
-/*   Updated: 2025/11/13 15:10:08 by tibarike         ###   ########.fr       */
+/*   Updated: 2025/11/15 15:19:55 by tibarike         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
-int	find_newline(char *str)
+static int	find_newline(char *str)
 {
 	int	i;
 

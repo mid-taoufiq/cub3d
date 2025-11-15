@@ -6,13 +6,13 @@
 /*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/21 15:10:48 by tibarike          #+#    #+#             */
-/*   Updated: 2025/11/15 12:25:04 by tibarike         ###   ########.fr       */
+/*   Updated: 2025/11/15 15:19:17 by tibarike         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
-char	**ft_darrayjoin(char **old_darray, char *line, t_garbage **garbage)
+static char	**ft_darrayjoin(char **old_darray, char *line, t_garbage **garbage)
 {
 	int		i;
 	char	**new_darray;
@@ -32,7 +32,7 @@ char	**ft_darrayjoin(char **old_darray, char *line, t_garbage **garbage)
 			i++;
 		}
 	}
-	new_darray[i] = ft_strtrimlast(line, " ", garbage);
+	new_darray[i] = ft_strdup(line, garbage);
 	if (!new_darray[i])
 		return (NULL);
 	i++;

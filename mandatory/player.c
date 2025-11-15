@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   player.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/07 10:16:49 by aakroud           #+#    #+#             */
-/*   Updated: 2025/11/15 10:58:20 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/11/15 15:16:00 by tibarike         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	func(void *param)
+static void	func(void *param)
 {
 	t_win	*win;
 
@@ -34,7 +34,7 @@ void	func(void *param)
 	ft_movement(win, 1);
 }
 
-int	ft_move_player(char **arr, t_win *win)
+int	ft_move_player(t_win *win)
 {
 	mlx_loop_hook(win->mlx, func, win);
 	return (0);

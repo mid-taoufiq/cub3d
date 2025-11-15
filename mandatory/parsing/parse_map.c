@@ -3,28 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   parse_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/26 15:11:37 by tibarike          #+#    #+#             */
-/*   Updated: 2025/11/15 11:26:28 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/11/15 15:20:27 by tibarike         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
-int	isplayer(char c)
+static int	isplayer(char c)
 {
 	if (c == 'N' || c == 'W' || c == 'E' || c == 'S')
 		return (1);
 	return (0);
 }
 
-int	is_valid(char c)
+static int	is_valid(char c)
 {
 	return (c == '0' || c == '1' || isplayer(c));
 }
 
-int	parse_palyer_0(char **map, int i, int j)
+static int	parse_palyer_0(char **map, int i, int j)
 {
 	if (i == 0 || j >= ft_strlen(map[i - 1]) || !is_valid(map[i - 1][j]))
 		return (0);
@@ -37,7 +37,7 @@ int	parse_palyer_0(char **map, int i, int j)
 	return (1);
 }
 
-int	handle_p(t_wall *wall, int i, int j, int *cplayer)
+static int	handle_p(t_wall *wall, int i, int j, int *cplayer)
 {
 	(*cplayer)++;
 	if (!parse_palyer_0(wall->map, i, j))

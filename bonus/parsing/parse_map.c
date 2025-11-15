@@ -6,25 +6,25 @@
 /*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/26 15:11:37 by tibarike          #+#    #+#             */
-/*   Updated: 2025/11/10 11:00:41 by tibarike         ###   ########.fr       */
+/*   Updated: 2025/11/15 14:11:38 by tibarike         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
-int	isplayer(char c)
+static int	isplayer(char c)
 {
 	if (c == 'N' || c == 'W' || c == 'E' || c == 'S')
 		return (1);
 	return (0);
 }
 
-int	is_valid(char c)
+static int	is_valid(char c)
 {
 	return (c == '0' || c == '1' || c == 'D' || isplayer(c));
 }
 
-int	parse_palyer_0_d(char **map, int i, int j)
+static int	parse_palyer_0_d(char **map, int i, int j)
 {
 	if (i == 0 || j >= ft_strlen(map[i - 1]) || !is_valid(map[i - 1][j]))
 		return (0);
@@ -37,10 +37,9 @@ int	parse_palyer_0_d(char **map, int i, int j)
 	return (1);
 }
 
-int	handle_p(t_wall *wall, int i, int j, int *cplayer)
+static int	handle_p(t_wall *wall, int i, int j, int *cplayer)
 {
 	(*cplayer)++;
-	wall->player_direction = wall->map[i][j];
 	if (!parse_palyer_0_d(wall->map, i, j))
 		return (0);
 	return (1);

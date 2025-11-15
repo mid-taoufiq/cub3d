@@ -6,7 +6,7 @@
 /*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 11:35:29 by tibarike          #+#    #+#             */
-/*   Updated: 2025/11/15 12:13:56 by tibarike         ###   ########.fr       */
+/*   Updated: 2025/11/15 15:26:46 by tibarike         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ typedef struct s_wall
 	char	*ea;
 	char	*d;
 	char	**map;
-	char	player_direction;
 	int		floor;
 	int		ceiling;
 	int		no_filled;
@@ -103,7 +102,6 @@ typedef struct s_win
 	double		start_posy;
 	double		distx;
 	double		disty;
-	double		distance;
 	t_wall		*wall_dim;
 	int			column;
 	int			row;
@@ -148,11 +146,8 @@ int		ft_strncmp(char *str1, char *str2, int n);
 char	*ft_strdup(char *str, t_garbage **garbage);
 char	*ft_substr(char *s, int start, int len, t_garbage **garbage);
 char	*ft_strtrim(char *s1, char *set, t_garbage **garbage);
-char	*ft_strtrimlast(char *s1, char *set, t_garbage **garbage);
-int		find_newline(char *str);
 char	*get_next_line(int fd, t_garbage **garb);
 int		ft_atoi(char *nb);
-int		arg_counter(char **arr);
 char	**ft_split(char *s, char c, t_garbage **garbage);
 int		add_colors(t_wall *wall_dim, char *line, t_garbage **garbage);
 int		check_empty_line(char *line);
@@ -164,29 +159,18 @@ void	ft_lstclear(t_garbage **lst);
 int		add_to_map(char *line, t_wall *wall_dim, t_garbage **garbage, int fd);
 int		check_options(t_wall *wall, int option);
 int		parse_map(t_wall *wall, int cp);
-int		check_remaining(int fd, char *line, t_wall *wall, t_garbage **garbage);
-void	struct_init(t_wall *wall_dim);
-int		parsing_loop(char *line, int fd, t_wall *wall_dim, t_garbage **garbage);
 int		parsing(int fd, t_garbage **garbage, t_wall *wall_dim);
 int		check_extansion(char *line, char *extansion, int option);
 int		ft_check_player(char c);
 int		ft_color(int r, int g, int b, int a);
-void	ft_put_img(char **arr, t_win *win, int check);
-void	ft_player(int x, int y, int color, t_win win);
-void	ft_recto_player(int x, int y, int color, t_win win);
-void	ft_recto(int x, int y, int color, t_win win);
+void	ft_put_img(char **arr, t_win *win);
 void	ft_recast_helper(t_win *win);
 void	ft_recast(t_win *win, char c, int check);
-int		ft_move_player(char **arr, t_win *win);
-void	ft_calculate_lent(t_win *win);
-void	func(void *param);
-void	ft_two_d_map(t_win *win, double ray_Dirx, double ray_Diry, int check);
-int		ft_color(int r, int g, int b, int a);
+int		ft_move_player(t_win *win);
+void	ft_two_d_map(t_win *win, double ray_Dirx, double ray_Diry);
 void	ft_rotation(t_win *win, int check, double angle);
 void	ft_movement(t_win *win, int check);
-int		ft_check_player(char c);
 void	ft_mov_press(t_win *win, int check);
-void	mouse_handle(double xpos, double ypos, void *param);
 int		init_frames(t_win *win);
 int		init_walltex(t_win *win);
 void	free_frames(t_win *win);
@@ -195,9 +179,7 @@ void	ft_recast_text(t_win *win, xpm_t **tex,
 			double ray_Dirx, double ray_Diry);
 void	ft_recast_ray(t_win *win, double ray_dirx, double ray_diry);
 void	free_textures(t_win *win);
-void	ft_recast_ray_helper(t_win *win, double ray_dirx, double ray_diry);
 double	ft_recast_loop(t_win *win, int x);
-void	ft_recast_loop_helper(t_win *win, int x, int check);
 void	ft_movement_helper(t_win *win, int x, int y, int check);
 void	ft_recto_helper(t_win *win, int x, int y, int color);
 void	ft_draw_case(t_win *win, int x, int y);

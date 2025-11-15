@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   draw_img.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/10 19:27:28 by aakroud           #+#    #+#             */
-/*   Updated: 2025/11/15 12:32:21 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/11/15 14:09:28 by tibarike         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	ft_put_img_init(t_win *win)
+static void	ft_put_img_init(t_win *win)
 {
 	win->middle_x = (win->tile * 9) / 2;
 	win->middle_y = (win->tile * 9) / 2;
@@ -22,7 +22,7 @@ void	ft_put_img_init(t_win *win)
 	win->map_endy = (int)win->start_posy + 4;
 }
 
-void	ft_put_img(char **arr, t_win *win, int check)
+void	ft_put_img(char **arr, t_win *win)
 {
 	int	x;
 	int	y;

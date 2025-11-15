@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_recast_two.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/10 18:16:02 by aakroud           #+#    #+#             */
-/*   Updated: 2025/11/12 12:19:09 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/11/15 14:05:55 by tibarike         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	ft_recast_loop_helper(t_win *win, int x, int check)
+static void	ft_recast_loop_helper(t_win *win, int x, int check)
 {
 	if (check == 2)
 	{
@@ -64,7 +64,7 @@ double	ft_recast_loop(t_win *win, int x)
 	return (0.0);
 }
 
-void	ft_recast_ray_helper(t_win *win, double ray_dirx, double ray_diry)
+static void	ft_recast_ray_helper(t_win *win, double ray_dirx, double ray_diry)
 {
 	if (ray_dirx == 0)
 		win->deltax = 999999999999999;

@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   draw.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/07 10:17:05 by aakroud           #+#    #+#             */
-/*   Updated: 2025/11/10 19:30:07 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/11/15 14:09:06 by tibarike         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	ft_recto(int x, int y, int color, t_win win)
+static void	ft_recto(int x, int y, int color, t_win win)
 {
 	int	start_x;
 	int	start_y;
@@ -31,7 +31,7 @@ void	ft_recto(int x, int y, int color, t_win win)
 	}
 }
 
-void	ft_recto_player(int x, int y, int color, t_win win)
+static void	ft_recto_player(int x, int y, int color, t_win win)
 {
 	int	start_x;
 	int	start_y;
@@ -45,25 +45,6 @@ void	ft_recto_player(int x, int y, int color, t_win win)
 		{
 			if (x >= 0 && y >= 0)
 				mlx_put_pixel(win.img_player, x, y, color);
-			x++;
-		}
-		y++;
-	}
-}
-
-void	ft_player(int x, int y, int color, t_win win)
-{
-	int	start_x;
-	int	start_y;
-
-	start_x = x;
-	start_y = y;
-	while (y < start_y + win.tile / 3)
-	{
-		x = start_x;
-		while (x < start_x + win.tile / 3)
-		{
-			mlx_put_pixel(win.img, x, y, color);
 			x++;
 		}
 		y++;

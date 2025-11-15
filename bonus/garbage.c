@@ -6,7 +6,7 @@
 /*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 10:20:33 by tibarike          #+#    #+#             */
-/*   Updated: 2025/11/15 12:20:42 by tibarike         ###   ########.fr       */
+/*   Updated: 2025/11/15 14:04:42 by tibarike         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	ft_lstclear(t_garbage **lst)
 	*lst = NULL;
 }
 
-t_garbage	*ft_lstlast(t_garbage *lst)
+static t_garbage	*ft_lstlast(t_garbage *lst)
 {
 	if (!lst)
 		return (NULL);
@@ -39,7 +39,7 @@ t_garbage	*ft_lstlast(t_garbage *lst)
 	return (lst);
 }
 
-void	ft_lstadd_back(t_garbage **lst, t_garbage *new)
+static void	ft_lstadd_back(t_garbage **lst, t_garbage *new)
 {
 	t_garbage	*last_n;
 
@@ -54,7 +54,7 @@ void	ft_lstadd_back(t_garbage **lst, t_garbage *new)
 	last_n->next = new;
 }
 
-t_garbage	*ft_new_gb(void *ptr)
+static t_garbage	*ft_new_gb(void *ptr)
 {
 	t_garbage	*new;
 

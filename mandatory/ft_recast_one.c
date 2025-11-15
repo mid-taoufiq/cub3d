@@ -6,13 +6,13 @@
 /*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/10 18:12:12 by aakroud           #+#    #+#             */
-/*   Updated: 2025/11/15 12:24:54 by tibarike         ###   ########.fr       */
+/*   Updated: 2025/11/15 15:18:56 by tibarike         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	ft_player_dir_helper(t_win *win, int check)
+static void	ft_player_dir_helper(t_win *win, int check)
 {
 	if (check == 1)
 	{
@@ -40,7 +40,7 @@ void	ft_player_dir_helper(t_win *win, int check)
 	}
 }
 
-void	ft_player_dir(t_win *win, int check)
+static void	ft_player_dir(t_win *win, int check)
 {
 	if (check == 1)
 	{
@@ -69,7 +69,7 @@ void	ft_player_dir(t_win *win, int check)
 	ft_player_dir_helper(win, check);
 }
 
-void	ft_recast_check(t_win *win, char c)
+static void	ft_recast_check(t_win *win, char c)
 {
 	if (c == 'W')
 	{

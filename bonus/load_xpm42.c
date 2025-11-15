@@ -6,7 +6,7 @@
 /*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/10 11:05:25 by tibarike          #+#    #+#             */
-/*   Updated: 2025/11/13 13:32:28 by tibarike         ###   ########.fr       */
+/*   Updated: 2025/11/15 14:04:11 by tibarike         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	free_frames(t_win *win)
 	mlx_delete_xpm42(win->frames.frames[5]);
 }
 
-int	init_frames2(t_win *win)
+static int	init_frames2(t_win *win)
 {
 	win->frames.frames[4] = mlx_load_xpm42("./textures/frame_4.xpm42");
 	if (!win->frames.frames[4])

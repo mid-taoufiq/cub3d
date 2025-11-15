@@ -1,10 +1,9 @@
 NAME = cub3D
 
-FLAGS = -Wall #-g -fsanitize=address #-Werror -Wextra 
+FLAGS = -Wall -Werror -Wextra 
 
 SRC = main.c\
 	garbage.c\
-	draw.c\
 	recasting.c\
 	player.c\
 	movement.c\

@@ -3,22 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   rotation.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tibarike <tibarike@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/10 18:20:00 by aakroud           #+#    #+#             */
-/*   Updated: 2025/11/10 18:23:22 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/11/15 14:02:00 by tibarike         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	ft_rotate_helper(t_win *win)
+static void	ft_rotate_helper(t_win *win)
 {
 	win->start_posx = win->player_x / win->tile;
 	win->start_posy = win->player_y / win->tile;
 }
 
-void	ft_rotate_calculate(t_win *win, int check, double angle)
+static void	ft_rotate_calculate(t_win *win, int check, double angle)
 {
 	double	store_rvecx;
 	double	store_rvecy;
@@ -108,5 +108,5 @@ void	ft_movement_helper(t_win *win, int x, int y, int check)
 		win->start_posx = win->player_x / win->tile;
 		win->start_posy = win->player_y / win->tile;
 	}
-	ft_put_img(win->arr, win, 1);
+	ft_put_img(win->arr, win);
 }
